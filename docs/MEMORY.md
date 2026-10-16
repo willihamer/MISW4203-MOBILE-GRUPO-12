@@ -51,8 +51,8 @@ Páginas: `Home`, `Equipo-y-Acuerdos`, `Acta-Semana-1`, `Inception`, `Backlog-de
 | Sprint 3 | 16 – 29 nov 2026 | HU06, HU07, HU08 + accesibilidad y pruebas |
 
 **Pendientes de Inception (semana 2):**
-- [ ] Prototipo navegable en Figma (Juan Diego): ajustes manuales y conexión de flujos. Ver sección 5.
-- [ ] Publicar el enlace del prototipo (`/proto/`) en `Prototipo-UX-UI` y `Home`.
+- [x] Prototipo navegable en Figma (Juan Diego): flujos conectados y ajustes terminados, ver sección 5.
+- [x] Publicar el enlace del prototipo (`/proto/`) en `Prototipo-UX-UI` y `Home`.
 - [ ] Responsables en cada issue (todos).
 - [ ] Incorporar la retroalimentación de Uniandes del avance 1.
 - [ ] Evidencia de la reunión de la semana 2 (acta o video) en la bitácora.
@@ -64,9 +64,9 @@ Páginas: `Home`, `Equipo-y-Acuerdos`, `Acta-Semana-1`, `Inception`, `Backlog-de
 
 ### Decisiones
 
-- **Estilo:** *Vinilos Liquid Dark*, solo modo oscuro, glassmorphism y gradientes. Fondo `#0A0A14`; acentos violeta `#7C3AED`, cian `#22D3EE`, magenta `#EC4899`, ámbar `#F59E0B`; texto `#F5F5FA` / `#C4C4D4`. Tipografía Sora (títulos) + Inter (cuerpo). Frames de 360 × 800 dp.
+- **Estilo:** *Vinilos Liquid Dark*, solo modo oscuro, glassmorphism y gradientes. Fondo `#0A0A14`; acentos violeta `#7C3AED`, cian `#22D3EE`, magenta `#EC4899`, ámbar `#F59E0B`; texto `#F5F5FA` / `#C4C4D4`. Tipografía Sora (títulos) + Inter (cuerpo). Frames de Figma de 390 × 844 con scroll vertical.
 - **Perfil:** la app abre en *Bienvenida* (visitante o coleccionista). El coleccionista escoge **quién es** (sheet "¿Quién eres?"), porque HU09+ necesitan saber qué coleccionista actúa.
-- **Detalle de álbum = modal** (bottom sheet). Artista y coleccionista son pantallas completas, para no apilar modales.
+- **Detalle de álbum con aspecto de modal** (bottom sheet). En el prototipo se abre con *Navigate* (Move in hacia arriba) para que haga scroll, y la X / handle regresan con *Back*. Artista y coleccionista son pantallas completas, para no apilar modales.
 - **Formularios cortos = bottom sheets.** Solo *Crear álbum* es pantalla completa.
 - **Botones de formulario:** 50 % / 50 %, **Cancelar a la izquierda** (vidrio), acción principal a la derecha (gradiente).
 - **Solo datos de la API.** Nada de LP, RPM, calificaciones de álbum, país, roles de integrantes, contadores, etc.
@@ -87,28 +87,26 @@ Inventario completo, transiciones y galería: [wiki › Prototipo UX/UI](https:/
 | [diseno/DESIGN.md](diseno/DESIGN.md) | Design system *Vinilos Liquid Dark* generado por Stitch (tokens de color, tipografía, espaciado). Base para el `Theme` de Compose / `colors.xml`. |
 | [diseno/stitch-design-base.md](diseno/stitch-design-base.md) | DESIGN.md de entrada que se le dio a Stitch (reglas de estilo, componentes, roles, datos). |
 | [diseno/historial-stitch.md](diseno/historial-stitch.md) | Todos los prompts usados y las revisiones de cada lote, en orden. |
-| [diseno/stitch/](diseno/stitch/) | `code.html` final de cada pantalla, exportado de Stitch (referencia de layout y estilos al implementar). |
 
-Las versiones descartadas de Stitch no se guardaron: P03 claro, P03c con menús en los tracks y la hoja de especificaciones de toasts.
+Los `code.html` exportados de Stitch se borraron porque quedaron desactualizados frente a Figma. La referencia visual vigente son las capturas de Figma en la wiki (`images/prototipo/`) y el propio archivo de Figma.
 
 ---
 
-## 5. Siguiente paso: Figma
+## 5. Estado del prototipo en Figma
 
-1. **Ajustes manuales** (lista completa en la wiki, sección "Ajustes pendientes en Figma"):
-   - portadas reales en P03, P03c, P05, P05b y P07;
-   - sheets P12, P13, P15 y P16 con el vidrio oscuro de P03c;
-   - textos sobrantes en P09, P11, P12, P13, P15 y P16;
-   - "Elektra" en lugar de "Elektra Records";
-   - barra inferior de los toasts;
-   - indicador de pestaña activa igual en todas las pantallas.
-2. **Overlays:**
-   - P03 y todos los sheets con *Open overlay*, posición *Bottom*, *Move in* y fondo oscurecido; cierre con *Close overlay*.
-   - El fondo no se pinta en cada frame.
-3. **Flujos:** dos *flow starting points*:
-   - **Flujo visitante:** P01 → P02.
-   - **Flujo coleccionista:** P01 → P01b → P02c.
-4. Compartir el archivo como "Anyone with the link can view" y publicar el enlace `/proto/` en la wiki.
+**Hecho** (detalle en la wiki, sección "Ajustes en Figma"):
+- Navegación conectada. Los sheets (P01b, P09–P13, P15, P16) se abren con *Open overlay* y cierran con *Close overlay*; el detalle de álbum se abre con *Navigate* y regresa con *Back*.
+- Dos *flow starting points*: **Flujo visitante** en P01 y **Flujo coleccionista** en P02c (Figma no permite dos flujos en el mismo frame).
+  - [Flujo visitante](https://www.figma.com/proto/catkjQFyU8dTXPvyGDPYbF/Vinilos-APP?page-id=0%3A1&node-id=1-2&starting-point-node-id=1%3A2)
+  - [Flujo coleccionista](https://www.figma.com/proto/catkjQFyU8dTXPvyGDPYbF/Vinilos-APP?page-id=0%3A1&node-id=1-228&starting-point-node-id=1%3A228)
+- Pantallas de 390 × 844 con scroll; barra de estado, header, barra inferior y FAB fijos.
+- Misma barra inferior, barra de estado y chip de perfil del coleccionista en todas las pantallas.
+- Hero de artista a ancho completo (P05 igual a P05b) y tarjetas de álbum de altura uniforme.
+- Sheets P12, P13, P15 y P16 con el vidrio oscuro de P03c; "Elektra" en P03 y P03c; P11 sin textos sobrantes; toasts con la barra inferior de la app.
+- La posición de los overlays (*Bottom*) y el fondo oscurecido no se pueden configurar por API; como los frames de los sheets ya traen el fondo pintado y miden lo mismo que la pantalla, se dejaron así.
+- Nota: la portada de *News of the World* en P05b es la que generó Stitch; no hay portada real en el archivo para reemplazarla.
+
+Las capturas de la wiki (`images/prototipo/`) se exportan directamente de Figma; si se cambia una pantalla, hay que volver a exportarla.
 
 ---
 
