@@ -1,6 +1,8 @@
 # Memoria del proyecto — Vinilos móvil (MISW4203, Grupo 12)
 
-Contexto acumulado para retomar el trabajo desde otra máquina o en otra sesión de trabajo. Última actualización: **15 de octubre de 2026** (semana 2, cierre de Inception).
+Contexto acumulado para retomar el trabajo desde otra máquina o en otra sesión de trabajo. Última actualización: **25 de octubre de 2026** (semana 3, inicio del Sprint 1).
+
+**Orden de lectura para arrancar:** este archivo → wiki [Backlog de producto](https://github.com/willihamer/MISW4203-MOBILE-GRUPO-12/wiki/Backlog-de-Producto) → [Diseño por historia](https://github.com/willihamer/MISW4203-MOBILE-GRUPO-12/wiki/Diseno-por-Historia) → [Equipo y acuerdos](https://github.com/willihamer/MISW4203-MOBILE-GRUPO-12/wiki/Equipo-y-Acuerdos) (GitFlow y DoD) → sección 6 de este archivo para crear el proyecto Android.
 
 ---
 
@@ -37,11 +39,25 @@ Contexto acumulado para retomar el trabajo desde otra máquina o en otra sesión
 
 ## 3. Estado de la wiki
 
-Páginas: `Home`, `Equipo-y-Acuerdos`, `Acta-Semana-1`, `Inception`, `Backlog-de-Producto`, `Tablero-Milestones-y-Labels`, `Prototipo-UX-UI`, `Sprint-1`, `Sprint-2`, `Sprint-3`, más `_Sidebar` y `_Footer`. Imágenes del prototipo en `images/prototipo/` (24 pantallas + 2 referencias en `referencias/`).
+Páginas: `Home`, `Equipo-y-Acuerdos`, `Acta-Semana-1`, `Acta-Semana-2`, `Inception`, `Backlog-de-Producto`, `Diseno-por-Historia`, `Tablero-Milestones-y-Labels`, `Prototipo-UX-UI`, `Sprint-1`, `Sprint-2`, `Sprint-3`, más `_Sidebar` y `_Footer`. Imágenes del prototipo en `images/prototipo/` (24 pantallas + 2 referencias en `referencias/`).
 
 - **Semana 1:** reunión el **sábado 10 de octubre de 2026**, evidencia = [Acta semana 1](https://github.com/willihamer/MISW4203-MOBILE-GRUPO-12/wiki/Acta-Semana-1) (contrato transcrito a markdown).
+- **Semana 2:** reunión el **miércoles 14 de octubre de 2026**, evidencia = [Acta semana 2](https://github.com/willihamer/MISW4203-MOBILE-GRUPO-12/wiki/Acta-Semana-2) (la hizo Guerel).
 - **Home:** tiene bitácora semanal (semanas 1–8, columna "Evidencia de reunión"), alcance del MVP y enlace a Figma.
-- **Backlog:** el MVP es **HU01–HU08** (HU01–HU06 visitante, HU07–HU08 coleccionista). HU09–HU15 quedan fuera del alcance.
+- **Backlog:** el MVP es **HU01–HU08** (HU01–HU06 visitante, HU07–HU08 coleccionista). HU09–HU15 quedan fuera del alcance. 65 tareas como issues, cada una con milestone, labels y responsable.
+- **Diseño por historia:** pantallas, componentes y recorrido de cada HU; cada HU del backlog enlaza a su sección.
+- **Sprint 1/2/3:** cada página tiene secciones vacías de arquitectura, estrategia de pruebas, artefactos, entregables, reuniones, retroalimentación y retrospectiva, que se llenan durante el sprint.
+
+**Responsables** (cada HU, con sus 6 tareas de diseño, red, repositorio, ViewModel, vista y pruebas, la hace una sola persona):
+
+| HU | Responsable | HU | Responsable |
+| :--- | :--- | :--- | :--- |
+| HU01 Catálogo | Guerel | HU05 Coleccionistas | Guerel |
+| HU02 Detalle de álbum | Juan Diego | HU06 Detalle de coleccionista | Juan Diego |
+| HU03 Artistas | Hamer | HU07 Crear álbum | Hamer |
+| HU04 Detalle de artista | Diego | HU08 Asociar tracks | Diego |
+
+Transversales: **TR-01 a TR-06** (proyecto base, red, navegación, Espresso, README, arquitectura y pruebas en la wiki) y los releases **TR-10, TR-14, TR-18** son de **Juan Diego**; las retrospectivas TR-19, TR-20, TR-22 son de Diego. Hamer quedó con GitFlow, protección de ramas e integración continua (IN-02).
 - **Sprints (fechas tentativas, confirmar con Coursera):**
 
 | Sprint | Fechas | HU |
@@ -50,13 +66,9 @@ Páginas: `Home`, `Equipo-y-Acuerdos`, `Acta-Semana-1`, `Inception`, `Backlog-de
 | Sprint 2 | 2 – 15 nov 2026 | HU03, HU04, HU05 |
 | Sprint 3 | 16 – 29 nov 2026 | HU06, HU07, HU08 + accesibilidad y pruebas |
 
-**Pendientes de Inception (semana 2):**
-- [x] Prototipo navegable en Figma (Juan Diego): flujos conectados y ajustes terminados, ver sección 5.
-- [x] Publicar el enlace del prototipo (`/proto/`) en `Prototipo-UX-UI` y `Home`.
-- [ ] Responsables en cada issue (todos).
-- [ ] Incorporar la retroalimentación de Uniandes del avance 1.
-- [ ] Evidencia de la reunión de la semana 2 (acta o video) en la bitácora.
-- [ ] Retrospectiva de Inception.
+**Inception cerrado:** prototipo navegable, responsables en las 65 tareas, retroalimentación del avance 1 incorporada (tabla en la página `Inception`), acta de la semana 2 y retrospectiva de Inception, todo en la wiki.
+
+**Acciones acordadas para el Sprint 1** (retrospectiva de Inception): revisar el recorrido del prototipo antes de cada entrega, protección de ramas y solo *Squash and merge* (Hamer), tablero al día, evidencia de cada reunión semanal en la wiki e incorporar la retroalimentación de la semana 2 cuando llegue.
 
 ---
 
@@ -108,13 +120,106 @@ Los `code.html` exportados de Stitch se borraron porque quedaron desactualizados
 
 Las capturas de la wiki (`images/prototipo/`) se exportan directamente de Figma; si se cambia una pantalla, hay que volver a exportarla.
 
+**Editar Figma con un asistente (conector MCP):** el archivo está en el equipo **Uniandes** (plan Educación). Solo se puede escribir con asiento **Full**; con asiento View el conector queda en modo de solo lectura y con 20 llamadas al mes.
+
 ---
 
-## 6. Cómo retomar en otra máquina
+## 6. Arranque del proyecto Android (Sprint 1)
+
+### Estado del repositorio
+
+- `develop` solo tiene `README.md`, `LICENSE` y `.gitignore` (el de plantilla Android). **Todavía no hay proyecto de Android Studio.**
+- Este archivo y `docs/diseno/` están en `feature/IN-01-prototipo-ux-ui`, que aún no tiene PR a `develop`. Conviene integrar ese PR primero, para que la rama del proyecto Android ya tenga la documentación.
+- Rama sugerida para el proyecto base: `feature/TR-01-proyecto-android`, creada desde `develop`.
+
+### Tareas transversales del Sprint 1 (Juan Diego)
+
+| ID | Tarea |
+| :--- | :--- |
+| TR-01 | Crear el proyecto Android (Kotlin, Gradle, dependencias de Jetpack, red e imágenes) |
+| TR-02 | Cliente HTTP y Service Adapter base con manejo de errores |
+| TR-03 | Navegación: selección de perfil y bottom navigation (Navigation Component) |
+| TR-04 | Configurar Espresso y la estructura de pruebas |
+| TR-05 | README con setup, dependencias y generación del APK |
+| TR-06 | Documento de arquitectura y estrategia de pruebas en la wiki |
+
+TR-01 a TR-03 bloquean a HU01 (Guerel) y HU02 (Juan Diego), así que van primero.
+
+### Arquitectura
+
+**MVVM + Repository + Service Adapter + Jetpack**, en una sola dirección:
+
+```
+Vista (Fragment) → ViewModel → Repository → Service Adapter → API REST
+                                   └→ caché local (memoria o Room + DAO)
+```
+
+**Ya decidido** (sale del backlog y de la DoD de [Equipo y acuerdos](https://github.com/willihamer/MISW4203-MOBILE-GRUPO-12/wiki/Equipo-y-Acuerdos)):
+- Kotlin, vistas con **Fragments + layouts XML + `RecyclerView`**, navegación con **Navigation Component** y bottom navigation.
+- Un ViewModel por pantalla con estados **cargando / éxito / error** (ej. `AlbumListViewModel`, `AlbumDetailViewModel`).
+- Un Repository por entidad, con caché (`AlbumRepository`, `ArtistRepository` que combina músicos y bandas, `CollectorRepository`). Crear un álbum invalida la caché del catálogo.
+- La vista no tiene lógica de negocio, el ViewModel no guarda `Context`, y nada de red ni disco en el hilo principal.
+- Pruebas E2E con **Espresso** por cada HU, registradas en el inventario de pruebas.
+- Perfil visitante / coleccionista al abrir la app; crear álbum y agregar track solo en modo coleccionista.
+
+**Por decidir en TR-01** (registrar la decisión en la sección *Arquitectura* de la página `Sprint-1`):
+
+| Tema | Opciones | Nota |
+| :--- | :--- | :--- |
+| Cliente HTTP | Volley (ejemplo del curso) · Retrofit + corrutinas | Retrofit deja el Service Adapter más limpio. |
+| Imágenes | Glide · Coil | Portadas de álbum e imágenes de artistas son URLs externas. |
+| Caché | En memoria · Room con DAO | Room da persistencia y sirve para el análisis de desempeño de los sprints 2 y 3. |
+| Observables | LiveData · StateFlow | LiveData es lo que usa el material del curso. |
+| SDK mínimo | Definir según los dispositivos de prueba | La DoD pide probar en varias versiones de API antes de pasar a `main`. |
+
+Estructura de paquetes sugerida: `models/`, `network/` (Service Adapter), `repositories/`, `database/` (si se usa Room), `viewmodels/`, `ui/` (Fragments y adapters por pantalla).
+
+### Backend (BackVynils)
+
+- Repositorio: https://github.com/TheSoftwareDesignLab/BackVynils (NestJS + PostgreSQL). No hay un backend desplegado compartido: el entorno de Postman de Heroku que trae el repo está vacío, así que cada quien lo corre localmente.
+- Correrlo: `docker compose up` en la carpeta del backend. Levanta la API en el puerto **3000** y PostgreSQL en el 5432 (base `vinyls`, usuario y clave `postgres`).
+- Datos de prueba: `sql/data.sql` (álbumes como *Buscando América*, artistas y coleccionistas). Se carga a mano contra la base; no se ejecuta solo.
+- Colecciones de Postman en `collections/` para probar cada endpoint.
+- **Desde el emulador**, la URL base es `http://10.0.2.2:3000/`. Como es HTTP, la app necesita `usesCleartextTraffic` o un `network_security_config` para permitirlo.
+
+Endpoints del MVP:
+
+| HU | Endpoint |
+| :--- | :--- |
+| HU01 | `GET /albums` |
+| HU02 | `GET /albums/{id}` (incluye tracks, performers y comments) |
+| HU03 | `GET /musicians`, `GET /bands` (no hay endpoint único de artistas) |
+| HU04 | `GET /musicians/{id}`, `GET /bands/{id}` |
+| HU05 | `GET /collectors` |
+| HU06 | `GET /collectors/{id}`, `GET /collectors/{id}/albums` |
+| HU07 | `POST /albums` |
+| HU08 | `POST /albums/{id}/tracks` |
+
+Campos de los modelos (según las entidades del backend):
+
+| Modelo | Campos |
+| :--- | :--- |
+| `Album` | `id`, `name`, `cover`, `releaseDate`, `description`, `genre`, `recordLabel`, `tracks`, `performers`, `comments` |
+| `Track` | `id`, `name`, `duration` (texto `mm:ss`) |
+| `Performer` (base) | `id`, `name`, `image`, `description`, `albums` |
+| `Musician` | lo de `Performer` + `birthDate` |
+| `Band` | lo de `Performer` + `creationDate`, `musicians` |
+| `Collector` | `id`, `name`, `telephone`, `email`, `comments`, `favoritePerformers`, `collectorAlbums` |
+| `CollectorAlbum` | `id`, `price`, `status` (`Active` / `Inactive`) |
+| `Comment` | `id`, `description`, `rating` |
+
+`genre` y `recordLabel` son enums cerrados (ver sección 4).
+
+---
+
+## 7. Cómo retomar en otra máquina
 
 ```bash
 git clone https://github.com/willihamer/MISW4203-MOBILE-GRUPO-12.git
 git clone https://github.com/willihamer/MISW4203-MOBILE-GRUPO-12.wiki.git
+git clone https://github.com/TheSoftwareDesignLab/BackVynils.git
 ```
 
-Para una nueva sesión con un asistente: pedirle que lea primero este archivo y la wiki (`Home`, `Inception` y `Prototipo-UX-UI`).
+Herramientas: Android Studio (con un emulador configurado), Docker para el backend y Postman (opcional).
+
+Para una nueva sesión con un asistente: pedirle que lea primero este archivo y la wiki (`Home`, `Inception`, `Backlog-de-Producto`, `Diseno-por-Historia` y `Prototipo-UX-UI`). Recordarle las reglas de la sección 2, sobre todo **sin atribución a IA** en commits, PR y wiki.
