@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Esqueleto de una tarjeta de álbum mientras carga el catálogo. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    android:layout_weight="1"
+    android:background="@drawable/bg_glass_card"
+    android:importantForAccessibility="noHideDescendants"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:background="@drawable/bg_cover"
+        android:scaleType="center"
+        android:src="@drawable/ic_album"
+        android:alpha="0.6"
+        android:tint="@color/vn_glass_highlight" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="14dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/bg_skeleton" />
+
+    <View
+        android:layout_width="72dp"
+        android:layout_height="12dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_skeleton" />
+
+    <View
+        android:layout_width="56dp"
+        android:layout_height="12dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_skeleton" />
+</LinearLayout>
