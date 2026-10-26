@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fila seleccionable (lista de coleccionistas): borde cian cuando está seleccionada. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/vn_radius_input" />
+            <solid android:color="#1A22D3EE" />
+            <stroke android:width="1.5dp" android:color="@color/vn_secondary" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/vn_radius_input" />
+            <solid android:color="@color/vn_glass" />
+            <stroke android:width="@dimen/vn_border" android:color="@color/vn_glass_border" />
+        </shape>
+    </item>
+</selector>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Campo de entrada: vidrio con radio de 16 dp; en foco el borde se ilumina en cian. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/vn_radius_input" />
+            <solid android:color="@color/vn_glass" />
+            <stroke android:width="@dimen/vn_border" android:color="@color/vn_secondary" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/vn_radius_input" />
+            <solid android:color="@color/vn_glass" />
+            <stroke android:width="@dimen/vn_border" android:color="@color/vn_glass_border" />
+        </shape>
+    </item>
+</selector>

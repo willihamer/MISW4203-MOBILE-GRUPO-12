@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- gradient-primary: violeta #7C3AED a cian #22D3EE. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <corners android:radius="@dimen/vn_radius_pill" />
+    <gradient
+        android:angle="0"
+        android:endColor="@color/vn_secondary"
+        android:startColor="@color/vn_primary" />
+</shape>

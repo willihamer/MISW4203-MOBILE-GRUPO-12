@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Chip de filtro: píldora de vidrio; seleccionado con el gradiente primario. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/bg_gradient_primary" android:state_checked="true" />
+    <item android:drawable="@drawable/bg_glass_pill" />
+</selector>

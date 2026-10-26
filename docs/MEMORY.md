@@ -128,9 +128,8 @@ Las capturas de la wiki (`images/prototipo/`) se exportan directamente de Figma;
 
 ### Estado del repositorio
 
-- `develop` solo tiene `README.md`, `LICENSE` y `.gitignore` (el de plantilla Android). **Todavía no hay proyecto de Android Studio.**
-- Este archivo y `docs/diseno/` están en `feature/IN-01-prototipo-ux-ui`, que aún no tiene PR a `develop`. Conviene integrar ese PR primero, para que la rama del proyecto Android ya tenga la documentación.
-- Rama sugerida para el proyecto base: `feature/TR-01-proyecto-android`, creada desde `develop`.
+- El proyecto Android está en `feature/TR-01-proyecto-android`, creada desde `feature/IN-01-prototipo-ux-ui` (que trae este archivo y `docs/diseno/`). El esqueleto inicial de Android Studio venía con Jetpack Compose y se migró a **XML + Fragments** para seguir la arquitectura de referencia del curso y Espresso.
+- La rama incluye la base (TR-01 a TR-05), el design system, la selección de perfil (P01 y P01b) y el catálogo de la HU01. Cómo correr el backend, la app y las pruebas: [README](../README.md).
 
 ### Tareas transversales del Sprint 1 (Juan Diego)
 
@@ -162,17 +161,17 @@ Vista (Fragment) → ViewModel → Repository → Service Adapter → API REST
 - Pruebas E2E con **Espresso** por cada HU, registradas en el inventario de pruebas.
 - Perfil visitante / coleccionista al abrir la app; crear álbum y agregar track solo en modo coleccionista.
 
-**Por decidir en TR-01** (registrar la decisión en la sección *Arquitectura* de la página `Sprint-1`):
+**Decidido en TR-01** (falta registrarlo en la sección *Arquitectura* de la página `Sprint-1`):
 
-| Tema | Opciones | Nota |
+| Tema | Decisión | Nota |
 | :--- | :--- | :--- |
-| Cliente HTTP | Volley (ejemplo del curso) · Retrofit + corrutinas | Retrofit deja el Service Adapter más limpio. |
-| Imágenes | Glide · Coil | Portadas de álbum e imágenes de artistas son URLs externas. |
-| Caché | En memoria · Room con DAO | Room da persistencia y sirve para el análisis de desempeño de los sprints 2 y 3. |
-| Observables | LiveData · StateFlow | LiveData es lo que usa el material del curso. |
-| SDK mínimo | Definir según los dispositivos de prueba | La DoD pide probar en varias versiones de API antes de pasar a `main`. |
-
-Estructura de paquetes sugerida: `models/`, `network/` (Service Adapter), `repositories/`, `database/` (si se usa Room), `viewmodels/`, `ui/` (Fragments y adapters por pantalla).
+| Vistas | XML + Fragments + View Binding | Arquitectura de referencia del curso y Espresso. |
+| Cliente HTTP | Retrofit + OkHttp + corrutinas | El Service Adapter traduce las fallas a `AppError`. |
+| Imágenes | Glide | Portadas con caché, *placeholder* y error. |
+| Caché | En memoria en el repositorio | Room se agrega detrás del repositorio en el análisis de desempeño. |
+| Observables | LiveData con `UiState` | Cargando, contenido, vacío y error. |
+| SDK mínimo | API 24, con *desugaring* para `java.time` | Decisión del acta de la semana 3. |
+| Paquete | `co.edu.uniandes.vinilos` | Estructura: `data/` (model, network, repository), `di/`, `ui/` por funcionalidad. |
 
 ### Backend (BackVynils)
 

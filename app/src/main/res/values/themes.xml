@@ -1,5 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.VinilosAPP" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Vinilos" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/vn_primary</item>
+        <item name="colorOnPrimary">@color/vn_on_surface</item>
+        <item name="colorPrimaryContainer">@color/vn_primary</item>
+        <item name="colorOnPrimaryContainer">@color/vn_on_surface</item>
+        <item name="colorSecondary">@color/vn_secondary</item>
+        <item name="colorOnSecondary">@color/vn_background</item>
+        <item name="colorTertiary">@color/vn_tertiary</item>
+        <item name="colorError">@color/vn_error</item>
+        <item name="android:colorBackground">@color/vn_background</item>
+        <item name="colorSurface">@color/vn_surface</item>
+        <item name="colorOnSurface">@color/vn_on_surface</item>
+        <item name="colorOnSurfaceVariant">@color/vn_on_surface_muted</item>
+        <item name="colorOutline">@color/vn_glass_border</item>
+        <item name="colorControlActivated">@color/vn_secondary</item>
+        <item name="colorControlHighlight">@color/vn_glass_strong</item>
+        <item name="android:textColorHint">@color/vn_on_surface_subtle</item>
+
+        <item name="android:windowBackground">@drawable/bg_screen</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+        <item name="textAppearanceDisplayMedium">@style/TextAppearance.Vinilos.DisplayLarge</item>
+        <item name="textAppearanceHeadlineMedium">@style/TextAppearance.Vinilos.HeadlineLarge</item>
+        <item name="textAppearanceHeadlineSmall">@style/TextAppearance.Vinilos.HeadlineMedium</item>
+        <item name="textAppearanceTitleLarge">@style/TextAppearance.Vinilos.TitleLarge</item>
+        <item name="textAppearanceTitleMedium">@style/TextAppearance.Vinilos.TitleMedium</item>
+        <item name="textAppearanceBodyLarge">@style/TextAppearance.Vinilos.BodyLarge</item>
+        <item name="textAppearanceBodyMedium">@style/TextAppearance.Vinilos.BodyMedium</item>
+        <item name="textAppearanceLabelLarge">@style/TextAppearance.Vinilos.LabelLarge</item>
+        <item name="textAppearanceLabelMedium">@style/TextAppearance.Vinilos.LabelMedium</item>
+
+        <item name="materialButtonStyle">@style/Widget.Vinilos.Button.Primary</item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.Vinilos.BottomSheetDialog</item>
+    </style>
+
+    <style name="ThemeOverlay.Vinilos.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Widget.Vinilos.BottomSheet</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:backgroundDimAmount">0.7</item>
+    </style>
+
+    <style name="Widget.Vinilos.BottomSheet" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
 </resources>

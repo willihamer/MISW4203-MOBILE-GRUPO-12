@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ilustración del estado de error: vinilo con una grieta. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="160dp"
+    android:height="160dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+    <path
+        android:fillColor="@color/vn_vinyl_black"
+        android:pathData="M0,100a100,100 0,1 0,200 0a100,100 0,1 0,-200 0z" />
+    <path
+        android:pathData="M12,100a88,88 0,1 0,176 0a88,88 0,1 0,-176 0z M26,100a74,74 0,1 0,148 0a74,74 0,1 0,-148 0z M40,100a60,60 0,1 0,120 0a60,60 0,1 0,-120 0z"
+        android:strokeWidth="1"
+        android:strokeColor="#1FFFFFFF" />
+    <path
+        android:fillColor="#FF8B2B6E"
+        android:pathData="M64,100a36,36 0,1 0,72 0a36,36 0,1 0,-72 0z" />
+    <path
+        android:fillColor="@color/vn_background"
+        android:pathData="M94,100a6,6 0,1 0,12 0a6,6 0,1 0,-12 0z" />
+    <path
+        android:pathData="M104,2 L94,40 L118,62 L96,96 L124,128 L106,160 L116,198"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeColor="@color/vn_error" />
+    <path
+        android:pathData="M118,62 L150,52 M124,128 L156,140"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:strokeColor="@color/vn_accent_warm" />
+</vector>
