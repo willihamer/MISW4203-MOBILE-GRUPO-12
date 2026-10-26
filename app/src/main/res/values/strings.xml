@@ -1,0 +1,68 @@
+<resources>
+    <string name="app_name">Vinilos</string>
+
+    <!-- P01 Bienvenida -->
+    <string name="welcome_badge">Hi-Fi audio experience</string>
+    <string name="welcome_title">Vinilos</string>
+    <string name="welcome_subtitle">Descubre, colecciona y comparte la magia analógica en cada surco.</string>
+    <string name="welcome_visitor_title">Explorar como visitante</string>
+    <string name="welcome_visitor_subtitle">Navega por álbumes y artistas sin iniciar sesión</string>
+    <string name="welcome_collector_title">Entrar como coleccionista</string>
+    <string name="welcome_collector_subtitle">Gestiona tu colección, agrega tracks y califica</string>
+    <string name="welcome_collector_badge">Pro</string>
+    <string name="welcome_footer">Catálogo oficial de vinilos clásicos y contemporáneos</string>
+
+    <!-- P01b ¿Quién eres? -->
+    <string name="collector_picker_title">¿Quién eres?</string>
+    <string name="collector_picker_subtitle">Selecciona tu perfil de coleccionista para continuar</string>
+    <string name="collector_picker_continue">Continuar</string>
+    <string name="collector_picker_empty">No hay coleccionistas registrados en el servidor.</string>
+    <string name="collector_picker_error">No pudimos cargar los coleccionistas.</string>
+
+    <!-- Perfil -->
+    <string name="profile_visitor">Visitante</string>
+    <string name="profile_collector">Coleccionista</string>
+    <string name="profile_change">Cambiar perfil</string>
+
+    <!-- Navegación -->
+    <string name="nav_albums">Álbumes</string>
+    <string name="nav_artists">Artistas</string>
+    <string name="nav_collectors">Coleccionistas</string>
+
+    <!-- P02 Catálogo de álbumes (HU01) -->
+    <string name="albums_title">Álbumes</string>
+    <string name="albums_subtitle">Explora el catálogo de vinilos</string>
+    <string name="albums_search_hint">Buscar álbum, artista o sello…</string>
+    <string name="albums_search">Buscar</string>
+    <string name="albums_filter_all">Todos</string>
+    <!-- Valores del enum GENRE del backend: se muestran tal como los entrega la API -->
+    <string name="genre_salsa" translatable="false">Salsa</string>
+    <string name="genre_rock" translatable="false">Rock</string>
+    <string name="genre_folk" translatable="false">Folk</string>
+    <string name="genre_classical" translatable="false">Classical</string>
+    <string name="albums_loading">Sincronizando biblioteca…</string>
+    <string name="albums_unknown_artist">Artista desconocido</string>
+    <string name="album_meta">%1$d • %2$s</string>
+    <string name="album_cover_description">Portada de %1$s</string>
+    <string name="albums_empty_title">Aún no hay álbumes en el catálogo</string>
+    <string name="albums_empty_message">La colección está vacía por el momento.</string>
+    <string name="albums_no_results_title">Sin resultados</string>
+    <string name="albums_no_results_message">Ningún álbum coincide con la búsqueda o el filtro.</string>
+
+    <!-- Estados de error -->
+    <string name="error_badge">Error de sincronización</string>
+    <string name="error_albums_title">No pudimos cargar los álbumes</string>
+    <string name="error_no_connection">Ocurrió un problema de conexión con el servidor. Revisa tu conexión a internet e inténtalo nuevamente.</string>
+    <string name="error_server">El servidor respondió con un error. Inténtalo nuevamente en unos minutos.</string>
+    <string name="error_unknown">Ocurrió un error inesperado. Inténtalo nuevamente.</string>
+    <string name="retry">Reintentar</string>
+
+    <!-- Pestañas del Sprint 2 -->
+    <string name="coming_soon_title">Próximamente</string>
+    <string name="coming_soon_artists">El listado de artistas llega en el Sprint 2.</string>
+    <string name="coming_soon_collectors">El listado de coleccionistas llega en el Sprint 2.</string>
+
+    <!-- Accesibilidad -->
+    <string name="cd_close">Cerrar</string>
+    <string name="cd_vinyl">Disco de vinilo</string>
+</resources>

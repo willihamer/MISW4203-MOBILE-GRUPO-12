@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/welcomeFragment">
+
+    <!-- P01 Bienvenida: escoger perfil -->
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="co.edu.uniandes.vinilos.ui.profile.WelcomeFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_welcome">
+        <action
+            android:id="@+id/action_welcome_to_albums"
+            app:destination="@id/albumListFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/welcomeFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_welcome_to_collectorPicker"
+            app:destination="@id/collectorPickerDialog" />
+    </fragment>
+
+    <!-- P01b ¿Quién eres? -->
+    <dialog
+        android:id="@+id/collectorPickerDialog"
+        android:name="co.edu.uniandes.vinilos.ui.profile.CollectorPickerBottomSheet"
+        tools:layout="@layout/sheet_collector_picker">
+        <action
+            android:id="@+id/action_collectorPicker_to_albums"
+            app:destination="@id/albumListFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/welcomeFragment"
+            app:popUpToInclusive="true" />
+    </dialog>
+
+    <!-- P02 Catálogo de álbumes (HU01) -->
+    <fragment
+        android:id="@+id/albumListFragment"
+        android:name="co.edu.uniandes.vinilos.ui.album.list.AlbumListFragment"
+        android:label="@string/albums_title"
+        tools:layout="@layout/fragment_album_list" />
+
+    <!-- P04 y P06: se implementan en el Sprint 2 (HU03 y HU05) -->
+    <fragment
+        android:id="@+id/artistListFragment"
+        android:name="co.edu.uniandes.vinilos.ui.common.ComingSoonFragment"
+        android:label="@string/nav_artists"
+        tools:layout="@layout/fragment_coming_soon">
+        <argument
+            android:name="title"
+            android:defaultValue="@string/nav_artists"
+            app:argType="reference" />
+        <argument
+            android:name="message"
+            android:defaultValue="@string/coming_soon_artists"
+            app:argType="reference" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/collectorListFragment"
+        android:name="co.edu.uniandes.vinilos.ui.common.ComingSoonFragment"
+        android:label="@string/nav_collectors"
+        tools:layout="@layout/fragment_coming_soon">
+        <argument
+            android:name="title"
+            android:defaultValue="@string/nav_collectors"
+            app:argType="reference" />
+        <argument
+            android:name="message"
+            android:defaultValue="@string/coming_soon_collectors"
+            app:argType="reference" />
+    </fragment>
+
+    <!-- Cambiar perfil desde cualquier pantalla: vuelve a P01 y limpia la pila -->
+    <action
+        android:id="@+id/action_global_welcome"
+        app:destination="@id/welcomeFragment"
+        app:enterAnim="@android:anim/fade_in"
+        app:exitAnim="@android:anim/fade_out"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
+</navigation>

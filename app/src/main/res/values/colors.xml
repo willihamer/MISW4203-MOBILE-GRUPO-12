@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Design system "Vinilos Liquid Dark" (docs/diseno/DESIGN.md). Solo modo oscuro. -->
+<resources>
+    <!-- Lienzo -->
+    <color name="vn_background">#FF0A0A14</color>
+    <color name="vn_surface">#FF12121D</color>
+    <color name="vn_surface_container">#FF1F1F29</color>
+    <color name="vn_surface_container_high">#FF292934</color>
+    <color name="vn_vinyl_black">#FF0E0E12</color>
+
+    <!-- Acentos -->
+    <color name="vn_primary">#FF7C3AED</color>
+    <color name="vn_primary_light">#FFD2BBFF</color>
+    <color name="vn_secondary">#FF22D3EE</color>
+    <color name="vn_tertiary">#FFEC4899</color>
+    <color name="vn_accent_warm">#FFF59E0B</color>
+    <color name="vn_success">#FF34D399</color>
+    <color name="vn_error">#FFF87171</color>
+
+    <!-- Texto -->
+    <color name="vn_on_surface">#FFF5F5FA</color>
+    <color name="vn_on_surface_muted">#FFC4C4D4</color>
+    <color name="vn_on_surface_subtle">#FF8E8EA3</color>
+
+    <!-- Vidrio: blanco translúcido sobre el lienzo -->
+    <color name="vn_glass">#1AFFFFFF</color>
+    <color name="vn_glass_strong">#29FFFFFF</color>
+    <color name="vn_glass_border">#2EFFFFFF</color>
+    <color name="vn_glass_highlight">#59FFFFFF</color>
+    <color name="vn_skeleton">#24FFFFFF</color>
+    <color name="vn_scrim">#B30A0A14</color>
+
+    <!-- Orbes de color del fondo -->
+    <color name="vn_orb_violet">#597C3AED</color>
+    <color name="vn_orb_cyan">#3322D3EE</color>
+    <color name="vn_orb_magenta">#33EC4899</color>
+    <color name="vn_transparent">#00000000</color>
+</resources>

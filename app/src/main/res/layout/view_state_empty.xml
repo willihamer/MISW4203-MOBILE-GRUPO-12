@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Estado vacío (componente del design system). El título y el mensaje se asignan desde código. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/vn_space_xl"
+    android:paddingEnd="@dimen/vn_space_xl"
+    android:paddingBottom="@dimen/vn_bottom_bar_clearance">
+
+    <ImageView
+        android:layout_width="180dp"
+        android:layout_height="160dp"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_vinyl_crate" />
+
+    <TextView
+        android:id="@+id/empty_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/vn_space_lg"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.Vinilos.HeadlineMedium" />
+
+    <TextView
+        android:id="@+id/empty_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/vn_space_sm"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.Vinilos.BodyLarge" />
+</LinearLayout>

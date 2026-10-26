@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tarjeta de álbum con el disco asomándose detrás de la portada (Vinyl Peek Card). -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    android:background="@drawable/bg_option_card"
+    android:clickable="true"
+    android:focusable="true"
+    android:padding="12dp">
+
+    <ImageView
+        android:id="@+id/vinyl"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_vinyl"
+        app:layout_constraintBottom_toBottomOf="@id/cover"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/cover"
+        app:layout_constraintWidth_percent="0.82"
+        app:layout_constraintDimensionRatio="1:1" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/cover"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_cover"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.82"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Vinilos.Cover"
+        tools:src="@drawable/ic_vinyl" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:minLines="2"
+        android:textAppearance="@style/TextAppearance.Vinilos.TitleLarge"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cover"
+        tools:text="Buscando América" />
+
+    <TextView
+        android:id="@+id/artist"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.Vinilos.BodyMedium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/name"
+        tools:text="Rubén Blades" />
+
+    <TextView
+        android:id="@+id/meta"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.Vinilos.LabelMedium"
+        android:textColor="@color/vn_secondary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/artist"
+        tools:text="1984 • Salsa" />
+</androidx.constraintlayout.widget.ConstraintLayout>
