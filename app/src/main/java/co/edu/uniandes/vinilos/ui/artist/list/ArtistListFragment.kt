@@ -17,6 +17,7 @@ import co.edu.uniandes.vinilos.R
 import co.edu.uniandes.vinilos.data.model.Artist
 import co.edu.uniandes.vinilos.data.model.ArtistType
 import co.edu.uniandes.vinilos.databinding.FragmentArtistListBinding
+import co.edu.uniandes.vinilos.ui.artist.detail.ArtistDetailViewModel
 import co.edu.uniandes.vinilos.ui.common.UiState
 import co.edu.uniandes.vinilos.ui.common.render
 import co.edu.uniandes.vinilos.ui.common.viewModelFactory
@@ -133,9 +134,9 @@ class ArtistListFragment : Fragment(R.layout.fragment_artist_list) {
         }
     }
 
+    /** Abre el detalle del músico o la banda (HU04). */
     private fun openArtist(artist: Artist) {
-        // El detalle del artista (P05/P05b) es la HU04. Cuando exista su destino en el nav_graph,
-        // aquí se navega con los argumentos del artista (id y tipo).
+        findNavController().navigate(R.id.action_artistList_to_artistDetail, ArtistDetailViewModel.args(artist))
     }
 
     override fun onDestroyView() {

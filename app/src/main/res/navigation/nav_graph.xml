@@ -49,7 +49,30 @@
         android:id="@+id/artistListFragment"
         android:name="co.edu.uniandes.vinilos.ui.artist.list.ArtistListFragment"
         android:label="@string/nav_artists"
-        tools:layout="@layout/fragment_artist_list" />
+        tools:layout="@layout/fragment_artist_list">
+        <action
+            android:id="@+id/action_artistList_to_artistDetail"
+            app:destination="@id/artistDetailFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+
+    <!-- P05 Detalle de músico y P05b Detalle de banda (HU04) -->
+    <fragment
+        android:id="@+id/artistDetailFragment"
+        android:name="co.edu.uniandes.vinilos.ui.artist.detail.ArtistDetailFragment"
+        android:label="@string/nav_artists"
+        tools:layout="@layout/fragment_artist_detail">
+        <argument
+            android:name="artistId"
+            app:argType="integer" />
+        <!-- Nombre de ArtistType: MUSICIAN o BAND -->
+        <argument
+            android:name="artistType"
+            app:argType="string" />
+    </fragment>
 
     <!-- P06 Coleccionistas (HU05) -->
     <fragment

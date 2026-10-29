@@ -24,4 +24,11 @@
     <!-- Espacio que se deja al final de las listas para que no queden bajo la barra flotante -->
     <dimen name="vn_bottom_bar_clearance">104dp</dimen>
     <dimen name="vn_border">1dp</dimen>
+
+    <!-- Detalle de artista (HU04) -->
+    <dimen name="vn_artist_hero_height">320dp</dimen>
+    <!-- Margen negativo: el nombre y los chips se superponen al final de la foto -->
+    <dimen name="vn_artist_hero_overlap">-88dp</dimen>
+    <dimen name="vn_artist_top_bar_height">72dp</dimen>
+    <dimen name="vn_artist_album_width">168dp</dimen>
 </resources>
