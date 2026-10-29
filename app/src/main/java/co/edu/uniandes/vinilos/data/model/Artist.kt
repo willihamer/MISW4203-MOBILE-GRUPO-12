@@ -19,12 +19,16 @@ sealed class Artist(
     open val description: String,
     open val type: ArtistType,
 ) {
+    /** Álbumes del artista; el backend los incluye en el listado y en el detalle (HU04). */
+    abstract val albums: List<Album>
+
     data class Musician(
         override val id: Int,
         override val name: String,
         override val image: String,
         override val description: String,
         val birthDate: LocalDate? = null,
+        override val albums: List<Album> = emptyList(),
     ) : Artist(id, name, image, description, ArtistType.MUSICIAN)
 
     data class Band(
@@ -33,5 +37,8 @@ sealed class Artist(
         override val image: String,
         override val description: String,
         val creationDate: LocalDate? = null,
+        override val albums: List<Album> = emptyList(),
+        /** Integrantes de la banda (HU04). */
+        val musicians: List<Musician> = emptyList(),
     ) : Artist(id, name, image, description, ArtistType.BAND)
 }

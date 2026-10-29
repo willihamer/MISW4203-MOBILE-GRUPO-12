@@ -1,5 +1,6 @@
 package co.edu.uniandes.vinilos.data.repository
 
+import co.edu.uniandes.vinilos.data.model.Artist
 import co.edu.uniandes.vinilos.data.model.ArtistType
 import co.edu.uniandes.vinilos.data.network.AppError
 import co.edu.uniandes.vinilos.data.network.NetworkServiceAdapter
@@ -64,6 +65,47 @@ class ArtistRepositoryTest {
             org.junit.Assert.fail("Se esperaba excepción AppError")
         } catch (e: AppError) {
             assertTrue(e is AppError.NoConnection)
+        }
+    }
+
+    @Test
+    fun `el detalle de un musico se consulta en su endpoint`() = runTest {
+        val artist = repository.getArtist(100, ArtistType.MUSICIAN)
+
+        assertTrue(artist is Artist.Musician)
+        assertEquals("Rubén Blades Bellido de Luna", artist.name)
+        assertEquals(listOf("Buscando América"), artist.albums.map { it.name })
+        assertEquals(1, api.musicianDetailCalls)
+        assertEquals(0, api.bandDetailCalls)
+    }
+
+    @Test
+    fun `el detalle de una banda se consulta en su endpoint con sus integrantes`() = runTest {
+        val artist = repository.getArtist(101, ArtistType.BAND)
+
+        assertTrue(artist is Artist.Band)
+        assertEquals(listOf("Freddie Mercury"), (artist as Artist.Band).musicians.map { it.name })
+        assertEquals(1, api.bandDetailCalls)
+        assertEquals(0, api.musicianDetailCalls)
+    }
+
+    @Test
+    fun `el detalle usa cache y reintentar vuelve a consultar la red`() = runTest {
+        repository.getArtist(101, ArtistType.BAND)
+        repository.getArtist(101, ArtistType.BAND)
+        assertEquals(1, api.bandDetailCalls)
+
+        repository.getArtist(101, ArtistType.BAND, forceRefresh = true)
+        assertEquals(2, api.bandDetailCalls)
+    }
+
+    @Test
+    fun `un artista inexistente propaga el error 404 del servidor`() = runTest {
+        try {
+            repository.getArtist(999, ArtistType.MUSICIAN)
+            org.junit.Assert.fail("Se esperaba excepción AppError")
+        } catch (e: AppError) {
+            assertEquals(404, (e as AppError.Server).code)
         }
     }
 }

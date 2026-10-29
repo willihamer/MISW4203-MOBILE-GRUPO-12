@@ -5,6 +5,7 @@ import co.edu.uniandes.vinilos.data.network.dto.BandDto
 import co.edu.uniandes.vinilos.data.network.dto.CollectorDto
 import co.edu.uniandes.vinilos.data.network.dto.MusicianDto
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 /** Endpoints de BackVynils que usa la app. */
 interface VinilosApi {
@@ -19,4 +20,10 @@ interface VinilosApi {
 
     @GET("bands")
     suspend fun getBands(): List<BandDto>
+
+    @GET("musicians/{id}")
+    suspend fun getMusician(@Path("id") id: Int): MusicianDto
+
+    @GET("bands/{id}")
+    suspend fun getBand(@Path("id") id: Int): BandDto
 }

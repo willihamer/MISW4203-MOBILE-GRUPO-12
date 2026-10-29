@@ -43,6 +43,7 @@ fun MusicianDto.toModel() = Artist.Musician(
     image = image.orEmpty(),
     description = description.orEmpty(),
     birthDate = parseIsoDate(birthDate),
+    albums = albums.orEmpty().map { it.toModel() },
 )
 
 fun BandDto.toModel() = Artist.Band(
@@ -51,6 +52,8 @@ fun BandDto.toModel() = Artist.Band(
     image = image.orEmpty(),
     description = description.orEmpty(),
     creationDate = parseIsoDate(creationDate),
+    albums = albums.orEmpty().map { it.toModel() },
+    musicians = musicians.orEmpty().map { it.toModel() },
 )
 
 /**
