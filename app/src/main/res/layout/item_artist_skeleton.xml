@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fila esqueleto para la carga del listado de artistas. -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/vn_screen_margin"
+    android:layout_marginTop="6dp"
+    android:layout_marginEnd="@dimen/vn_screen_margin"
+    android:layout_marginBottom="6dp"
+    android:background="@drawable/bg_option_card"
+    android:padding="12dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/skeleton_avatar"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:background="@drawable/bg_skeleton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
+
+    <View
+        android:id="@+id/skeleton_name"
+        android:layout_width="140dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="@dimen/vn_space_md"
+        android:background="@drawable/bg_skeleton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/skeleton_avatar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/skeleton_badge"
+        android:layout_width="64dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="@dimen/vn_space_md"
+        android:background="@drawable/bg_skeleton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

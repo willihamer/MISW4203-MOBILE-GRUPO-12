@@ -1,11 +1,14 @@
 package co.edu.uniandes.vinilos.data.network.mapper
 
 import co.edu.uniandes.vinilos.data.model.Album
+import co.edu.uniandes.vinilos.data.model.Artist
 import co.edu.uniandes.vinilos.data.model.Collector
 import co.edu.uniandes.vinilos.data.model.Genre
 import co.edu.uniandes.vinilos.data.model.Performer
 import co.edu.uniandes.vinilos.data.network.dto.AlbumDto
+import co.edu.uniandes.vinilos.data.network.dto.BandDto
 import co.edu.uniandes.vinilos.data.network.dto.CollectorDto
+import co.edu.uniandes.vinilos.data.network.dto.MusicianDto
 import co.edu.uniandes.vinilos.data.network.dto.PerformerDto
 import java.time.LocalDate
 import java.time.format.DateTimeParseException
@@ -32,6 +35,22 @@ fun CollectorDto.toModel() = Collector(
     name = name.orEmpty(),
     telephone = telephone.orEmpty(),
     email = email.orEmpty(),
+)
+
+fun MusicianDto.toModel() = Artist.Musician(
+    id = id ?: 0,
+    name = name.orEmpty(),
+    image = image.orEmpty(),
+    description = description.orEmpty(),
+    birthDate = parseIsoDate(birthDate),
+)
+
+fun BandDto.toModel() = Artist.Band(
+    id = id ?: 0,
+    name = name.orEmpty(),
+    image = image.orEmpty(),
+    description = description.orEmpty(),
+    creationDate = parseIsoDate(creationDate),
 )
 
 /**

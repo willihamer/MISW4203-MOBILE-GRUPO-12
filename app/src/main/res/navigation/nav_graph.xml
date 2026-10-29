@@ -44,22 +44,14 @@
         android:label="@string/albums_title"
         tools:layout="@layout/fragment_album_list" />
 
-    <!-- P04 y P06: se implementan en el Sprint 2 (HU03 y HU05) -->
+    <!-- P04 Listado de artistas (HU03) -->
     <fragment
         android:id="@+id/artistListFragment"
-        android:name="co.edu.uniandes.vinilos.ui.common.ComingSoonFragment"
+        android:name="co.edu.uniandes.vinilos.ui.artist.list.ArtistListFragment"
         android:label="@string/nav_artists"
-        tools:layout="@layout/fragment_coming_soon">
-        <argument
-            android:name="title"
-            android:defaultValue="@string/nav_artists"
-            app:argType="reference" />
-        <argument
-            android:name="message"
-            android:defaultValue="@string/coming_soon_artists"
-            app:argType="reference" />
-    </fragment>
+        tools:layout="@layout/fragment_artist_list" />
 
+    <!-- P06 Coleccionistas (HU05) -->
     <fragment
         android:id="@+id/collectorListFragment"
         android:name="co.edu.uniandes.vinilos.ui.common.ComingSoonFragment"
