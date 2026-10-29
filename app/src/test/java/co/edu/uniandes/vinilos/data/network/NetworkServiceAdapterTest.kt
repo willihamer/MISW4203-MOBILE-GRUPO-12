@@ -1,6 +1,7 @@
 package co.edu.uniandes.vinilos.data.network
 
 import co.edu.uniandes.vinilos.testutil.FakeVinilosApi
+import co.edu.uniandes.vinilos.testutil.SampleData
 import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Assert.assertEquals
@@ -40,6 +41,34 @@ class NetworkServiceAdapterTest {
         api.albums = { throw IOException() }
         captureError { adapter.getAlbums() }
         assertTrue(NetworkIdlingResource.resource.isIdleNow)
+    }
+
+    @Test
+    fun `getMusicians mapea correctamente la respuesta de la API`() = runTest {
+        api.musicians = { SampleData.musicians }
+        val musicians = adapter.getMusicians()
+        assertEquals(2, musicians.size)
+        assertEquals("Rubén Blades Bellido de Luna", musicians.first().name)
+    }
+
+    @Test
+    fun `getBands mapea correctamente la respuesta de la API`() = runTest {
+        api.bands = { SampleData.bands }
+        val bands = adapter.getBands()
+        assertEquals(2, bands.size)
+        assertEquals("Queen", bands.first().name)
+    }
+
+    @Test
+    fun `getMusicians traduce errores de red a AppError`() = runTest {
+        api.musicians = { throw IOException("sin red") }
+        assertTrue(captureError { adapter.getMusicians() } is AppError.NoConnection)
+    }
+
+    @Test
+    fun `getBands traduce errores de red a AppError`() = runTest {
+        api.bands = { throw IOException("sin red") }
+        assertTrue(captureError { adapter.getBands() } is AppError.NoConnection)
     }
 
     private suspend fun captureError(block: suspend () -> Unit): AppError {

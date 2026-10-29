@@ -49,9 +49,28 @@
     <string name="albums_no_results_title">Sin resultados</string>
     <string name="albums_no_results_message">Ningún álbum coincide con la búsqueda o el filtro.</string>
 
+    <!-- P04 Listado de artistas (HU03) -->
+    <string name="artists_title">Artistas</string>
+    <string name="artists_subtitle">Músicos y bandas del catálogo</string>
+    <string name="artists_search_hint">Buscar artista</string>
+    <string name="artists_search">Buscar</string>
+    <string name="artists_filter_all">Todos</string>
+    <string name="artists_filter_musicians">Músicos</string>
+    <string name="artists_filter_bands">Bandas</string>
+    <string name="artist_type_musician">Músico</string>
+    <string name="artist_type_band">Banda</string>
+    <string name="artist_image_description">Fotografía de %1$s</string>
+    <string name="artists_loading">Cargando artistas…</string>
+    <string name="artists_empty_title">Aún no hay artistas en el catálogo</string>
+    <string name="artists_empty_message">No encontramos músicos ni bandas registrados en el servidor.</string>
+    <string name="artists_no_results_title">Sin resultados</string>
+    <string name="artists_no_results_message">Ningún artista coincide con la búsqueda o el filtro.</string>
+    <string name="artists_prizes_button">Premios</string>
+
     <!-- Estados de error -->
     <string name="error_badge">Error de sincronización</string>
     <string name="error_albums_title">No pudimos cargar los álbumes</string>
+    <string name="error_artists_title">No pudimos cargar los artistas</string>
     <string name="error_no_connection">Ocurrió un problema de conexión con el servidor. Revisa tu conexión a internet e inténtalo nuevamente.</string>
     <string name="error_server">El servidor respondió con un error. Inténtalo nuevamente en unos minutos.</string>
     <string name="error_unknown">Ocurrió un error inesperado. Inténtalo nuevamente.</string>

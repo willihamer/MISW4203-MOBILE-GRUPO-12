@@ -5,6 +5,7 @@ import co.edu.uniandes.vinilos.BuildConfig
 import co.edu.uniandes.vinilos.data.network.NetworkServiceAdapter
 import co.edu.uniandes.vinilos.data.network.VinilosApi
 import co.edu.uniandes.vinilos.data.repository.AlbumRepository
+import co.edu.uniandes.vinilos.data.repository.ArtistRepository
 import co.edu.uniandes.vinilos.data.repository.CollectorRepository
 import co.edu.uniandes.vinilos.data.repository.ProfileRepository
 import okhttp3.OkHttpClient
@@ -36,6 +37,7 @@ class AppContainer(context: Context) {
     private val serviceAdapter = NetworkServiceAdapter(api)
 
     val albumRepository = AlbumRepository(serviceAdapter)
+    val artistRepository = ArtistRepository(serviceAdapter)
     val collectorRepository = CollectorRepository(serviceAdapter)
     val profileRepository = ProfileRepository(
         context.getSharedPreferences(ProfileRepository.PREFERENCES_NAME, Context.MODE_PRIVATE),

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Estado cargando del listado de artistas: aviso y esqueletos de filas. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/loading_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/vn_space_sm">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/vn_screen_margin"
+        android:layout_marginBottom="@dimen/vn_space_sm"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:background="@drawable/bg_dot" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/vn_space_sm"
+            android:text="@string/artists_loading"
+            android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge"
+            android:textColor="@color/vn_secondary" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/skeletons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include layout="@layout/item_artist_skeleton" />
+
+        <include layout="@layout/item_artist_skeleton" />
+
+        <include layout="@layout/item_artist_skeleton" />
+
+        <include layout="@layout/item_artist_skeleton" />
+
+        <include layout="@layout/item_artist_skeleton" />
+    </LinearLayout>
+</LinearLayout>

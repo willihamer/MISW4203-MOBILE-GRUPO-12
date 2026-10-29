@@ -74,7 +74,7 @@ class HU01AlbumCatalogTest {
     fun muestraLaBarraDeNavegacionConLasTresPestanas() {
         onView(withId(R.id.bottom_bar)).check(matches(isDisplayed()))
         onView(withText(R.string.nav_artists)).perform(click())
-        onView(withText(R.string.coming_soon_title)).check(matches(isDisplayed()))
+        onView(withText(R.string.artists_title)).check(matches(isDisplayed()))
 
         onView(withText(R.string.nav_albums)).perform(click())
         onView(withText("Buscando América")).check(matches(isDisplayed()))

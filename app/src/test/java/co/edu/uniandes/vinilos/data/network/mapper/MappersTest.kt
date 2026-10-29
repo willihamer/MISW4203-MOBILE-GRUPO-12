@@ -1,7 +1,10 @@
 package co.edu.uniandes.vinilos.data.network.mapper
 
+import co.edu.uniandes.vinilos.data.model.ArtistType
 import co.edu.uniandes.vinilos.data.model.Genre
 import co.edu.uniandes.vinilos.data.network.dto.AlbumDto
+import co.edu.uniandes.vinilos.data.network.dto.BandDto
+import co.edu.uniandes.vinilos.data.network.dto.MusicianDto
 import co.edu.uniandes.vinilos.testutil.SampleData
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -44,5 +47,38 @@ class MappersTest {
         assertNull(album.genre)
         assertNull(album.releaseYear)
         assertTrue(album.performers.isEmpty())
+    }
+
+    @Test
+    fun `mapea MusicianDto a Artist Musician`() {
+        val musician = SampleData.rubenBlades.toModel()
+
+        assertEquals(100, musician.id)
+        assertEquals("Rubén Blades Bellido de Luna", musician.name)
+        assertEquals(ArtistType.MUSICIAN, musician.type)
+        assertEquals(LocalDate.of(1948, 7, 16), musician.birthDate)
+    }
+
+    @Test
+    fun `mapea BandDto a Artist Band`() {
+        val band = SampleData.queen.toModel()
+
+        assertEquals(101, band.id)
+        assertEquals("Queen", band.name)
+        assertEquals(ArtistType.BAND, band.type)
+        assertEquals(LocalDate.of(1970, 1, 1), band.creationDate)
+    }
+
+    @Test
+    fun `mapeo de artista tolera campos nulos`() {
+        val musician = MusicianDto(null, null, null, null, null).toModel()
+        assertEquals(0, musician.id)
+        assertEquals("", musician.name)
+        assertNull(musician.birthDate)
+
+        val band = BandDto(null, null, null, null, null).toModel()
+        assertEquals(0, band.id)
+        assertEquals("", band.name)
+        assertNull(band.creationDate)
     }
 }

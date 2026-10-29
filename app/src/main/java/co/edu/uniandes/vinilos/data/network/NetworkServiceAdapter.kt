@@ -1,6 +1,7 @@
 package co.edu.uniandes.vinilos.data.network
 
 import co.edu.uniandes.vinilos.data.model.Album
+import co.edu.uniandes.vinilos.data.model.Artist
 import co.edu.uniandes.vinilos.data.model.Collector
 import co.edu.uniandes.vinilos.data.network.mapper.toModel
 import kotlinx.coroutines.CancellationException
@@ -16,6 +17,10 @@ class NetworkServiceAdapter(private val api: VinilosApi) {
     suspend fun getAlbums(): List<Album> = call { api.getAlbums().map { it.toModel() } }
 
     suspend fun getCollectors(): List<Collector> = call { api.getCollectors().map { it.toModel() } }
+
+    suspend fun getMusicians(): List<Artist.Musician> = call { api.getMusicians().map { it.toModel() } }
+
+    suspend fun getBands(): List<Artist.Band> = call { api.getBands().map { it.toModel() } }
 
     private suspend fun <T> call(block: suspend () -> T): T {
         NetworkIdlingResource.increment()
