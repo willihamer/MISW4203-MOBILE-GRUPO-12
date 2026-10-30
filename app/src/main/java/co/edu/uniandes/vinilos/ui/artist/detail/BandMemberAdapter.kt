@@ -11,8 +11,10 @@ import co.edu.uniandes.vinilos.databinding.ItemBandMemberBinding
 import co.edu.uniandes.vinilos.ui.common.remoteImage
 import com.bumptech.glide.Glide
 
-/** Grilla de integrantes de una banda en el detalle (HU04). */
-class BandMemberAdapter : ListAdapter<Artist.Musician, BandMemberAdapter.ViewHolder>(DIFF) {
+/** Grilla de integrantes de una banda en el detalle (HU04); al tocar uno se abre su detalle. */
+class BandMemberAdapter(
+    private val onClick: (Artist.Musician) -> Unit,
+) : ListAdapter<Artist.Musician, BandMemberAdapter.ViewHolder>(DIFF) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
         ItemBandMemberBinding.inflate(LayoutInflater.from(parent.context), parent, false),
@@ -35,6 +37,8 @@ class BandMemberAdapter : ListAdapter<Artist.Musician, BandMemberAdapter.ViewHol
                 .error(R.drawable.ic_artist_placeholder_musician)
                 .centerCrop()
                 .into(binding.image)
+
+            binding.root.setOnClickListener { onClick(musician) }
         }
     }
 

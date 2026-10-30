@@ -35,7 +35,7 @@ class ArtistDetailFragment : Fragment(R.layout.fragment_artist_detail) {
         _binding = FragmentArtistDetailBinding.bind(view)
 
         val albumAdapter = ArtistAlbumAdapter(::openAlbum)
-        val memberAdapter = BandMemberAdapter()
+        val memberAdapter = BandMemberAdapter(::openMember)
         binding.albumList.adapter = albumAdapter
         binding.memberList.adapter = memberAdapter
 
@@ -105,6 +105,11 @@ class ArtistDetailFragment : Fragment(R.layout.fragment_artist_detail) {
     private fun bindDate(@StringRes labelRes: Int, date: LocalDate?) {
         binding.dateChip.isVisible = date != null
         if (date != null) binding.dateChip.text = getString(labelRes, date.format(DATE_FORMAT))
+    }
+
+    /** Abre el detalle del integrante como músico; atrás regresa a la banda. */
+    private fun openMember(musician: Artist.Musician) {
+        findNavController().navigate(R.id.action_artistDetail_to_artistDetail, ArtistDetailViewModel.args(musician))
     }
 
     private fun openAlbum(album: Album) {
