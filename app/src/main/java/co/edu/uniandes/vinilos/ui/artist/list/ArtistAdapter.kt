@@ -9,9 +9,8 @@ import co.edu.uniandes.vinilos.R
 import co.edu.uniandes.vinilos.data.model.Artist
 import co.edu.uniandes.vinilos.data.model.ArtistType
 import co.edu.uniandes.vinilos.databinding.ItemArtistBinding
+import co.edu.uniandes.vinilos.ui.common.remoteImage
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.model.GlideUrl
-import com.bumptech.glide.load.model.LazyHeaders
 
 class ArtistAdapter(
     private val onClick: (Artist) -> Unit,
@@ -41,20 +40,8 @@ class ArtistAdapter(
                 R.drawable.ic_artist_placeholder_band
             }
 
-            // Servidores como Wikimedia Commons devuelven HTTP 403 si el User-Agent es el por defecto
-            val model: Any? = if (artist.image.isNotBlank()) {
-                GlideUrl(
-                    artist.image,
-                    LazyHeaders.Builder()
-                        .addHeader("User-Agent", "Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36")
-                        .build(),
-                )
-            } else {
-                null
-            }
-
             Glide.with(binding.image)
-                .load(model)
+                .load(remoteImage(artist.image))
                 .placeholder(placeholderRes)
                 .error(placeholderRes)
                 .centerCrop()

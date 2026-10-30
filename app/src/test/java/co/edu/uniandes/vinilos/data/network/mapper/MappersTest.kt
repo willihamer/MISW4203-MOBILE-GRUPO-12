@@ -81,4 +81,29 @@ class MappersTest {
         assertEquals("", band.name)
         assertNull(band.creationDate)
     }
+
+    @Test
+    fun `el detalle de un musico incluye sus albumes`() {
+        val musician = SampleData.rubenBladesDetail.toModel()
+
+        assertEquals(listOf("Buscando América"), musician.albums.map { it.name })
+        assertEquals(1984, musician.albums.first().releaseYear)
+    }
+
+    @Test
+    fun `el detalle de una banda incluye sus albumes e integrantes`() {
+        val band = SampleData.queenDetail.toModel()
+
+        assertEquals(listOf("A Night at the Opera"), band.albums.map { it.name })
+        assertEquals(listOf("Freddie Mercury"), band.musicians.map { it.name })
+        assertEquals(LocalDate.of(1946, 9, 5), band.musicians.first().birthDate)
+    }
+
+    @Test
+    fun `un artista sin albumes ni integrantes queda con listas vacias`() {
+        val band = SampleData.faniaAllStars.toModel()
+
+        assertTrue(band.albums.isEmpty())
+        assertTrue(band.musicians.isEmpty())
+    }
 }

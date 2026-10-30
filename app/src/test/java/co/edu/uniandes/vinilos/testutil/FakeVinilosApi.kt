@@ -6,6 +6,9 @@ import co.edu.uniandes.vinilos.data.network.dto.BandDto
 import co.edu.uniandes.vinilos.data.network.dto.CollectorDto
 import co.edu.uniandes.vinilos.data.network.dto.MusicianDto
 import co.edu.uniandes.vinilos.data.network.dto.PerformerDto
+import okhttp3.ResponseBody.Companion.toResponseBody
+import retrofit2.HttpException
+import retrofit2.Response
 
 /** Doble de la API: cada prueba decide qué responde o qué excepción lanza. */
 class FakeVinilosApi(
@@ -13,12 +16,18 @@ class FakeVinilosApi(
     var collectors: () -> List<CollectorDto> = { emptyList() },
     var musicians: () -> List<MusicianDto> = { emptyList() },
     var bands: () -> List<BandDto> = { emptyList() },
+    var musician: (Int) -> MusicianDto = { id -> SampleData.musicianDetails[id] ?: throw notFound() },
+    var band: (Int) -> BandDto = { id -> SampleData.bandDetails[id] ?: throw notFound() },
 ) : VinilosApi {
     var albumCalls = 0
         private set
     var musicianCalls = 0
         private set
     var bandCalls = 0
+        private set
+    var musicianDetailCalls = 0
+        private set
+    var bandDetailCalls = 0
         private set
 
     override suspend fun getAlbums(): List<AlbumDto> {
@@ -37,7 +46,20 @@ class FakeVinilosApi(
         bandCalls++
         return bands()
     }
+
+    override suspend fun getMusician(id: Int): MusicianDto {
+        musicianDetailCalls++
+        return musician(id)
+    }
+
+    override suspend fun getBand(id: Int): BandDto {
+        bandDetailCalls++
+        return band(id)
+    }
 }
+
+/** Respuesta 404 del backend cuando el músico o la banda no existe. */
+fun notFound(): HttpException = HttpException(Response.error<Any>(404, "".toResponseBody(null)))
 
 /** Datos con la misma forma que los datos de prueba de BackVynils. */
 object SampleData {
@@ -99,4 +121,20 @@ object SampleData {
 
     val musicians = listOf(rubenBlades, willieColon)
     val bands = listOf(queen, faniaAllStars)
+
+    /** Integrante de banda tal como viene dentro de GET /bands/{id}. */
+    val freddieMercury = MusicianDto(
+        id = 104,
+        name = "Freddie Mercury",
+        image = "https://example.com/freddie.jpg",
+        description = "Vocalista de Queen.",
+        birthDate = "1946-09-05T00:00:00.000Z",
+    )
+
+    /** Respuestas de GET /musicians/{id} y GET /bands/{id}, que incluyen álbumes e integrantes. */
+    val rubenBladesDetail = rubenBlades.copy(albums = listOf(buscandoAmerica))
+    val queenDetail = queen.copy(albums = listOf(nightAtTheOpera), musicians = listOf(freddieMercury))
+
+    val musicianDetails = mapOf(100 to rubenBladesDetail, 102 to willieColon)
+    val bandDetails = mapOf(101 to queenDetail, 103 to faniaAllStars)
 }

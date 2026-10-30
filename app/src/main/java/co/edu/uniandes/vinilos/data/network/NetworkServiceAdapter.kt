@@ -22,6 +22,10 @@ class NetworkServiceAdapter(private val api: VinilosApi) {
 
     suspend fun getBands(): List<Artist.Band> = call { api.getBands().map { it.toModel() } }
 
+    suspend fun getMusician(id: Int): Artist.Musician = call { api.getMusician(id).toModel() }
+
+    suspend fun getBand(id: Int): Artist.Band = call { api.getBand(id).toModel() }
+
     private suspend fun <T> call(block: suspend () -> T): T {
         NetworkIdlingResource.increment()
         return try {

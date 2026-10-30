@@ -67,10 +67,22 @@
     <string name="artists_no_results_message">Ningún artista coincide con la búsqueda o el filtro.</string>
     <string name="artists_prizes_button">Premios</string>
 
+    <!-- P05 / P05b Detalle de artista (HU04) -->
+    <string name="artist_back">Volver</string>
+    <string name="artist_birth_date">Nacimiento: %1$s</string>
+    <string name="artist_creation_date">Creación: %1$s</string>
+    <string name="artist_members_title">Integrantes</string>
+    <string name="artist_members_empty">Esta banda aún no tiene integrantes registrados.</string>
+    <string name="artist_albums_title">Álbumes</string>
+    <string name="artist_albums_empty">Este artista aún no tiene álbumes en el catálogo.</string>
+    <string name="artist_loading">Cargando artista…</string>
+
     <!-- Estados de error -->
     <string name="error_badge">Error de sincronización</string>
     <string name="error_albums_title">No pudimos cargar los álbumes</string>
     <string name="error_artists_title">No pudimos cargar los artistas</string>
+    <string name="error_artist_title">No pudimos cargar el artista</string>
+    <string name="error_artist_not_found">Este artista ya no está disponible en el catálogo.</string>
     <string name="error_no_connection">Ocurrió un problema de conexión con el servidor. Revisa tu conexión a internet e inténtalo nuevamente.</string>
     <string name="error_server">El servidor respondió con un error. Inténtalo nuevamente en unos minutos.</string>
     <string name="error_unknown">Ocurrió un error inesperado. Inténtalo nuevamente.</string>
