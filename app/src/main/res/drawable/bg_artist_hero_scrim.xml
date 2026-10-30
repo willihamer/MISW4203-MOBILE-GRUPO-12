@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Degradado sobre la foto del artista: oscurece arriba para los botones y se funde con el lienzo abajo. -->
+<!-- Velo sobre la foto del artista: oscurece arriba para que se lean los botones y se vuelve
+     transparente abajo, donde la foto ya se desvanece sobre el fondo de la pantalla. -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
     <gradient
         android:angle="270"
-        android:centerColor="#330A0A14"
-        android:endColor="@color/vn_background"
+        android:centerColor="#260A0A14"
+        android:endColor="#000A0A14"
         android:startColor="#800A0A14" />
 </shape>

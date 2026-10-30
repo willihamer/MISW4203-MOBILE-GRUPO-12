@@ -12,6 +12,7 @@ import co.edu.uniandes.vinilos.R
 import co.edu.uniandes.vinilos.data.model.Album
 import co.edu.uniandes.vinilos.data.model.Artist
 import co.edu.uniandes.vinilos.databinding.FragmentArtistDetailBinding
+import co.edu.uniandes.vinilos.ui.common.FadeBottomTransformation
 import co.edu.uniandes.vinilos.ui.common.UiState
 import co.edu.uniandes.vinilos.ui.common.remoteImage
 import co.edu.uniandes.vinilos.ui.common.render
@@ -76,7 +77,7 @@ class ArtistDetailFragment : Fragment(R.layout.fragment_artist_detail) {
         binding.heroImage.contentDescription = getString(R.string.artist_image_description, artist.name)
         Glide.with(binding.heroImage)
             .load(remoteImage(artist.image))
-            .centerCrop()
+            .transform(FadeBottomTransformation())
             .into(binding.heroImage)
 
         when (artist) {
