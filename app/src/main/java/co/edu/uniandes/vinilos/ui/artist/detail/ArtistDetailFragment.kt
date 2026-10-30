@@ -71,11 +71,11 @@ class ArtistDetailFragment : Fragment(R.layout.fragment_artist_detail) {
             is Artist.Musician -> R.drawable.ic_artist_placeholder_musician
             is Artist.Band -> R.drawable.ic_artist_placeholder_band
         }
+        // Sin placeholder en Glide: si la foto no carga, queda visible el ícono centrado de debajo.
+        binding.heroPlaceholder.setImageResource(placeholder)
         binding.heroImage.contentDescription = getString(R.string.artist_image_description, artist.name)
         Glide.with(binding.heroImage)
             .load(remoteImage(artist.image))
-            .placeholder(placeholder)
-            .error(placeholder)
             .centerCrop()
             .into(binding.heroImage)
 

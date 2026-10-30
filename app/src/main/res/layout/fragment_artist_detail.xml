@@ -24,12 +24,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/vn_artist_hero_height">
 
+                <!-- Ícono de respaldo: se ve mientras carga la foto o si la URL del backend falla -->
+                <ImageView
+                    android:id="@+id/hero_placeholder"
+                    android:layout_width="@dimen/vn_artist_hero_placeholder"
+                    android:layout_height="@dimen/vn_artist_hero_placeholder"
+                    android:layout_gravity="center"
+                    android:alpha="0.35"
+                    android:importantForAccessibility="no"
+                    tools:src="@drawable/ic_artist_placeholder_musician" />
+
                 <ImageView
                     android:id="@+id/hero_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    tools:src="@drawable/ic_artist_placeholder_musician" />
+                    android:scaleType="centerCrop" />
 
                 <View
                     android:layout_width="match_parent"

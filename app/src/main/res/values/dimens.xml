@@ -27,6 +27,7 @@
 
     <!-- Detalle de artista (HU04) -->
     <dimen name="vn_artist_hero_height">320dp</dimen>
+    <dimen name="vn_artist_hero_placeholder">120dp</dimen>
     <!-- Margen negativo: el nombre y los chips se superponen al final de la foto -->
     <dimen name="vn_artist_hero_overlap">-88dp</dimen>
     <dimen name="vn_artist_top_bar_height">72dp</dimen>
