@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Capa 2: hoja modal inferior con esquinas superiores de 32 dp. Es opaca porque
+     el sistema de Views no tiene desenfoque de fondo. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <corners
+        android:topLeftRadius="@dimen/vn_radius_sheet"
+        android:topRightRadius="@dimen/vn_radius_sheet" />
+    <solid android:color="#FF1B1B28" />
+    <stroke android:width="@dimen/vn_border" android:color="@color/vn_glass_border" />
+</shape>

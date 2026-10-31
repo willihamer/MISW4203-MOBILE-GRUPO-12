@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Disco de vinilo: surcos concéntricos y galleta central con el gradiente primario. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+    <path
+        android:fillColor="@color/vn_vinyl_black"
+        android:pathData="M0,100a100,100 0,1 0,200 0a100,100 0,1 0,-200 0z" />
+    <path
+        android:pathData="M8,100a92,92 0,1 0,184 0a92,92 0,1 0,-184 0z M18,100a82,82 0,1 0,164 0a82,82 0,1 0,-164 0z M28,100a72,72 0,1 0,144 0a72,72 0,1 0,-144 0z M38,100a62,62 0,1 0,124 0a62,62 0,1 0,-124 0z M48,100a52,52 0,1 0,104 0a52,52 0,1 0,-104 0z"
+        android:strokeWidth="1"
+        android:strokeColor="#1FFFFFFF" />
+    <path
+        android:pathData="M30,60 A82,82 0,0 1,100 18"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeColor="#26FFFFFF" />
+    <path android:pathData="M62,100a38,38 0,1 0,76 0a38,38 0,1 0,-76 0z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:endColor="@color/vn_secondary"
+                android:endX="138"
+                android:endY="138"
+                android:startColor="@color/vn_primary"
+                android:startX="62"
+                android:startY="62"
+                android:type="linear" />
+        </aapt:attr>
+    </path>
+    <path
+        android:pathData="M70,100a30,30 0,1 0,60 0a30,30 0,1 0,-60 0z"
+        android:strokeWidth="1"
+        android:strokeColor="#40FFFFFF" />
+    <path
+        android:fillColor="@color/vn_background"
+        android:pathData="M94,100a6,6 0,1 0,12 0a6,6 0,1 0,-12 0z" />
+</vector>

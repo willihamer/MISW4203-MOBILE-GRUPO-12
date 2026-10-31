@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- P04 Listado de artistas (HU03). -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- Encabezado: título, trofeo de premios y chip de perfil -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/vn_screen_margin"
+        android:paddingTop="@dimen/vn_space_md"
+        android:paddingEnd="@dimen/vn_screen_margin">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
+                android:text="@string/artists_title"
+                android:textAppearance="@style/TextAppearance.Vinilos.HeadlineLarge"
+                android:textSize="28sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/artists_subtitle"
+                android:textAppearance="@style/TextAppearance.Vinilos.BodyMedium" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/prizes_button"
+            style="@style/Widget.Vinilos.IconButton"
+            android:layout_marginEnd="@dimen/vn_space_sm"
+            android:contentDescription="@string/artists_prizes_button"
+            android:src="@drawable/ic_trophy" />
+
+        <include
+            android:id="@+id/profile_chip"
+            layout="@layout/view_profile_chip" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/search_field"
+        style="@style/Widget.Vinilos.TextField"
+        android:layout_width="match_parent"
+        android:layout_marginStart="@dimen/vn_screen_margin"
+        android:layout_marginTop="@dimen/vn_space_md"
+        android:layout_marginEnd="@dimen/vn_screen_margin"
+        android:autofillHints=""
+        android:drawableStart="@drawable/ic_search"
+        android:hint="@string/artists_search_hint"
+        android:imeOptions="actionSearch"
+        android:inputType="text" />
+
+    <!-- Filtro por tipo de artista (Todos / Músicos / Bandas) -->
+    <RadioGroup
+        android:id="@+id/type_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/vn_screen_margin"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="@dimen/vn_screen_margin"
+        android:background="@drawable/bg_filter_container"
+        android:checkedButton="@id/type_all"
+        android:orientation="horizontal"
+        android:padding="4dp">
+
+        <RadioButton
+            android:id="@+id/type_all"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/vn_chip_height"
+            android:layout_weight="1"
+            android:background="@drawable/bg_artist_filter_tab"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/artists_filter_all"
+            android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge"
+            android:textColor="@color/vn_chip_text" />
+
+        <RadioButton
+            android:id="@+id/type_musicians"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/vn_chip_height"
+            android:layout_weight="1"
+            android:background="@drawable/bg_artist_filter_tab"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/artists_filter_musicians"
+            android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge"
+            android:textColor="@color/vn_chip_text" />
+
+        <RadioButton
+            android:id="@+id/type_bands"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/vn_chip_height"
+            android:layout_weight="1"
+            android:background="@drawable/bg_artist_filter_tab"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/artists_filter_bands"
+            android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge"
+            android:textColor="@color/vn_chip_text" />
+    </RadioGroup>
+
+    <!-- Contenido: lista, cargando, vacío o error -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/vn_space_sm"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/artist_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="@dimen/vn_space_sm"
+            android:paddingBottom="@dimen/vn_bottom_bar_clearance"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_artist" />
+
+        <include
+            android:id="@+id/loading"
+            layout="@layout/view_artist_list_loading"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/empty"
+            layout="@layout/view_state_empty"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/error"
+            layout="@layout/view_state_error"
+            android:visibility="gone" />
+    </FrameLayout>
+</LinearLayout>

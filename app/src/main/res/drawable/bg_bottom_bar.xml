@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Capa 3: barra de navegación flotante en píldora. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <corners android:radius="@dimen/vn_radius_pill" />
+    <solid android:color="#EB1A1A26" />
+    <stroke android:width="@dimen/vn_border" android:color="@color/vn_glass_border" />
+</shape>

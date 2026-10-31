@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Widget.Vinilos.SectionTitle" parent="Widget.Vinilos.SectionTitle.Base">
+        <item name="android:accessibilityHeading">true</item>
+    </style>
+</resources>
