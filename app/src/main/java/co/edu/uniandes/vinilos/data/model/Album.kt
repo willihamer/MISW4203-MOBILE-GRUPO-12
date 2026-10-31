@@ -11,6 +11,7 @@ data class Album(
     val genre: Genre?,
     val recordLabel: String,
     val performers: List<Performer> = emptyList(),
+    val tracks: List<Track> = emptyList(),
 ) {
     val releaseYear: Int? get() = releaseDate?.year
 }
@@ -32,4 +33,7 @@ data class Performer(
     val id: Int,
     val name: String,
     val image: String,
+    val type: ArtistType? = null,
 )
+
+data class Track(val id: Int, val name: String, val duration: String)

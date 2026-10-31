@@ -14,6 +14,14 @@ class AlbumRepository(
     private val network: NetworkServiceAdapter,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
+    private val detailCache = java.util.concurrent.ConcurrentHashMap<Int, Album>()
+
+    suspend fun getAlbum(id: Int, forceRefresh: Boolean = false): Album = withContext(dispatcher) {
+        val cached = detailCache[id]
+        if (cached != null && !forceRefresh) cached
+        else network.getAlbum(id).also { detailCache[id] = it }
+    }
+
     @Volatile
     private var albumsCache: List<Album>? = null
 

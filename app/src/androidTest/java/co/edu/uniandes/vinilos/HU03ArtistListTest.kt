@@ -11,6 +11,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import co.edu.uniandes.vinilos.testutil.awaitView
 import co.edu.uniandes.vinilos.testutil.VinilosTestRule
 import org.hamcrest.Matchers.allOf
 import org.junit.Before
@@ -21,8 +22,7 @@ import org.junit.runner.RunWith
 /**
  * HU03 - Consultar listado de artistas.
  *
- * Requiere BackVynils corriendo en el computador (puerto 3000) con sus datos de prueba,
- * accesible desde el emulador en http://10.0.2.2:3000/.
+ * Requiere BackVynils con sus datos semilla en la URL configurada por VINILOS_BASE_URL.
  */
 @RunWith(AndroidJUnit4::class)
 class HU03ArtistListTest {
@@ -33,7 +33,7 @@ class HU03ArtistListTest {
     @Before
     fun enterAsVisitorAndNavigateToArtists() {
         onView(withText(R.string.welcome_visitor_title)).perform(click())
-        onView(withText(R.string.nav_artists)).perform(click())
+        onView(withId(R.id.tab_artists)).perform(click())
     }
 
     @Test
@@ -58,11 +58,13 @@ class HU03ArtistListTest {
         // Filtrar por Músicos
         onView(withText(R.string.artists_filter_musicians)).perform(click())
         onView(withText("Rubén Blades Bellido de Luna")).check(matches(isDisplayed()))
+        awaitView(withText("Queen"), present = false)
         onView(withText("Queen")).check(doesNotExist())
 
         // Filtrar por Bandas
         onView(withText(R.string.artists_filter_bands)).perform(click())
         onView(withText("Queen")).check(matches(isDisplayed()))
+        awaitView(withText("Rubén Blades Bellido de Luna"), present = false)
         onView(withText("Rubén Blades Bellido de Luna")).check(doesNotExist())
 
         // Volver a Todos
@@ -76,6 +78,7 @@ class HU03ArtistListTest {
         onView(withId(R.id.search_field)).perform(replaceText("ruben"), closeSoftKeyboard())
 
         onView(withText("Rubén Blades Bellido de Luna")).check(matches(isDisplayed()))
+        awaitView(withText("Queen"), present = false)
         onView(withText("Queen")).check(doesNotExist())
     }
 
@@ -90,10 +93,10 @@ class HU03ArtistListTest {
     fun navegaEntreCatalogoDeAlbumesYArtistas() {
         onView(withId(R.id.bottom_bar)).check(matches(isDisplayed()))
 
-        onView(withText(R.string.nav_albums)).perform(click())
+        onView(withId(R.id.tab_albums)).perform(click())
         onView(withText("Buscando América")).check(matches(isDisplayed()))
 
-        onView(withText(R.string.nav_artists)).perform(click())
+        onView(withId(R.id.tab_artists)).perform(click())
         onView(withText("Rubén Blades Bellido de Luna")).check(matches(isDisplayed()))
     }
 }
