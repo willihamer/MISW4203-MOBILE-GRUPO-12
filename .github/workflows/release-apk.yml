@@ -34,8 +34,8 @@ jobs:
         with:
           packages: 'platform-tools'
 
-      - name: Instalar plataforma Android
-        run: sdkmanager "platforms;android-37"
+      - name: Instalar plataforma y Build Tools
+        run: sdkmanager "platforms;android-37.0" "build-tools;36.0.0"
 
       - name: Compilar y validar
         run: bash ./gradlew --no-daemon assembleDebug testDebugUnitTest lintDebug
