@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Componentes del design system "Vinilos Liquid Dark". -->
+<resources>
+
+    <!-- Botón primario: píldora con gradiente violeta a cian. -->
+    <style name="Widget.Vinilos.Button.Primary" parent="Widget.Material3.Button">
+        <item name="android:background">@drawable/bg_button_primary</item>
+        <item name="backgroundTint">@null</item>
+        <item name="android:minHeight">@dimen/vn_button_height</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingStart">@dimen/vn_space_lg</item>
+        <item name="android:paddingEnd">@dimen/vn_space_lg</item>
+        <item name="android:textAppearance">@style/TextAppearance.Vinilos.LabelLarge</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/vn_on_surface</item>
+        <item name="iconTint">@color/vn_on_surface</item>
+        <item name="iconPadding">@dimen/vn_space_sm</item>
+        <item name="rippleColor">@color/vn_glass_strong</item>
+    </style>
+
+    <!-- Botón secundario: píldora de vidrio con borde. -->
+    <style name="Widget.Vinilos.Button.Secondary" parent="Widget.Vinilos.Button.Primary">
+        <item name="android:background">@drawable/bg_button_secondary</item>
+    </style>
+
+    <!-- Botón de ícono: círculo de vidrio de 48 dp. -->
+    <style name="Widget.Vinilos.IconButton" parent="">
+        <item name="android:layout_width">@dimen/vn_touch_target</item>
+        <item name="android:layout_height">@dimen/vn_touch_target</item>
+        <item name="android:background">@drawable/bg_glass_circle</item>
+        <item name="android:scaleType">center</item>
+        <item name="tint">@color/vn_on_surface</item>
+    </style>
+
+    <!-- Chip de filtro (RadioButton dentro de un RadioGroup). -->
+    <style name="Widget.Vinilos.Chip" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/vn_chip_height</item>
+        <item name="android:layout_marginEnd">@dimen/vn_space_sm</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/bg_chip</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingStart">18dp</item>
+        <item name="android:paddingEnd">18dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.Vinilos.LabelLarge</item>
+        <item name="android:textColor">@color/vn_chip_text</item>
+    </style>
+
+    <!-- Campo de búsqueda / entrada de texto. -->
+    <style name="Widget.Vinilos.TextField" parent="">
+        <item name="android:layout_height">@dimen/vn_input_height</item>
+        <item name="android:background">@drawable/bg_input</item>
+        <item name="android:paddingStart">@dimen/vn_space_md</item>
+        <item name="android:paddingEnd">@dimen/vn_space_md</item>
+        <item name="android:drawablePadding">12dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.Vinilos.BodyLarge</item>
+        <item name="android:textColor">@color/vn_on_surface</item>
+        <item name="android:textColorHint">@color/vn_on_surface_subtle</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <!-- Pestaña de la barra inferior: píldora con gradiente cuando está seleccionada. -->
+    <style name="Widget.Vinilos.Tab" parent="">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/bg_tab</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="Widget.Vinilos.Tab.Icon" parent="">
+        <item name="android:layout_width">22dp</item>
+        <item name="android:layout_height">22dp</item>
+        <item name="android:duplicateParentState">true</item>
+        <item name="tint">@color/vn_tab_content</item>
+    </style>
+
+    <style name="Widget.Vinilos.Tab.Label" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:duplicateParentState">true</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textAppearance">@style/TextAppearance.Vinilos.LabelMedium</item>
+        <item name="android:textColor">@color/vn_tab_content</item>
+    </style>
+
+    <!-- Portada con esquinas de 16 dp (ShapeableImageView). -->
+    <style name="ShapeAppearance.Vinilos.Cover" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <!-- Insignia en píldora (p. ej. "HI-FI AUDIO EXPERIENCE", "PRO"). -->
+    <style name="Widget.Vinilos.Badge" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_badge</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.Vinilos.Overline</item>
+    </style>
+
+    <!-- Título de sección con ícono de acento (p. ej. "Integrantes", "Álbumes"). -->
+    <style name="Widget.Vinilos.SectionTitle.Base" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/vn_screen_margin</item>
+        <item name="android:layout_marginEnd">@dimen/vn_screen_margin</item>
+        <item name="android:drawablePadding">@dimen/vn_space_sm</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textAppearance">@style/TextAppearance.Vinilos.HeadlineMedium</item>
+        <item name="drawableTint">@color/vn_secondary</item>
+    </style>
+
+    <style name="Widget.Vinilos.SectionTitle" parent="Widget.Vinilos.SectionTitle.Base" />
+
+    <!-- Mensaje de sección sin contenido (p. ej. banda sin integrantes registrados). -->
+    <style name="Widget.Vinilos.SectionEmpty" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/vn_screen_margin</item>
+        <item name="android:layout_marginTop">@dimen/vn_space_sm</item>
+        <item name="android:layout_marginEnd">@dimen/vn_screen_margin</item>
+        <item name="android:background">@drawable/bg_glass_card</item>
+        <item name="android:padding">@dimen/vn_space_md</item>
+        <item name="android:textAppearance">@style/TextAppearance.Vinilos.BodyMedium</item>
+    </style>
+</resources>

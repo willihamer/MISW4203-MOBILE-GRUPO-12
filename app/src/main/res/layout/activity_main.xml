@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost="true" />
+
+    <!-- Barra de navegación inferior flotante (píldora de vidrio). -->
+    <LinearLayout
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/vn_bottom_bar_height"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="@dimen/vn_space_md"
+        android:layout_marginEnd="@dimen/vn_space_md"
+        android:layout_marginBottom="@dimen/vn_space_md"
+        android:background="@drawable/bg_bottom_bar"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        android:padding="6dp"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/tab_albums"
+            style="@style/Widget.Vinilos.Tab">
+
+            <ImageView
+                style="@style/Widget.Vinilos.Tab.Icon"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_album" />
+
+            <TextView
+                style="@style/Widget.Vinilos.Tab.Label"
+                android:text="@string/nav_albums" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tab_artists"
+            style="@style/Widget.Vinilos.Tab">
+
+            <ImageView
+                style="@style/Widget.Vinilos.Tab.Icon"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_mic" />
+
+            <TextView
+                style="@style/Widget.Vinilos.Tab.Label"
+                android:text="@string/nav_artists" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tab_collectors"
+            style="@style/Widget.Vinilos.Tab">
+
+            <ImageView
+                style="@style/Widget.Vinilos.Tab.Icon"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_people" />
+
+            <TextView
+                style="@style/Widget.Vinilos.Tab.Label"
+                android:text="@string/nav_collectors" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

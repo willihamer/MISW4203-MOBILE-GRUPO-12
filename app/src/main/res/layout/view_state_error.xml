@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Estado de error con reintento (componente del design system). -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="false">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/vn_screen_margin"
+        android:layout_marginTop="@dimen/vn_space_lg"
+        android:layout_marginEnd="@dimen/vn_screen_margin"
+        android:layout_marginBottom="@dimen/vn_bottom_bar_clearance"
+        android:background="@drawable/bg_glass_card"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="@dimen/vn_space_lg">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_vinyl_broken" />
+
+            <ImageView
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_gravity="bottom|end"
+                android:background="@drawable/bg_glass_circle"
+                android:importantForAccessibility="no"
+                android:scaleType="center"
+                android:src="@drawable/ic_wifi_off" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/vn_space_lg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:background="@drawable/bg_dot_error" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/vn_space_sm"
+                android:text="@string/error_badge"
+                android:textAppearance="@style/TextAppearance.Vinilos.Overline"
+                android:textColor="@color/vn_error" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/error_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/vn_space_sm"
+            android:gravity="center"
+            android:text="@string/error_albums_title"
+            android:textAppearance="@style/TextAppearance.Vinilos.HeadlineLarge" />
+
+        <TextView
+            android:id="@+id/error_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/vn_space_sm"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.Vinilos.BodyLarge" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/retry_button"
+            style="@style/Widget.Vinilos.Button.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/vn_space_lg"
+            android:text="@string/retry"
+            app:icon="@drawable/ic_refresh"
+            app:iconGravity="textStart" />
+    </LinearLayout>
+</ScrollView>

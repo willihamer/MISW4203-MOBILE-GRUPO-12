@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- P02 / P02c Catálogo de álbumes (HU01). -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- Encabezado: título, búsqueda y chip de perfil -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/vn_screen_margin"
+        android:paddingTop="@dimen/vn_space_md"
+        android:paddingEnd="@dimen/vn_screen_margin">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
+                android:text="@string/albums_title"
+                android:textAppearance="@style/TextAppearance.Vinilos.HeadlineLarge"
+                android:textSize="28sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/albums_subtitle"
+                android:textAppearance="@style/TextAppearance.Vinilos.BodyMedium" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/search_button"
+            style="@style/Widget.Vinilos.IconButton"
+            android:layout_marginEnd="@dimen/vn_space_sm"
+            android:contentDescription="@string/albums_search"
+            android:src="@drawable/ic_search" />
+
+        <include
+            android:id="@+id/profile_chip"
+            layout="@layout/view_profile_chip" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/search_field"
+        style="@style/Widget.Vinilos.TextField"
+        android:layout_width="match_parent"
+        android:layout_marginStart="@dimen/vn_screen_margin"
+        android:layout_marginTop="@dimen/vn_space_md"
+        android:layout_marginEnd="@dimen/vn_screen_margin"
+        android:autofillHints=""
+        android:drawableStart="@drawable/ic_search"
+        android:hint="@string/albums_search_hint"
+        android:imeOptions="actionSearch"
+        android:inputType="text" />
+
+    <!-- Filtro por género -->
+    <HorizontalScrollView
+        android:id="@+id/genre_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:clipToPadding="false"
+        android:paddingStart="@dimen/vn_screen_margin"
+        android:paddingEnd="@dimen/vn_screen_margin"
+        android:scrollbars="none">
+
+        <RadioGroup
+            android:id="@+id/genre_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkedButton="@id/genre_all"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/genre_all"
+                style="@style/Widget.Vinilos.Chip"
+                android:text="@string/albums_filter_all" />
+
+            <RadioButton
+                android:id="@+id/genre_salsa"
+                style="@style/Widget.Vinilos.Chip"
+                android:text="@string/genre_salsa" />
+
+            <RadioButton
+                android:id="@+id/genre_rock"
+                style="@style/Widget.Vinilos.Chip"
+                android:text="@string/genre_rock" />
+
+            <RadioButton
+                android:id="@+id/genre_folk"
+                style="@style/Widget.Vinilos.Chip"
+                android:text="@string/genre_folk" />
+
+            <RadioButton
+                android:id="@+id/genre_classical"
+                style="@style/Widget.Vinilos.Chip"
+                android:text="@string/genre_classical" />
+        </RadioGroup>
+    </HorizontalScrollView>
+
+    <!-- Contenido: lista, cargando, vacío o error -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/vn_space_sm"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/album_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingStart="10dp"
+            android:paddingTop="@dimen/vn_space_sm"
+            android:paddingEnd="10dp"
+            android:paddingBottom="@dimen/vn_bottom_bar_clearance"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2" />
+
+        <include
+            android:id="@+id/loading"
+            layout="@layout/view_album_list_loading"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/empty"
+            layout="@layout/view_state_empty"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/error"
+            layout="@layout/view_state_error"
+            android:visibility="gone" />
+    </FrameLayout>
+</LinearLayout>

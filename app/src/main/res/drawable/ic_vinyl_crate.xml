@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ilustración del estado vacío: vinilo asomando de una caja de vidrio. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="180dp"
+    android:height="160dp"
+    android:viewportWidth="220"
+    android:viewportHeight="200">
+    <path
+        android:fillColor="@color/vn_vinyl_black"
+        android:pathData="M50,80a60,60 0,1 0,120 0a60,60 0,1 0,-120 0z" />
+    <path
+        android:pathData="M60,80a50,50 0,1 0,100 0a50,50 0,1 0,-100 0z M72,80a38,38 0,1 0,76 0a38,38 0,1 0,-76 0z"
+        android:strokeWidth="1"
+        android:strokeColor="#1FFFFFFF" />
+    <path
+        android:fillColor="@color/vn_primary"
+        android:pathData="M94,80a16,16 0,1 0,32 0a16,16 0,1 0,-32 0z" />
+    <path
+        android:fillColor="@color/vn_background"
+        android:pathData="M106,80a4,4 0,1 0,8 0a4,4 0,1 0,-8 0z" />
+    <path
+        android:fillColor="#3322D3EE"
+        android:pathData="M30,110 L190,110 L190,180 L30,180 Z"
+        android:strokeWidth="1.5"
+        android:strokeColor="@color/vn_secondary" />
+    <path
+        android:fillColor="#59FFFFFF"
+        android:pathData="M90,135 L130,135 A6,6 0,0 1,130 147 L90,147 A6,6 0,0 1,90 135 Z" />
+    <path
+        android:fillColor="#33EC4899"
+        android:pathData="M40,192 L180,192 A8,4 0,0 1,180 200 L40,200 A8,4 0,0 1,40 192 Z" />
+</vector>

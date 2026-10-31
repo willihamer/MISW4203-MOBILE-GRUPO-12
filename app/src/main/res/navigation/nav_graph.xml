@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/welcomeFragment">
+
+    <!-- P01 Bienvenida: escoger perfil -->
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="co.edu.uniandes.vinilos.ui.profile.WelcomeFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_welcome">
+        <action
+            android:id="@+id/action_welcome_to_albums"
+            app:destination="@id/albumListFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/welcomeFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_welcome_to_collectorPicker"
+            app:destination="@id/collectorPickerDialog" />
+    </fragment>
+
+    <!-- P01b ¿Quién eres? -->
+    <dialog
+        android:id="@+id/collectorPickerDialog"
+        android:name="co.edu.uniandes.vinilos.ui.profile.CollectorPickerBottomSheet"
+        tools:layout="@layout/sheet_collector_picker">
+        <action
+            android:id="@+id/action_collectorPicker_to_albums"
+            app:destination="@id/albumListFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/welcomeFragment"
+            app:popUpToInclusive="true" />
+    </dialog>
+
+    <!-- P02 Catálogo de álbumes (HU01) -->
+    <fragment
+        android:id="@+id/albumListFragment"
+        android:name="co.edu.uniandes.vinilos.ui.album.list.AlbumListFragment"
+        android:label="@string/albums_title"
+        tools:layout="@layout/fragment_album_list" />
+
+    <fragment
+        android:id="@+id/albumDetailFragment"
+        android:name="co.edu.uniandes.vinilos.ui.album.detail.AlbumDetailFragment"
+        android:label="@string/album_detail_title"
+        tools:layout="@layout/fragment_album_detail">
+        <argument android:name="albumId" app:argType="integer" />
+    </fragment>
+
+    <!-- P04 Listado de artistas (HU03) -->
+    <fragment
+        android:id="@+id/artistListFragment"
+        android:name="co.edu.uniandes.vinilos.ui.artist.list.ArtistListFragment"
+        android:label="@string/nav_artists"
+        tools:layout="@layout/fragment_artist_list">
+        <action
+            android:id="@+id/action_artistList_to_artistDetail"
+            app:destination="@id/artistDetailFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+
+    <!-- P05 Detalle de músico y P05b Detalle de banda (HU04) -->
+    <fragment
+        android:id="@+id/artistDetailFragment"
+        android:name="co.edu.uniandes.vinilos.ui.artist.detail.ArtistDetailFragment"
+        android:label="@string/nav_artists"
+        tools:layout="@layout/fragment_artist_detail">
+        <!-- De una banda al detalle de uno de sus integrantes -->
+        <action
+            android:id="@+id/action_artistDetail_to_artistDetail"
+            app:destination="@id/artistDetailFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <argument
+            android:name="artistId"
+            app:argType="integer" />
+        <!-- Nombre de ArtistType: MUSICIAN o BAND -->
+        <argument
+            android:name="artistType"
+            app:argType="string" />
+    </fragment>
+
+    <!-- P06 Coleccionistas (HU05) -->
+    <fragment
+        android:id="@+id/collectorListFragment"
+        android:name="co.edu.uniandes.vinilos.ui.common.ComingSoonFragment"
+        android:label="@string/nav_collectors"
+        tools:layout="@layout/fragment_coming_soon">
+        <argument
+            android:name="title"
+            android:defaultValue="@string/nav_collectors"
+            app:argType="reference" />
+        <argument
+            android:name="message"
+            android:defaultValue="@string/coming_soon_collectors"
+            app:argType="reference" />
+    </fragment>
+
+    <!-- Cambiar perfil desde cualquier pantalla: vuelve a P01 y limpia la pila -->
+    <action
+        android:id="@+id/action_global_welcome"
+        app:destination="@id/welcomeFragment"
+        app:enterAnim="@android:anim/fade_in"
+        app:exitAnim="@android:anim/fade_out"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
+</navigation>

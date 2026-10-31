@@ -1,0 +1,53 @@
+name: APK del release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-apk-${{ github.event.release.id }}
+  cancel-in-progress: false
+
+jobs:
+  apk:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Obtener código de la etiqueta
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+
+      - name: Configurar Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: gradle
+
+      - name: Configurar Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Instalar plataforma Android
+        run: sdkmanager "platforms;android-37"
+
+      - name: Compilar y validar
+        run: bash ./gradlew --no-daemon assembleDebug testDebugUnitTest lintDebug
+
+      - name: Preparar APK
+        run: |
+          mkdir -p release-assets
+          cp app/build/outputs/apk/debug/app-debug.apk release-assets/vinilos-debug.apk
+          cd release-assets
+          sha256sum vinilos-debug.apk > vinilos-debug.apk.sha256
+
+      - name: Adjuntar APK al release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: gh release upload "$RELEASE_TAG" release-assets/vinilos-debug.apk release-assets/vinilos-debug.apk.sha256
