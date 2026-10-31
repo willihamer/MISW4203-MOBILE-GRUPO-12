@@ -12,6 +12,9 @@ interface VinilosApi {
     @GET("albums")
     suspend fun getAlbums(): List<AlbumDto>
 
+    @GET("albums/{id}")
+    suspend fun getAlbum(@Path("id") id: Int): AlbumDto
+
     @GET("collectors")
     suspend fun getCollectors(): List<CollectorDto>
 

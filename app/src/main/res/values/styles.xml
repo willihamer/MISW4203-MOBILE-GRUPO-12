@@ -108,17 +108,18 @@
     </style>
 
     <!-- Título de sección con ícono de acento (p. ej. "Integrantes", "Álbumes"). -->
-    <style name="Widget.Vinilos.SectionTitle" parent="">
+    <style name="Widget.Vinilos.SectionTitle.Base" parent="">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/vn_screen_margin</item>
         <item name="android:layout_marginEnd">@dimen/vn_screen_margin</item>
-        <item name="android:accessibilityHeading">true</item>
         <item name="android:drawablePadding">@dimen/vn_space_sm</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:textAppearance">@style/TextAppearance.Vinilos.HeadlineMedium</item>
         <item name="drawableTint">@color/vn_secondary</item>
     </style>
+
+    <style name="Widget.Vinilos.SectionTitle" parent="Widget.Vinilos.SectionTitle.Base" />
 
     <!-- Mensaje de sección sin contenido (p. ej. banda sin integrantes registrados). -->
     <style name="Widget.Vinilos.SectionEmpty" parent="">

@@ -16,6 +16,8 @@ class NetworkServiceAdapter(private val api: VinilosApi) {
 
     suspend fun getAlbums(): List<Album> = call { api.getAlbums().map { it.toModel() } }
 
+    suspend fun getAlbum(id: Int): Album = call { api.getAlbum(id).toModel() }
+
     suspend fun getCollectors(): List<Collector> = call { api.getCollectors().map { it.toModel() } }
 
     suspend fun getMusicians(): List<Artist.Musician> = call { api.getMusicians().map { it.toModel() } }

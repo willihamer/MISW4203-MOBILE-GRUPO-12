@@ -143,8 +143,10 @@ class AlbumListFragment : Fragment(R.layout.fragment_album_list) {
     }
 
     private fun openAlbum(album: Album) {
-        // El detalle del álbum (P03) es la HU02. Cuando exista su destino en el nav_graph,
-        // aquí se navega con el argumento albumId = album.id.
+        findNavController().navigate(
+            R.id.albumDetailFragment,
+            androidx.core.os.bundleOf("albumId" to album.id),
+        )
     }
 
     override fun onDestroyView() {

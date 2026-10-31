@@ -16,11 +16,15 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "co.edu.uniandes.vinilos.testutil.VinilosTestRunner"
 
-        // Backend local en Docker visto desde el emulador. Para un dispositivo físico
-        // se cambia por la IP del computador en la red local.
-        buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:3000/\"")
+        // Puede sobrescribirse con -PVINILOS_BASE_URL=http://10.0.2.2:3000/
+        val backendUrl = providers.gradleProperty("VINILOS_BASE_URL")
+            .orElse("https://vinilos-api-926692321600.us-east4.run.app/").get()
+        require(backendUrl.matches(Regex("https?://[A-Za-z0-9.:-]+/"))) {
+            "VINILOS_BASE_URL debe ser una URL HTTP(S) con / final y sin credenciales"
+        }
+        buildConfigField("String", "BASE_URL", "\"$backendUrl\"")
     }
 
     buildTypes {
@@ -73,6 +77,7 @@ dependencies {
     testImplementation(libs.androidx.arch.core.testing)
     testImplementation(libs.kotlinx.coroutines.test)
 
+    androidTestImplementation(libs.okhttp.mockwebserver)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.androidx.test.rules)

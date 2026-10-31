@@ -22,8 +22,7 @@ import org.junit.runner.RunWith
 /**
  * HU04 - Consultar detalle de un artista.
  *
- * Requiere BackVynils corriendo en el computador (puerto 3000) con sus datos de prueba,
- * accesible desde el emulador en http://10.0.2.2:3000/. En esos datos Rubén Blades tiene
+ * Requiere BackVynils con sus datos semilla en la URL configurada por VINILOS_BASE_URL. En esos datos Rubén Blades tiene
  * los álbumes "Buscando América" y "Poeta del pueblo", y Queen "A Night at the Opera" y
  * "A Day at the Races", sin integrantes registrados.
  */
@@ -37,7 +36,7 @@ class HU04ArtistDetailTest {
     @Before
     fun enterAsVisitorAndNavigateToArtists() {
         onView(withText(R.string.welcome_visitor_title)).perform(click())
-        onView(withText(R.string.nav_artists)).perform(click())
+        onView(withId(R.id.tab_artists)).perform(click())
     }
 
     @Test

@@ -44,6 +44,14 @@
         android:label="@string/albums_title"
         tools:layout="@layout/fragment_album_list" />
 
+    <fragment
+        android:id="@+id/albumDetailFragment"
+        android:name="co.edu.uniandes.vinilos.ui.album.detail.AlbumDetailFragment"
+        android:label="@string/album_detail_title"
+        tools:layout="@layout/fragment_album_detail">
+        <argument android:name="albumId" app:argType="integer" />
+    </fragment>
+
     <!-- P04 Listado de artistas (HU03) -->
     <fragment
         android:id="@+id/artistListFragment"

@@ -15,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 /** Inyección de dependencias manual: crea una sola instancia de cada servicio. */
-class AppContainer(context: Context) {
+class AppContainer(context: Context, baseUrl: String = BuildConfig.BASE_URL) {
 
     private val okHttpClient = OkHttpClient.Builder()
         .connectTimeout(15, TimeUnit.SECONDS)
@@ -28,7 +28,7 @@ class AppContainer(context: Context) {
         .build()
 
     private val api: VinilosApi = Retrofit.Builder()
-        .baseUrl(BuildConfig.BASE_URL)
+        .baseUrl(baseUrl)
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()

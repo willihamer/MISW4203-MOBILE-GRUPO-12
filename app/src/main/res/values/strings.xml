@@ -96,4 +96,16 @@
     <!-- Accesibilidad -->
     <string name="cd_close">Cerrar</string>
     <string name="cd_vinyl">Disco de vinilo</string>
+    <string name="album_detail_title">Detalle del álbum</string>
+    <string name="album_about">Acerca del álbum</string>
+    <string name="album_tracks">Canciones</string>
+    <string name="album_tracks_empty">Este álbum aún no tiene tracks registrados.</string>
+    <string name="album_artists_empty">Este álbum aún no tiene artistas registrados.</string>
+    <string name="album_release_date">Lanzamiento: %1$s</string>
+    <string name="album_record_label">Sello: %1$s</string>
+    <string name="album_genre">Género: %1$s</string>
+    <string name="album_loading">Cargando álbum…</string>
+    <string name="error_album_not_found">Este álbum ya no está disponible en el catálogo.</string>
+    <string name="album_tracks_row">%1$s · %2$s</string>
+    <string name="album_unknown_date">No disponible</string>
 </resources>

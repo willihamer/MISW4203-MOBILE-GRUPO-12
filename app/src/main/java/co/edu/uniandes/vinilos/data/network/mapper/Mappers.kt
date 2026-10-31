@@ -1,5 +1,7 @@
 package co.edu.uniandes.vinilos.data.network.mapper
 
+import co.edu.uniandes.vinilos.data.model.Track
+import co.edu.uniandes.vinilos.data.model.ArtistType
 import co.edu.uniandes.vinilos.data.model.Album
 import co.edu.uniandes.vinilos.data.model.Artist
 import co.edu.uniandes.vinilos.data.model.Collector
@@ -22,12 +24,18 @@ fun AlbumDto.toModel() = Album(
     genre = Genre.fromApi(genre),
     recordLabel = recordLabel.orEmpty(),
     performers = performers.orEmpty().map { it.toModel() },
+    tracks = tracks.orEmpty().map { Track(it.id ?: 0, it.name.orEmpty(), it.duration.orEmpty()) },
 )
 
 fun PerformerDto.toModel() = Performer(
     id = id ?: 0,
     name = name.orEmpty(),
     image = image.orEmpty(),
+    type = when {
+        birthDate != null -> ArtistType.MUSICIAN
+        creationDate != null -> ArtistType.BAND
+        else -> null
+    },
 )
 
 fun CollectorDto.toModel() = Collector(

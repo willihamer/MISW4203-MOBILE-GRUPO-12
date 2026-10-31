@@ -12,6 +12,7 @@ import retrofit2.Response
 
 /** Doble de la API: cada prueba decide qué responde o qué excepción lanza. */
 class FakeVinilosApi(
+    var album: (Int) -> AlbumDto = { id -> SampleData.albums.firstOrNull { it.id == id } ?: throw notFound() },
     var albums: () -> List<AlbumDto> = { emptyList() },
     var collectors: () -> List<CollectorDto> = { emptyList() },
     var musicians: () -> List<MusicianDto> = { emptyList() },
@@ -19,6 +20,13 @@ class FakeVinilosApi(
     var musician: (Int) -> MusicianDto = { id -> SampleData.musicianDetails[id] ?: throw notFound() },
     var band: (Int) -> BandDto = { id -> SampleData.bandDetails[id] ?: throw notFound() },
 ) : VinilosApi {
+    var albumDetailCalls = 0
+        private set
+    override suspend fun getAlbum(id: Int): AlbumDto {
+        albumDetailCalls++
+        return album(id)
+    }
+
     var albumCalls = 0
         private set
     var musicianCalls = 0
