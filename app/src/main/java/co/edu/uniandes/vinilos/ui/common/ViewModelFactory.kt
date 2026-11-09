@@ -1,6 +1,8 @@
 package co.edu.uniandes.vinilos.ui.common
 
 import co.edu.uniandes.vinilos.ui.album.detail.AlbumDetailViewModel
+import co.edu.uniandes.vinilos.ui.collector.list.CollectorListViewModel
+import co.edu.uniandes.vinilos.ui.collector.detail.CollectorDetailViewModel
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -32,6 +34,10 @@ class ViewModelFactory(private val container: AppContainer) : ViewModelProvider.
     /** Los ViewModels de detalle reciben los argumentos de navegación en un [SavedStateHandle]. */
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T = when {
+        modelClass.isAssignableFrom(CollectorListViewModel::class.java) ->
+            CollectorListViewModel(container.collectorRepository, extras.createSavedStateHandle()) as T
+        modelClass.isAssignableFrom(CollectorDetailViewModel::class.java) ->
+            CollectorDetailViewModel(container.collectorRepository, extras.createSavedStateHandle()) as T
         modelClass.isAssignableFrom(AlbumDetailViewModel::class.java) ->
             AlbumDetailViewModel(container.albumRepository, extras.createSavedStateHandle()) as T
         modelClass.isAssignableFrom(ArtistDetailViewModel::class.java) ->
