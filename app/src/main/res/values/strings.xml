@@ -108,4 +108,15 @@
     <string name="error_album_not_found">Este álbum ya no está disponible en el catálogo.</string>
     <string name="album_tracks_row">%1$s · %2$s</string>
     <string name="album_unknown_date">No disponible</string>
+    <string name="collectors_subtitle">Conoce a otros amantes del vinilo</string>
+    <string name="collectors_search_hint">Buscar coleccionista</string>
+    <string name="collectors_loading">Cargando coleccionistas…</string>
+    <string name="collectors_empty_title">Aún no hay coleccionistas</string>
+    <string name="collectors_empty_message">Los coleccionistas registrados aparecerán aquí.</string>
+    <string name="collectors_no_results_title">No encontramos coleccionistas</string>
+    <string name="collectors_no_results_message">Prueba con otro nombre.</string>
+    <string name="error_collectors_title">No pudimos cargar los coleccionistas</string>
+    <string name="error_collector_title">No pudimos cargar el coleccionista</string>
+    <string name="error_collector_not_found">Este coleccionista ya no está disponible.</string>
+    <string name="collector_detail_title">Detalle del coleccionista</string>
 </resources>

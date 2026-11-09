@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- P06 Listado de coleccionistas (HU05). -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/vn_screen_margin"
+        android:paddingTop="@dimen/vn_space_md"
+        android:paddingEnd="@dimen/vn_screen_margin">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nav_collectors"
+                android:textAppearance="@style/TextAppearance.Vinilos.HeadlineLarge"
+                android:textSize="28sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/collectors_subtitle"
+                android:textAppearance="@style/TextAppearance.Vinilos.BodyMedium" />
+        </LinearLayout>
+
+        <include
+            android:id="@+id/profile_chip"
+            layout="@layout/view_profile_chip" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/search_field"
+        style="@style/Widget.Vinilos.TextField"
+        android:layout_width="match_parent"
+        android:layout_marginStart="@dimen/vn_screen_margin"
+        android:layout_marginTop="@dimen/vn_space_md"
+        android:layout_marginEnd="@dimen/vn_screen_margin"
+        android:autofillHints=""
+        android:drawableStart="@drawable/ic_search"
+        android:hint="@string/collectors_search_hint"
+        android:imeOptions="actionSearch"
+        android:inputType="text" />
+
+    <!-- Contenido: lista, cargando, vacío o error -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/vn_space_sm"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/collector_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="@dimen/vn_space_sm"
+            android:paddingBottom="@dimen/vn_bottom_bar_clearance"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_collector" />
+
+        <include
+            android:id="@+id/loading"
+            layout="@layout/view_collector_list_loading"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/empty"
+            layout="@layout/view_state_empty"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/error"
+            layout="@layout/view_state_error"
+            android:visibility="gone" />
+    </FrameLayout>
+</LinearLayout>
