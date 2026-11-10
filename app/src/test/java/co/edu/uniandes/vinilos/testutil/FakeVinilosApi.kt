@@ -4,6 +4,7 @@ import co.edu.uniandes.vinilos.data.network.VinilosApi
 import co.edu.uniandes.vinilos.data.network.dto.AlbumDto
 import co.edu.uniandes.vinilos.data.network.dto.BandDto
 import co.edu.uniandes.vinilos.data.network.dto.CollectorDto
+import co.edu.uniandes.vinilos.data.network.dto.CreateAlbumRequestDto
 import co.edu.uniandes.vinilos.data.network.dto.MusicianDto
 import co.edu.uniandes.vinilos.data.network.dto.PerformerDto
 import okhttp3.ResponseBody.Companion.toResponseBody
@@ -14,6 +15,19 @@ import retrofit2.Response
 class FakeVinilosApi(
     var album: (Int) -> AlbumDto = { id -> SampleData.albums.firstOrNull { it.id == id } ?: throw notFound() },
     var albums: () -> List<AlbumDto> = { emptyList() },
+    var createAlbumResponse: (CreateAlbumRequestDto) -> AlbumDto = { req ->
+        AlbumDto(
+            id = 200,
+            name = req.name,
+            cover = req.cover,
+            releaseDate = "${req.releaseDate}T00:00:00.000Z",
+            description = req.description,
+            genre = req.genre,
+            recordLabel = req.recordLabel,
+            performers = emptyList(),
+            tracks = emptyList(),
+        )
+    },
     var collectors: () -> List<CollectorDto> = { emptyList() },
     var musicians: () -> List<MusicianDto> = { emptyList() },
     var bands: () -> List<BandDto> = { emptyList() },
@@ -29,6 +43,10 @@ class FakeVinilosApi(
 
     var albumCalls = 0
         private set
+    var createAlbumCalls = 0
+        private set
+    var lastCreatedAlbumRequest: CreateAlbumRequestDto? = null
+        private set
     var musicianCalls = 0
         private set
     var bandCalls = 0
@@ -41,6 +59,12 @@ class FakeVinilosApi(
     override suspend fun getAlbums(): List<AlbumDto> {
         albumCalls++
         return albums()
+    }
+
+    override suspend fun createAlbum(album: CreateAlbumRequestDto): AlbumDto {
+        createAlbumCalls++
+        lastCreatedAlbumRequest = album
+        return createAlbumResponse(album)
     }
 
     override suspend fun getCollectors(): List<CollectorDto> = collectors()

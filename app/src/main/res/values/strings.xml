@@ -119,4 +119,37 @@
     <string name="error_collector_title">No pudimos cargar el coleccionista</string>
     <string name="error_collector_not_found">Este coleccionista ya no está disponible.</string>
     <string name="collector_detail_title">Detalle del coleccionista</string>
+
+    <!-- P08 Crear álbum (HU07) -->
+    <string name="album_create_button">Crear álbum</string>
+    <string name="album_create_title">Nuevo álbum</string>
+    <string name="album_create_preview_cover_label">Vista previa de\ncarátula</string>
+    <string name="album_create_preview_title_placeholder">Título del Álbum</string>
+    <string name="album_create_preview_genre_placeholder">Género</string>
+    <string name="album_create_preview_label_placeholder">· %1$s</string>
+    <string name="album_create_required_badge">Requerido</string>
+    <string name="album_create_name_label">Nombre del álbum *</string>
+    <string name="album_create_name_hint">Ej. Siembra, Buscando América…</string>
+    <string name="album_create_cover_label">URL de la portada *</string>
+    <string name="album_create_cover_hint">https://ejemplo.com/portada.jpg</string>
+    <string name="album_create_release_date_label">Fecha de lanzamiento *</string>
+    <string name="album_create_release_date_hint">dd / mm / aaaa</string>
+    <string name="album_create_genre_label">Género *</string>
+    <string name="album_create_genre_hint">Selecciona un género</string>
+    <string name="album_create_record_label_label">Sello discográfico *</string>
+    <string name="album_create_record_label_hint">Selecciona un sello</string>
+    <string name="album_create_description_label">Descripción del álbum *</string>
+    <string name="album_create_description_hint">Reseña histórica, estilo musical o notas de producción…</string>
+    <string name="album_create_cancel">Cancelar</string>
+    <string name="album_create_save">Guardar álbum</string>
+    <string name="album_create_saving">Guardando…</string>
+    <string name="album_create_success">Álbum creado exitosamente</string>
+    <string name="album_create_error_required">Este campo es obligatorio</string>
+    <string name="album_create_error_cover_url">Ingresa una URL válida con http o https</string>
+    <!-- Valores del enum RECORD_LABEL del backend -->
+    <string name="record_label_sony_music" translatable="false">Sony Music</string>
+    <string name="record_label_emi" translatable="false">EMI</string>
+    <string name="record_label_discos_fuentes" translatable="false">Discos Fuentes</string>
+    <string name="record_label_elektra" translatable="false">Elektra</string>
+    <string name="record_label_fania_records" translatable="false">Fania Records</string>
 </resources>

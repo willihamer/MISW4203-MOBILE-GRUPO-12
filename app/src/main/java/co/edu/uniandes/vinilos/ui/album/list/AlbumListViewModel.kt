@@ -45,6 +45,13 @@ class AlbumListViewModel(private val repository: AlbumRepository) : ViewModel() 
         }
     }
 
+    /** Recarga el catálogo si la caché del repositorio fue invalidada (p. ej. tras crear un álbum). */
+    fun refreshIfInvalidated() {
+        if (!repository.isCatalogCacheValid && _state.value !is UiState.Loading) {
+            load(forceRefresh = true)
+        }
+    }
+
     fun onQueryChanged(text: String) {
         val normalized = text.normalizedForSearch()
         if (normalized == query) return

@@ -26,3 +26,13 @@ data class PerformerDto(
 )
 
 data class TrackDto(val id: Int?, val name: String?, val duration: String?)
+
+/** Cuerpo JSON esperado por POST /albums en BackVynils (HU07). */
+data class CreateAlbumRequestDto(
+    val name: String,
+    val cover: String,
+    val releaseDate: String,
+    val description: String,
+    val genre: String,
+    val recordLabel: String,
+)

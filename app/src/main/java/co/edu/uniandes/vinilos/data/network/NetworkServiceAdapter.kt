@@ -3,7 +3,9 @@ package co.edu.uniandes.vinilos.data.network
 import co.edu.uniandes.vinilos.data.model.Album
 import co.edu.uniandes.vinilos.data.model.Artist
 import co.edu.uniandes.vinilos.data.model.Collector
+import co.edu.uniandes.vinilos.data.model.NewAlbum
 import co.edu.uniandes.vinilos.data.network.mapper.toModel
+import co.edu.uniandes.vinilos.data.network.mapper.toRequestDto
 import kotlinx.coroutines.CancellationException
 import retrofit2.HttpException
 import java.io.IOException
@@ -17,6 +19,8 @@ class NetworkServiceAdapter(private val api: VinilosApi) {
     suspend fun getAlbums(): List<Album> = call { api.getAlbums().map { it.toModel() } }
 
     suspend fun getAlbum(id: Int): Album = call { api.getAlbum(id).toModel() }
+
+    suspend fun createAlbum(album: NewAlbum): Album = call { api.createAlbum(album.toRequestDto()).toModel() }
 
     suspend fun getCollectors(): List<Collector> = call { api.getCollectors().map { it.toModel() } }
 

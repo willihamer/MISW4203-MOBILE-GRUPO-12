@@ -23,6 +23,8 @@
     <dimen name="vn_bottom_bar_height">64dp</dimen>
     <!-- Espacio que se deja al final de las listas para que no queden bajo la barra flotante -->
     <dimen name="vn_bottom_bar_clearance">104dp</dimen>
+    <!-- Margen inferior para botones flotantes sobre la barra de navegación inferior -->
+    <dimen name="vn_fab_bottom_clearance">124dp</dimen>
     <dimen name="vn_border">1dp</dimen>
 
     <!-- Detalle de artista (HU04) -->

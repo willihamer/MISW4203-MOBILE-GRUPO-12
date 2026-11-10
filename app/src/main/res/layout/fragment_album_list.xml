@@ -2,6 +2,7 @@
 <!-- P02 / P02c Catálogo de álbumes (HU01). -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -141,5 +142,21 @@
             android:id="@+id/error"
             layout="@layout/view_state_error"
             android:visibility="gone" />
+
+        <!-- FAB para crear álbum: solo visible en modo coleccionista (HU07) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/create_album_button"
+            style="@style/Widget.Vinilos.Button.Primary"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/vn_button_height"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="@dimen/vn_screen_margin"
+            android:layout_marginBottom="@dimen/vn_fab_bottom_clearance"
+            android:contentDescription="@string/album_create_button"
+            android:elevation="6dp"
+            android:text="@string/album_create_button"
+            android:visibility="gone"
+            app:icon="@drawable/ic_add"
+            tools:visibility="visible" />
     </FrameLayout>
 </LinearLayout>

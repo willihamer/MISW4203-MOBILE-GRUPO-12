@@ -2,6 +2,8 @@ package co.edu.uniandes.vinilos.data.network.mapper
 
 import co.edu.uniandes.vinilos.data.model.ArtistType
 import co.edu.uniandes.vinilos.data.model.Genre
+import co.edu.uniandes.vinilos.data.model.NewAlbum
+import co.edu.uniandes.vinilos.data.model.RecordLabel
 import co.edu.uniandes.vinilos.data.network.dto.AlbumDto
 import co.edu.uniandes.vinilos.data.network.dto.BandDto
 import co.edu.uniandes.vinilos.data.network.dto.MusicianDto
@@ -105,5 +107,36 @@ class MappersTest {
 
         assertTrue(band.albums.isEmpty())
         assertTrue(band.musicians.isEmpty())
+    }
+
+    @Test
+    fun `convierte NewAlbum a CreateAlbumRequestDto con valores de la API`() {
+        val newAlbum = NewAlbum(
+            name = "Siembra",
+            cover = "https://example.com/siembra.jpg",
+            releaseDate = LocalDate.of(1978, 9, 7),
+            description = "Álbum clásico de salsa de Willie Colón y Rubén Blades.",
+            genre = Genre.SALSA,
+            recordLabel = RecordLabel.FANIA_RECORDS,
+        )
+
+        val dto = newAlbum.toRequestDto()
+
+        assertEquals("Siembra", dto.name)
+        assertEquals("https://example.com/siembra.jpg", dto.cover)
+        assertEquals("1978-09-07", dto.releaseDate)
+        assertEquals("Álbum clásico de salsa de Willie Colón y Rubén Blades.", dto.description)
+        assertEquals("Salsa", dto.genre)
+        assertEquals("Fania Records", dto.recordLabel)
+    }
+
+    @Test
+    fun `RecordLabel fromApi reconoce los cinco sellos cerrados`() {
+        assertEquals(RecordLabel.SONY_MUSIC, RecordLabel.fromApi("Sony Music"))
+        assertEquals(RecordLabel.EMI, RecordLabel.fromApi("EMI"))
+        assertEquals(RecordLabel.DISCOS_FUENTES, RecordLabel.fromApi("Discos Fuentes"))
+        assertEquals(RecordLabel.ELEKTRA, RecordLabel.fromApi("Elektra"))
+        assertEquals(RecordLabel.FANIA_RECORDS, RecordLabel.fromApi("Fania Records"))
+        assertNull(RecordLabel.fromApi("Otro"))
     }
 }
