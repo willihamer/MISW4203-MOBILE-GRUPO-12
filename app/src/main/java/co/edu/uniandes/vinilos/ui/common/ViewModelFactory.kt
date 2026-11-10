@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import co.edu.uniandes.vinilos.di.AppContainer
+import co.edu.uniandes.vinilos.ui.album.create.CreateAlbumViewModel
 import co.edu.uniandes.vinilos.ui.album.list.AlbumListViewModel
 import co.edu.uniandes.vinilos.ui.artist.detail.ArtistDetailViewModel
 import co.edu.uniandes.vinilos.ui.artist.list.ArtistListViewModel
@@ -22,6 +23,8 @@ class ViewModelFactory(private val container: AppContainer) : ViewModelProvider.
     override fun <T : ViewModel> create(modelClass: Class<T>): T = when {
         modelClass.isAssignableFrom(AlbumListViewModel::class.java) ->
             AlbumListViewModel(container.albumRepository)
+        modelClass.isAssignableFrom(CreateAlbumViewModel::class.java) ->
+            CreateAlbumViewModel(container.albumRepository)
         modelClass.isAssignableFrom(ArtistListViewModel::class.java) ->
             ArtistListViewModel(container.artistRepository)
         modelClass.isAssignableFrom(CollectorPickerViewModel::class.java) ->

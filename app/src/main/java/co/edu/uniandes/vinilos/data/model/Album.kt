@@ -28,6 +28,29 @@ enum class Genre(val apiValue: String) {
     }
 }
 
+/** Valores cerrados del backend (BackVynils, enum RECORD_LABEL). */
+enum class RecordLabel(val apiValue: String) {
+    SONY_MUSIC("Sony Music"),
+    EMI("EMI"),
+    DISCOS_FUENTES("Discos Fuentes"),
+    ELEKTRA("Elektra"),
+    FANIA_RECORDS("Fania Records");
+
+    companion object {
+        fun fromApi(value: String?): RecordLabel? = entries.firstOrNull { it.apiValue == value }
+    }
+}
+
+/** Datos obligatorios para crear un álbum en el catálogo (HU07, POST /albums). */
+data class NewAlbum(
+    val name: String,
+    val cover: String,
+    val releaseDate: LocalDate,
+    val description: String,
+    val genre: Genre,
+    val recordLabel: RecordLabel,
+)
+
 /** Artista (músico o banda) tal como viene dentro de un álbum. */
 data class Performer(
     val id: Int,

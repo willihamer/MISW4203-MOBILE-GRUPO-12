@@ -6,14 +6,25 @@ import co.edu.uniandes.vinilos.data.model.Album
 import co.edu.uniandes.vinilos.data.model.Artist
 import co.edu.uniandes.vinilos.data.model.Collector
 import co.edu.uniandes.vinilos.data.model.Genre
+import co.edu.uniandes.vinilos.data.model.NewAlbum
 import co.edu.uniandes.vinilos.data.model.Performer
 import co.edu.uniandes.vinilos.data.network.dto.AlbumDto
 import co.edu.uniandes.vinilos.data.network.dto.BandDto
 import co.edu.uniandes.vinilos.data.network.dto.CollectorDto
+import co.edu.uniandes.vinilos.data.network.dto.CreateAlbumRequestDto
 import co.edu.uniandes.vinilos.data.network.dto.MusicianDto
 import co.edu.uniandes.vinilos.data.network.dto.PerformerDto
 import java.time.LocalDate
 import java.time.format.DateTimeParseException
+
+fun NewAlbum.toRequestDto() = CreateAlbumRequestDto(
+    name = name,
+    cover = cover,
+    releaseDate = releaseDate.toString(),
+    description = description,
+    genre = genre.apiValue,
+    recordLabel = recordLabel.apiValue,
+)
 
 fun AlbumDto.toModel() = Album(
     id = id ?: 0,

@@ -4,16 +4,20 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import co.edu.uniandes.vinilos.R
 import co.edu.uniandes.vinilos.data.model.Album
 import co.edu.uniandes.vinilos.data.model.Genre
+import co.edu.uniandes.vinilos.data.model.NewAlbum
+import co.edu.uniandes.vinilos.data.model.RecordLabel
 import co.edu.uniandes.vinilos.data.network.NetworkServiceAdapter
 import co.edu.uniandes.vinilos.data.repository.AlbumRepository
 import co.edu.uniandes.vinilos.testutil.FakeVinilosApi
 import co.edu.uniandes.vinilos.testutil.MainDispatcherRule
 import co.edu.uniandes.vinilos.testutil.SampleData
 import co.edu.uniandes.vinilos.ui.common.UiState
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import java.io.IOException
+import java.time.LocalDate
 
 class AlbumListViewModelTest {
 
@@ -110,5 +114,33 @@ class AlbumListViewModelTest {
         viewModel.onGenreSelected(Genre.SALSA)
         viewModel.onQueryChanged("queen")
         assertEquals(emptyList<String>(), viewModel.albumNames())
+    }
+
+    @Test
+    fun `refreshIfInvalidated recarga el catalogo cuando se crea un album`() = runTest {
+        var currentAlbums = SampleData.albums
+        api.albums = { currentAlbums }
+        val repository = AlbumRepository(NetworkServiceAdapter(api), mainDispatcherRule.dispatcher)
+        val viewModel = AlbumListViewModel(repository)
+
+        assertEquals(1, api.albumCalls)
+        viewModel.refreshIfInvalidated()
+        assertEquals(1, api.albumCalls)
+
+        repository.createAlbum(
+            NewAlbum(
+                name = "Siembra",
+                cover = "https://example.com/siembra.jpg",
+                releaseDate = LocalDate.of(1978, 9, 7),
+                description = "Álbum clásico de salsa.",
+                genre = Genre.SALSA,
+                recordLabel = RecordLabel.FANIA_RECORDS,
+            ),
+        )
+        currentAlbums = currentAlbums + SampleData.buscandoAmerica.copy(id = 200, name = "Siembra")
+
+        viewModel.refreshIfInvalidated()
+        assertEquals(2, api.albumCalls)
+        assertEquals(listOf("Buscando América", "A Night at the Opera", "Siembra"), viewModel.albumNames())
     }
 }
