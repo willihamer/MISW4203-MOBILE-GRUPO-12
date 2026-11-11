@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private var navigationBarInset = 0
 
     private val tabs by lazy {
         mapOf(
@@ -61,6 +62,7 @@ class MainActivity : AppCompatActivity() {
         }
         navController.addOnDestinationChangedListener { _, destination, _ ->
             binding.bottomBar.isVisible = destination.id in tabs
+            updateNavHostBottomPadding()
             tabs.forEach { (destinationId, tab) -> tab.isSelected = destinationId == destination.id }
         }
     }
@@ -82,11 +84,21 @@ class MainActivity : AppCompatActivity() {
         val baseMargin = resources.getDimensionPixelSize(R.dimen.vn_space_md)
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            navigationBarInset = bars.bottom
             binding.navHost.updatePadding(top = bars.top)
+            updateNavHostBottomPadding()
             binding.bottomBar.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 bottomMargin = baseMargin + bars.bottom
             }
             insets
         }
+    }
+
+    /**
+     * Sin la barra flotante (detalles, formularios y bienvenida) el contenido termina sobre la
+     * barra de navegación del sistema; con botones, como en Android 5, es alta y taparía el final.
+     */
+    private fun updateNavHostBottomPadding() {
+        binding.navHost.updatePadding(bottom = if (binding.bottomBar.isVisible) 0 else navigationBarInset)
     }
 }
