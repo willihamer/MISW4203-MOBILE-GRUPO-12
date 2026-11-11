@@ -106,7 +106,7 @@ class HU05CollectorListTest {
         enter()
         onView(withText(R.string.error_server)).check(matches(isDisplayed()))
         status = 200
-        onView(withId(R.id.retry_button)).perform(click())
+        onView(withId(R.id.retry_button)).perform(scrollTo(), click())
         awaitView(withText("José Pérez"))
         onView(withText("José Pérez")).check(matches(isDisplayed()))
     }

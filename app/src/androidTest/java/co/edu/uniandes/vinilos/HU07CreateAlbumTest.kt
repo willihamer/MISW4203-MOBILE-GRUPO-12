@@ -84,7 +84,7 @@ class HU07CreateAlbumTest {
         MockResponse().setHeader("Content-Type", "application/json").setBody(value)
 
     private fun enterAsCollector() {
-        onView(withText(R.string.welcome_collector_title)).perform(click())
+        onView(withText(R.string.welcome_collector_title)).perform(scrollTo(), click())
         awaitView(withText("Manolo Bellon"))
         onView(withText("Manolo Bellon")).perform(click())
         onView(withId(R.id.continue_button)).perform(click())

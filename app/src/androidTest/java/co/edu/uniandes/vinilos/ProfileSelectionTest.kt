@@ -2,6 +2,7 @@ package co.edu.uniandes.vinilos
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isEnabled
@@ -35,7 +36,7 @@ class ProfileSelectionTest {
 
     @Test
     fun elColeccionistaEscogeSuPerfilYContinua() {
-        onView(withText(R.string.welcome_collector_title)).perform(click())
+        onView(withText(R.string.welcome_collector_title)).perform(scrollTo(), click())
 
         onView(withText(R.string.collector_picker_title)).check(matches(isDisplayed()))
         onView(withId(R.id.continue_button)).check(matches(not(isEnabled())))
