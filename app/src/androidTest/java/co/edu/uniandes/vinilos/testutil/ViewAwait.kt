@@ -26,3 +26,20 @@ fun awaitView(matcher: Matcher<View>, present: Boolean = true) {
         }
     })
 }
+
+/** Como [awaitView], pero espera a que coincida exactamente una vista, p. ej. al terminar la animación de una lista. */
+fun awaitSingleView(matcher: Matcher<View>) {
+    onView(isRoot()).perform(object : ViewAction {
+        override fun getConstraints(): Matcher<View> = isRoot()
+        override fun getDescription() = "Esperar hasta 5 segundos una única vista: $matcher"
+        override fun perform(uiController: UiController, root: View) {
+            val deadline = SystemClock.uptimeMillis() + 5_000
+            do {
+                uiController.loopMainThreadUntilIdle()
+                if (TreeIterables.breadthFirstViewTraversal(root).count { matcher.matches(it) } == 1) return
+                uiController.loopMainThreadForAtLeast(16)
+            } while (SystemClock.uptimeMillis() < deadline)
+            throw AssertionError(description)
+        }
+    })
+}

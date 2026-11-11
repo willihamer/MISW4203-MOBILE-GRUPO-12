@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -107,7 +108,8 @@ class AlbumDetailFragment : Fragment(R.layout.fragment_album_detail) {
     private fun addText(parent: android.widget.LinearLayout, text: String) {
         parent.addView(TextView(requireContext()).apply {
             this.text = text
-            setTextAppearance(R.style.TextAppearance_Vinilos_BodyLarge)
+            // TextView#setTextAppearance(int) solo existe desde API 23
+            TextViewCompat.setTextAppearance(this, R.style.TextAppearance_Vinilos_BodyLarge)
             val spacing = resources.getDimensionPixelSize(R.dimen.vn_space_sm)
             setPadding(0, spacing, 0, spacing)
         })

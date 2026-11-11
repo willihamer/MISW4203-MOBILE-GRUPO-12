@@ -8,6 +8,10 @@
     <dimen name="vn_space_xl">32dp</dimen>
     <dimen name="vn_screen_margin">16dp</dimen>
 
+    <!-- Vinilo de la bienvenida: más pequeño en pantallas bajas (values-h720dp usa 220 dp) para
+         que las dos opciones de perfil se vean sin desplazarse, p. ej. en un Nexus 5 -->
+    <dimen name="vn_welcome_vinyl">150dp</dimen>
+
     <!-- Radios -->
     <dimen name="vn_radius_input">16dp</dimen>
     <dimen name="vn_radius_card">24dp</dimen>

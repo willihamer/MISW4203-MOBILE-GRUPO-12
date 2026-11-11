@@ -88,7 +88,7 @@ class HU08AddTrackTest {
         MockResponse().setHeader("Content-Type", "application/json").setBody(value)
 
     private fun enterAsCollectorAndOpenAlbum() {
-        onView(withText(R.string.welcome_collector_title)).perform(click())
+        onView(withText(R.string.welcome_collector_title)).perform(scrollTo(), click())
         awaitView(withText("Manolo Bellon"))
         onView(withText("Manolo Bellon")).perform(click())
         onView(withId(R.id.continue_button)).perform(click())
@@ -104,6 +104,8 @@ class HU08AddTrackTest {
     private fun openAddTrackForm() {
         onView(withId(R.id.add_track_button)).perform(scrollTo(), click())
         awaitView(withId(R.id.track_name_input))
+        // En Android 5 el teclado puede abrirse solo y tapar los botones de la hoja
+        androidx.test.espresso.Espresso.closeSoftKeyboard()
     }
 
     private fun fillForm(name: String, duration: String) {
@@ -135,7 +137,7 @@ class HU08AddTrackTest {
         enterAsCollectorAndOpenAlbum()
         openAddTrackForm()
 
-        onView(withId(R.id.save_track_button)).perform(click())
+        onView(withId(R.id.save_track_button)).perform(scrollTo(), click())
 
         onView(withId(R.id.track_name_error)).check(matches(withText(R.string.track_add_error_required)))
         onView(withId(R.id.track_duration_error)).check(matches(withText(R.string.track_add_error_required)))
@@ -150,7 +152,7 @@ class HU08AddTrackTest {
 
         listOf("5:5", "03:75", "0:00").forEach { duration ->
             fillForm(name = "Decisiones", duration = duration)
-            onView(withId(R.id.save_track_button)).perform(click())
+            onView(withId(R.id.save_track_button)).perform(scrollTo(), click())
             onView(withId(R.id.track_duration_error))
                 .check(matches(withText(R.string.track_add_error_duration_format)))
         }
@@ -168,7 +170,7 @@ class HU08AddTrackTest {
         openAddTrackForm()
 
         fillForm(name = "Decisiones", duration = "5:05")
-        onView(withId(R.id.save_track_button)).perform(click())
+        onView(withId(R.id.save_track_button)).perform(scrollTo(), click())
 
         awaitView(withText("Decisiones · 5:05"))
         onView(withText("Decisiones · 5:05")).perform(scrollTo()).check(matches(isDisplayed()))
@@ -187,11 +189,11 @@ class HU08AddTrackTest {
         openAddTrackForm()
 
         fillForm(name = "Decisiones", duration = "5:05")
-        onView(withId(R.id.save_track_button)).perform(click())
+        onView(withId(R.id.save_track_button)).perform(scrollTo(), click())
         onView(withId(R.id.submit_error)).check(matches(withText(R.string.error_server)))
 
         postStatus = 200
-        onView(withId(R.id.save_track_button)).perform(click())
+        onView(withId(R.id.save_track_button)).perform(scrollTo(), click())
 
         awaitView(withText("Decisiones · 5:05"))
         assertEquals(2, postCalls)
@@ -204,7 +206,7 @@ class HU08AddTrackTest {
         openAddTrackForm()
 
         fillForm(name = "Borrador", duration = "3:00")
-        onView(withId(R.id.cancel_button)).perform(click())
+        onView(withId(R.id.cancel_button)).perform(scrollTo(), click())
 
         onView(withId(R.id.track_name_input)).check(doesNotExist())
         onView(withId(R.id.album_name)).check(matches(withText("Buscando América")))

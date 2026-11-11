@@ -480,10 +480,14 @@
                 app:drawableStartCompat="@drawable/ic_error_outline" />
 
             <!-- Botones de acción 50% / 50%: Cancelar (vidrio) a la izquierda, Guardar (gradiente) a la derecha -->
+            <!-- baselineAligned="false": si "Guardar álbum" ocupa dos líneas (pantallas de 360 dp),
+                 alinear por la línea base bajaba el botón y lo recortaba; además ahorra una medición -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/vn_space_lg"
+                android:baselineAligned="false"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton

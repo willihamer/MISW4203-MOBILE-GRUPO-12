@@ -67,6 +67,11 @@ class HU01AlbumCatalogTest {
     fun filtraPorGenero() {
         onView(withText(R.string.genre_rock)).perform(click())
 
+        onView(withId(R.id.album_list)).perform(
+            androidx.test.espresso.contrib.RecyclerViewActions.scrollTo<androidx.recyclerview.widget.RecyclerView.ViewHolder>(
+                hasDescendant(withText("A Night at the Opera")),
+            ),
+        )
         onView(withText("A Night at the Opera")).check(matches(isDisplayed()))
         awaitView(withText("Buscando América"), present = false)
         onView(withText("Buscando América")).check(doesNotExist())

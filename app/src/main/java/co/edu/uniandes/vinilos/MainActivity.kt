@@ -77,12 +77,17 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    /** Edge-to-edge: el contenido arranca bajo la barra de estado y la barra flotante respeta la de navegación. */
+    /**
+     * Edge-to-edge: el contenido va entre la barra de estado y la de navegación del sistema, y la
+     * barra flotante queda sobre esta última. La barra de navegación con botones (Android 5) es
+     * alta: si el contenido pasara por debajo, taparía el final de las pantallas y el espacio
+     * reservado para la barra flotante (vn_bottom_bar_clearance) no alcanzaría.
+     */
     private fun applyWindowInsets() {
         val baseMargin = resources.getDimensionPixelSize(R.dimen.vn_space_md)
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            binding.navHost.updatePadding(top = bars.top)
+            binding.navHost.updatePadding(top = bars.top, bottom = bars.bottom)
             binding.bottomBar.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 bottomMargin = baseMargin + bars.bottom
             }
