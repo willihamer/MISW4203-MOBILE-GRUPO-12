@@ -7,13 +7,16 @@ import co.edu.uniandes.vinilos.data.model.Artist
 import co.edu.uniandes.vinilos.data.model.Collector
 import co.edu.uniandes.vinilos.data.model.Genre
 import co.edu.uniandes.vinilos.data.model.NewAlbum
+import co.edu.uniandes.vinilos.data.model.NewTrack
 import co.edu.uniandes.vinilos.data.model.Performer
 import co.edu.uniandes.vinilos.data.network.dto.AlbumDto
 import co.edu.uniandes.vinilos.data.network.dto.BandDto
 import co.edu.uniandes.vinilos.data.network.dto.CollectorDto
 import co.edu.uniandes.vinilos.data.network.dto.CreateAlbumRequestDto
+import co.edu.uniandes.vinilos.data.network.dto.CreateTrackRequestDto
 import co.edu.uniandes.vinilos.data.network.dto.MusicianDto
 import co.edu.uniandes.vinilos.data.network.dto.PerformerDto
+import co.edu.uniandes.vinilos.data.network.dto.TrackDto
 import java.time.LocalDate
 import java.time.format.DateTimeParseException
 
@@ -26,6 +29,10 @@ fun NewAlbum.toRequestDto() = CreateAlbumRequestDto(
     recordLabel = recordLabel.apiValue,
 )
 
+fun NewTrack.toRequestDto() = CreateTrackRequestDto(name = name, duration = duration)
+
+fun TrackDto.toModel() = Track(id = id ?: 0, name = name.orEmpty(), duration = duration.orEmpty())
+
 fun AlbumDto.toModel() = Album(
     id = id ?: 0,
     name = name.orEmpty(),
@@ -35,7 +42,7 @@ fun AlbumDto.toModel() = Album(
     genre = Genre.fromApi(genre),
     recordLabel = recordLabel.orEmpty(),
     performers = performers.orEmpty().map { it.toModel() },
-    tracks = tracks.orEmpty().map { Track(it.id ?: 0, it.name.orEmpty(), it.duration.orEmpty()) },
+    tracks = tracks.orEmpty().map { it.toModel() },
 )
 
 fun PerformerDto.toModel() = Performer(

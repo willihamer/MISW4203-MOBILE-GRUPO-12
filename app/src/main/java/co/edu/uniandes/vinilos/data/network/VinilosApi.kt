@@ -4,7 +4,9 @@ import co.edu.uniandes.vinilos.data.network.dto.AlbumDto
 import co.edu.uniandes.vinilos.data.network.dto.BandDto
 import co.edu.uniandes.vinilos.data.network.dto.CollectorDto
 import co.edu.uniandes.vinilos.data.network.dto.CreateAlbumRequestDto
+import co.edu.uniandes.vinilos.data.network.dto.CreateTrackRequestDto
 import co.edu.uniandes.vinilos.data.network.dto.MusicianDto
+import co.edu.uniandes.vinilos.data.network.dto.TrackDto
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -20,6 +22,9 @@ interface VinilosApi {
 
     @POST("albums")
     suspend fun createAlbum(@Body album: CreateAlbumRequestDto): AlbumDto
+
+    @POST("albums/{id}/tracks")
+    suspend fun addTrack(@Path("id") albumId: Int, @Body track: CreateTrackRequestDto): TrackDto
 
     @GET("collectors")
     suspend fun getCollectors(): List<CollectorDto>
