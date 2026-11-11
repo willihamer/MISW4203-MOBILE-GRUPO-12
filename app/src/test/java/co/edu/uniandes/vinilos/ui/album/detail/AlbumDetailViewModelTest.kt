@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
 import co.edu.uniandes.vinilos.R
 import co.edu.uniandes.vinilos.data.model.Album
+import co.edu.uniandes.vinilos.data.model.NewTrack
 import co.edu.uniandes.vinilos.data.network.NetworkServiceAdapter
 import co.edu.uniandes.vinilos.data.network.dto.TrackDto
 import co.edu.uniandes.vinilos.data.repository.AlbumRepository
@@ -15,6 +16,7 @@ import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 import java.io.IOException
+import kotlinx.coroutines.runBlocking
 
 class AlbumDetailViewModelTest {
     @get:Rule val instantTaskRule = InstantTaskExecutorRule()
@@ -48,5 +50,16 @@ class AlbumDetailViewModelTest {
         api.album = { SampleData.buscandoAmerica }
         vm.load(true)
         assertEquals("Buscando América", vm.album().name)
+    }
+    @Test fun `tras agregar un track muestra el detalle actualizado desde la cache sin otra consulta`() {
+        val repository = AlbumRepository(NetworkServiceAdapter(api), mainDispatcherRule.dispatcher)
+        val vm = AlbumDetailViewModel(repository, SavedStateHandle(mapOf(AlbumDetailViewModel.ARG_ALBUM_ID to 100)))
+        assertTrue(vm.album().tracks.isEmpty())
+
+        runBlocking { repository.addTrack(100, NewTrack("Decisiones", "5:05")) }
+        vm.refreshFromCache()
+
+        assertEquals(listOf("Decisiones · 5:05"), vm.album().tracks.map { "${it.name} · ${it.duration}" })
+        assertEquals(1, api.albumDetailCalls)
     }
 }

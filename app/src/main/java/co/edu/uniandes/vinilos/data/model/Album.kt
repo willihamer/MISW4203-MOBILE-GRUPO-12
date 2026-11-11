@@ -60,3 +60,6 @@ data class Performer(
 )
 
 data class Track(val id: Int, val name: String, val duration: String)
+
+/** Datos obligatorios para asociar un track a un álbum (HU08, POST /albums/{id}/tracks). */
+data class NewTrack(val name: String, val duration: String)

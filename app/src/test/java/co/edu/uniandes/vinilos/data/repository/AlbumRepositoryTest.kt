@@ -2,6 +2,7 @@ package co.edu.uniandes.vinilos.data.repository
 
 import co.edu.uniandes.vinilos.data.model.Genre
 import co.edu.uniandes.vinilos.data.model.NewAlbum
+import co.edu.uniandes.vinilos.data.model.NewTrack
 import co.edu.uniandes.vinilos.data.model.RecordLabel
 import co.edu.uniandes.vinilos.data.network.NetworkServiceAdapter
 import co.edu.uniandes.vinilos.testutil.FakeVinilosApi
@@ -64,5 +65,28 @@ class AlbumRepositoryTest {
         val refreshed = repo.getAlbums(forceRefresh = false)
         assertEquals(2, api.albumCalls)
         assertEquals(listOf("Buscando América", "A Night at the Opera", "Siembra"), refreshed.map { it.name })
+    }
+
+    @Test fun `agregar un track actualiza el detalle en cache sin volver a consultar la red`() = runTest {
+        val api = FakeVinilosApi()
+        val repo = AlbumRepository(NetworkServiceAdapter(api), UnconfinedTestDispatcher(testScheduler))
+        assertTrue(repo.getAlbum(100).tracks.isEmpty())
+
+        val created = repo.addTrack(100, NewTrack(name = "Decisiones", duration = "5:05"))
+
+        assertEquals("Decisiones", created.name)
+        assertEquals(listOf("Decisiones"), repo.getAlbum(100).tracks.map { it.name })
+        assertEquals(1, api.albumDetailCalls)
+        assertEquals(1, api.addTrackCalls)
+    }
+
+    @Test fun `agregar un track a un album sin detalle en cache no lo consulta`() = runTest {
+        val api = FakeVinilosApi()
+        val repo = AlbumRepository(NetworkServiceAdapter(api), UnconfinedTestDispatcher(testScheduler))
+
+        repo.addTrack(102, NewTrack(name = "Bohemian Rhapsody", duration = "5:55"))
+
+        assertEquals(0, api.albumDetailCalls)
+        assertEquals(102, api.lastAddTrackAlbumId)
     }
 }

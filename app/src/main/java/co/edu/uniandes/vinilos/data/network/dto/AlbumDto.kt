@@ -36,3 +36,6 @@ data class CreateAlbumRequestDto(
     val genre: String,
     val recordLabel: String,
 )
+
+/** Cuerpo JSON esperado por POST /albums/{id}/tracks en BackVynils (HU08). */
+data class CreateTrackRequestDto(val name: String, val duration: String)

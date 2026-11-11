@@ -7,21 +7,30 @@ import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import co.edu.uniandes.vinilos.R
 import co.edu.uniandes.vinilos.data.model.Album
+import co.edu.uniandes.vinilos.data.model.Profile
 import co.edu.uniandes.vinilos.databinding.FragmentAlbumDetailBinding
+import co.edu.uniandes.vinilos.ui.album.track.AddTrackBottomSheet
 import co.edu.uniandes.vinilos.ui.common.UiState
 import co.edu.uniandes.vinilos.ui.common.remoteImage
 import co.edu.uniandes.vinilos.ui.common.viewModelFactory
+import co.edu.uniandes.vinilos.ui.profile.ProfileViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.snackbar.Snackbar
 import java.time.format.DateTimeFormatter
 
-/** HU02 / P03: detalle desplazable con aspecto de sheet; atrás conserva el origen. */
+/**
+ * HU02 / P03: detalle desplazable con aspecto de sheet; atrás conserva el origen.
+ * HU08 / P03c: en modo coleccionista permite agregar tracks al álbum.
+ */
 class AlbumDetailFragment : Fragment(R.layout.fragment_album_detail) {
     private val viewModel: AlbumDetailViewModel by viewModels { viewModelFactory }
+    private val profileViewModel: ProfileViewModel by activityViewModels { viewModelFactory }
     private var _binding: FragmentAlbumDetailBinding? = null
     private val binding get() = _binding!!
 
@@ -31,6 +40,15 @@ class AlbumDetailFragment : Fragment(R.layout.fragment_album_detail) {
         binding.closeButton.setOnClickListener { findNavController().navigateUp() }
         binding.retryButton.setOnClickListener { viewModel.load(forceRefresh = true) }
         ViewCompat.setAccessibilityHeading(binding.albumName, true)
+        binding.addTrackButton.setOnClickListener { openAddTrack() }
+        childFragmentManager.setFragmentResultListener(AddTrackBottomSheet.RESULT_TRACK_ADDED, viewLifecycleOwner) { _, _ ->
+            // El repositorio ya agregó el track al detalle en caché: no hace falta volver a la red
+            viewModel.refreshFromCache()
+            Snackbar.make(requireActivity().findViewById(R.id.root), R.string.track_add_success, Snackbar.LENGTH_LONG).show()
+        }
+        profileViewModel.profile.observe(viewLifecycleOwner) { profile ->
+            binding.addTrackButton.isVisible = profile is Profile.CollectorProfile
+        }
         viewModel.state.observe(viewLifecycleOwner) { state ->
             binding.progress.isVisible = state is UiState.Loading
             binding.content.isVisible = state is UiState.Success
@@ -74,6 +92,16 @@ class AlbumDetailFragment : Fragment(R.layout.fragment_album_detail) {
         album.tracks.forEach { track ->
             addText(binding.tracks, getString(R.string.album_tracks_row, track.name, track.duration))
         }
+    }
+
+    private fun openAddTrack() {
+        val album = (viewModel.state.value as? UiState.Success)?.data ?: return
+        if (childFragmentManager.findFragmentByTag(AddTrackBottomSheet.TAG) != null) return
+        AddTrackBottomSheet.newInstance(
+            albumId = album.id,
+            albumName = album.name,
+            artistName = album.performers.joinToString { it.name },
+        ).show(childFragmentManager, AddTrackBottomSheet.TAG)
     }
 
     private fun addText(parent: android.widget.LinearLayout, text: String) {

@@ -2,6 +2,8 @@ package co.edu.uniandes.vinilos.data.repository
 
 import co.edu.uniandes.vinilos.data.model.Album
 import co.edu.uniandes.vinilos.data.model.NewAlbum
+import co.edu.uniandes.vinilos.data.model.NewTrack
+import co.edu.uniandes.vinilos.data.model.Track
 import co.edu.uniandes.vinilos.data.network.NetworkServiceAdapter
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -10,7 +12,8 @@ import kotlinx.coroutines.withContext
 /**
  * Fuente única de álbumes para los ViewModels. El catálogo se guarda en memoria; el
  * botón de reintentar fuerza la red con [forceRefresh]. Crear un álbum invalida la caché
- * del catálogo para que la siguiente consulta incluya el nuevo registro.
+ * del catálogo para que la siguiente consulta incluya el nuevo registro. Agregar un track
+ * actualiza en memoria el detalle ya consultado, sin volver a pedir el álbum a la red.
  */
 class AlbumRepository(
     private val network: NetworkServiceAdapter,
@@ -41,6 +44,13 @@ class AlbumRepository(
             if (created.id != 0) {
                 detailCache[created.id] = created
             }
+        }
+    }
+
+    suspend fun addTrack(albumId: Int, track: NewTrack): Track = withContext(dispatcher) {
+        network.addTrack(albumId, track).also { created ->
+            // get/put en lugar de computeIfPresent, que no existe antes de API 24
+            detailCache[albumId]?.let { album -> detailCache[albumId] = album.copy(tracks = album.tracks + created) }
         }
     }
 }

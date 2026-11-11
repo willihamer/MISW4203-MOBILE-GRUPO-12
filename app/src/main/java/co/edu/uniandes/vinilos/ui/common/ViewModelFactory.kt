@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import co.edu.uniandes.vinilos.di.AppContainer
 import co.edu.uniandes.vinilos.ui.album.create.CreateAlbumViewModel
 import co.edu.uniandes.vinilos.ui.album.list.AlbumListViewModel
+import co.edu.uniandes.vinilos.ui.album.track.AddTrackViewModel
 import co.edu.uniandes.vinilos.ui.artist.detail.ArtistDetailViewModel
 import co.edu.uniandes.vinilos.ui.artist.list.ArtistListViewModel
 import co.edu.uniandes.vinilos.ui.profile.CollectorPickerViewModel
@@ -43,6 +44,8 @@ class ViewModelFactory(private val container: AppContainer) : ViewModelProvider.
             CollectorDetailViewModel(container.collectorRepository, extras.createSavedStateHandle()) as T
         modelClass.isAssignableFrom(AlbumDetailViewModel::class.java) ->
             AlbumDetailViewModel(container.albumRepository, extras.createSavedStateHandle()) as T
+        modelClass.isAssignableFrom(AddTrackViewModel::class.java) ->
+            AddTrackViewModel(container.albumRepository, extras.createSavedStateHandle()) as T
         modelClass.isAssignableFrom(ArtistDetailViewModel::class.java) ->
             ArtistDetailViewModel(container.artistRepository, extras.createSavedStateHandle()) as T
         else -> create(modelClass)

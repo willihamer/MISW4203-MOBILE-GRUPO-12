@@ -5,8 +5,10 @@ import co.edu.uniandes.vinilos.data.network.dto.AlbumDto
 import co.edu.uniandes.vinilos.data.network.dto.BandDto
 import co.edu.uniandes.vinilos.data.network.dto.CollectorDto
 import co.edu.uniandes.vinilos.data.network.dto.CreateAlbumRequestDto
+import co.edu.uniandes.vinilos.data.network.dto.CreateTrackRequestDto
 import co.edu.uniandes.vinilos.data.network.dto.MusicianDto
 import co.edu.uniandes.vinilos.data.network.dto.PerformerDto
+import co.edu.uniandes.vinilos.data.network.dto.TrackDto
 import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
@@ -28,6 +30,9 @@ class FakeVinilosApi(
             tracks = emptyList(),
         )
     },
+    var addTrackResponse: (Int, CreateTrackRequestDto) -> TrackDto = { _, req ->
+        TrackDto(id = 300, name = req.name, duration = req.duration)
+    },
     var collectors: () -> List<CollectorDto> = { emptyList() },
     var musicians: () -> List<MusicianDto> = { emptyList() },
     var bands: () -> List<BandDto> = { emptyList() },
@@ -47,6 +52,12 @@ class FakeVinilosApi(
         private set
     var lastCreatedAlbumRequest: CreateAlbumRequestDto? = null
         private set
+    var addTrackCalls = 0
+        private set
+    var lastAddTrackAlbumId: Int? = null
+        private set
+    var lastAddTrackRequest: CreateTrackRequestDto? = null
+        private set
     var musicianCalls = 0
         private set
     var bandCalls = 0
@@ -65,6 +76,13 @@ class FakeVinilosApi(
         createAlbumCalls++
         lastCreatedAlbumRequest = album
         return createAlbumResponse(album)
+    }
+
+    override suspend fun addTrack(albumId: Int, track: CreateTrackRequestDto): TrackDto {
+        addTrackCalls++
+        lastAddTrackAlbumId = albumId
+        lastAddTrackRequest = track
+        return addTrackResponse(albumId, track)
     }
 
     override suspend fun getCollectors(): List<CollectorDto> = collectors()
