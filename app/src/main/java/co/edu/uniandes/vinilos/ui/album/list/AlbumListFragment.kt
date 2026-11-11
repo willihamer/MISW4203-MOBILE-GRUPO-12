@@ -8,8 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.core.widget.doAfterTextChanged
@@ -81,16 +79,15 @@ class AlbumListFragment : Fragment(R.layout.fragment_album_list) {
         }
     }
 
-    /** Mantiene el botón flotante separado por encima de la barra de navegación inferior. */
+    /**
+     * Mantiene el botón flotante por encima de la barra inferior. La barra de navegación del
+     * sistema ya la descuenta MainActivity con el padding del contenedor de pantallas.
+     */
     private fun applyFabInsets() {
         val baseClearance = resources.getDimensionPixelSize(R.dimen.vn_bottom_bar_height) +
             resources.getDimensionPixelSize(R.dimen.vn_space_md) * 2
-        ViewCompat.setOnApplyWindowInsetsListener(binding.createAlbumButton) { fab, insets ->
-            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            fab.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                bottomMargin = baseClearance + bars.bottom
-            }
-            insets
+        binding.createAlbumButton.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+            bottomMargin = baseClearance
         }
     }
 

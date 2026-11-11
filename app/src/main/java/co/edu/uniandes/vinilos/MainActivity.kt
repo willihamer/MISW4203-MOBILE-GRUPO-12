@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
-    private var navigationBarInset = 0
 
     private val tabs by lazy {
         mapOf(
@@ -62,7 +61,6 @@ class MainActivity : AppCompatActivity() {
         }
         navController.addOnDestinationChangedListener { _, destination, _ ->
             binding.bottomBar.isVisible = destination.id in tabs
-            updateNavHostBottomPadding()
             tabs.forEach { (destinationId, tab) -> tab.isSelected = destinationId == destination.id }
         }
     }
@@ -79,26 +77,21 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    /** Edge-to-edge: el contenido arranca bajo la barra de estado y la barra flotante respeta la de navegación. */
+    /**
+     * Edge-to-edge: el contenido va entre la barra de estado y la de navegación del sistema, y la
+     * barra flotante queda sobre esta última. La barra de navegación con botones (Android 5) es
+     * alta: si el contenido pasara por debajo, taparía el final de las pantallas y el espacio
+     * reservado para la barra flotante (vn_bottom_bar_clearance) no alcanzaría.
+     */
     private fun applyWindowInsets() {
         val baseMargin = resources.getDimensionPixelSize(R.dimen.vn_space_md)
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            navigationBarInset = bars.bottom
-            binding.navHost.updatePadding(top = bars.top)
-            updateNavHostBottomPadding()
+            binding.navHost.updatePadding(top = bars.top, bottom = bars.bottom)
             binding.bottomBar.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 bottomMargin = baseMargin + bars.bottom
             }
             insets
         }
-    }
-
-    /**
-     * Sin la barra flotante (detalles, formularios y bienvenida) el contenido termina sobre la
-     * barra de navegación del sistema; con botones, como en Android 5, es alta y taparía el final.
-     */
-    private fun updateNavHostBottomPadding() {
-        binding.navHost.updatePadding(bottom = if (binding.bottomBar.isVisible) 0 else navigationBarInset)
     }
 }
