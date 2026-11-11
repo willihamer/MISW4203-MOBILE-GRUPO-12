@@ -146,6 +146,11 @@
     <string name="album_create_success">Álbum creado exitosamente</string>
     <string name="album_create_error_required">Este campo es obligatorio</string>
     <string name="album_create_error_cover_url">Ingresa una URL válida con http o https</string>
+
+    <!-- HU08 / P09 Agregar track -->
+    <string name="track_add_error_required">Este campo es obligatorio</string>
+    <string name="track_add_error_duration_format">Usa el formato mm:ss, p. ej. 04:35</string>
+
     <!-- Valores del enum RECORD_LABEL del backend -->
     <string name="record_label_sony_music" translatable="false">Sony Music</string>
     <string name="record_label_emi" translatable="false">EMI</string>
