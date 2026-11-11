@@ -56,9 +56,18 @@
                     android:layout_height="wrap_content" android:layout_marginTop="8dp"
                     android:textAppearance="@style/TextAppearance.Vinilos.BodyLarge" />
             </LinearLayout>
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:layout_marginTop="24dp" android:text="@string/album_tracks"
-                android:textAppearance="@style/TextAppearance.Vinilos.TitleLarge" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="24dp" android:baselineAligned="false"
+                android:gravity="center_vertical" android:orientation="horizontal">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:text="@string/album_tracks"
+                    android:textAppearance="@style/TextAppearance.Vinilos.TitleLarge" />
+                <!-- HU08: solo en modo coleccionista -->
+                <com.google.android.material.button.MaterialButton android:id="@+id/add_track_button"
+                    style="@style/Widget.Vinilos.Button.Secondary" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="@string/track_add_button"
+                    android:visibility="gone" app:icon="@drawable/ic_add" />
+            </LinearLayout>
             <TextView android:id="@+id/tracks_empty" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:layout_marginTop="8dp"
                 android:text="@string/album_tracks_empty" android:textAppearance="@style/TextAppearance.Vinilos.BodyMedium" />

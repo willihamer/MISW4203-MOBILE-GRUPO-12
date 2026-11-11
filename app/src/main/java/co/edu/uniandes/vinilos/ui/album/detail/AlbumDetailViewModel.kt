@@ -38,5 +38,20 @@ class AlbumDetailViewModel(
         }
     }
 
+    /**
+     * Muestra el álbum que ya tiene el repositorio, sin pasar por el estado de carga ni
+     * consultar la red; p. ej. después de agregar un track (HU08).
+     */
+    fun refreshFromCache() {
+        loadJob?.cancel()
+        loadJob = viewModelScope.launch {
+            try {
+                _state.value = UiState.Success(repository.getAlbum(albumId))
+            } catch (_: AppError) {
+                // Se conserva lo que ya se muestra
+            }
+        }
+    }
+
     companion object { const val ARG_ALBUM_ID = "albumId" }
 }

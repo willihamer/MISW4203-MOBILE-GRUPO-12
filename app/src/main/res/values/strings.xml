@@ -148,6 +148,20 @@
     <string name="album_create_error_cover_url">Ingresa una URL válida con http o https</string>
 
     <!-- HU08 / P09 Agregar track -->
+    <string name="track_add_button">Agregar track</string>
+    <string name="track_add_overline">Nueva entrada</string>
+    <string name="track_add_title">Agregar track</string>
+    <string name="track_add_subtitle">%1$s • %2$s</string>
+    <string name="track_add_required_badge">Requerido</string>
+    <string name="track_add_name_label">Nombre del track *</string>
+    <string name="track_add_name_hint">Ej. Desapariciones</string>
+    <string name="track_add_duration_label">Duración *</string>
+    <string name="track_add_duration_hint">Ej. 04:35</string>
+    <string name="track_add_duration_helper">Formato mm:ss</string>
+    <string name="track_add_cancel">Cancelar</string>
+    <string name="track_add_save">Agregar</string>
+    <string name="track_add_saving">Agregando…</string>
+    <string name="track_add_success">Track agregado al álbum</string>
     <string name="track_add_error_required">Este campo es obligatorio</string>
     <string name="track_add_error_duration_format">Usa el formato mm:ss, p. ej. 04:35</string>
 
