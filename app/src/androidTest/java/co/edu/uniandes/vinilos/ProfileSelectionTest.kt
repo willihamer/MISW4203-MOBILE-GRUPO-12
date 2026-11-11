@@ -54,6 +54,6 @@ class ProfileSelectionTest {
         onView(withText(R.string.welcome_visitor_title)).perform(click())
         onView(withId(R.id.profile_chip)).perform(click())
 
-        onView(withText(R.string.welcome_collector_title)).check(matches(isDisplayed()))
+        onView(withText(R.string.welcome_collector_title)).perform(scrollTo()).check(matches(isDisplayed()))
     }
 }

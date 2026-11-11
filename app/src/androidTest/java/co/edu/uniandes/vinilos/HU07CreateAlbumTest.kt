@@ -15,6 +15,7 @@ import androidx.test.espresso.matcher.ViewMatchers.Visibility
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import co.edu.uniandes.vinilos.testutil.VinilosTestRule
 import co.edu.uniandes.vinilos.testutil.awaitView
+import co.edu.uniandes.vinilos.testutil.scrollToBottom
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -128,19 +129,20 @@ class HU07CreateAlbumTest {
         enterAsCollector()
         onView(withId(R.id.create_album_button)).perform(click())
 
-        onView(withId(R.id.save_button)).perform(scrollTo(), click())
+        onView(withId(R.id.form_scroll)).perform(scrollToBottom())
+        onView(withId(R.id.save_button)).perform(click())
 
-        onView(withId(R.id.name_error)).perform(scrollTo())
+        onView(withId(R.id.name_error))
             .check(matches(withText(R.string.album_create_error_required)))
-        onView(withId(R.id.cover_error)).perform(scrollTo())
+        onView(withId(R.id.cover_error))
             .check(matches(withText(R.string.album_create_error_required)))
-        onView(withId(R.id.release_date_error)).perform(scrollTo())
+        onView(withId(R.id.release_date_error))
             .check(matches(withText(R.string.album_create_error_required)))
-        onView(withId(R.id.genre_error)).perform(scrollTo())
+        onView(withId(R.id.genre_error))
             .check(matches(withText(R.string.album_create_error_required)))
-        onView(withId(R.id.record_label_error)).perform(scrollTo())
+        onView(withId(R.id.record_label_error))
             .check(matches(withText(R.string.album_create_error_required)))
-        onView(withId(R.id.description_error)).perform(scrollTo())
+        onView(withId(R.id.description_error))
             .check(matches(withText(R.string.album_create_error_required)))
         assertEquals(0, postCalls)
     }
@@ -151,9 +153,10 @@ class HU07CreateAlbumTest {
         onView(withId(R.id.create_album_button)).perform(click())
 
         fillForm(cover = "url-invalida")
-        onView(withId(R.id.save_button)).perform(scrollTo(), click())
+        onView(withId(R.id.form_scroll)).perform(scrollToBottom())
+        onView(withId(R.id.save_button)).perform(click())
 
-        onView(withId(R.id.cover_error)).perform(scrollTo())
+        onView(withId(R.id.cover_error))
             .check(matches(withText(R.string.album_create_error_cover_url)))
         assertEquals(0, postCalls)
 
@@ -172,7 +175,8 @@ class HU07CreateAlbumTest {
         onView(withId(R.id.preview_genre)).check(matches(withText("Salsa")))
         onView(withId(R.id.preview_record_label)).check(matches(withText(containsString("Elektra"))))
 
-        onView(withId(R.id.save_button)).perform(scrollTo(), click())
+        onView(withId(R.id.form_scroll)).perform(scrollToBottom())
+        onView(withId(R.id.save_button)).perform(click())
 
         awaitView(withText("Siembra"))
         onView(withText(R.string.album_create_success)).check(matches(isDisplayed()))
@@ -190,13 +194,15 @@ class HU07CreateAlbumTest {
         onView(withId(R.id.create_album_button)).perform(click())
 
         fillForm()
-        onView(withId(R.id.save_button)).perform(scrollTo(), click())
+        onView(withId(R.id.form_scroll)).perform(scrollToBottom())
+        onView(withId(R.id.save_button)).perform(click())
 
-        onView(withId(R.id.submit_error)).perform(scrollTo())
+        onView(withId(R.id.submit_error))
             .check(matches(withText(R.string.error_server)))
 
         postStatus = 200
-        onView(withId(R.id.save_button)).perform(scrollTo(), click())
+        onView(withId(R.id.form_scroll)).perform(scrollToBottom())
+        onView(withId(R.id.save_button)).perform(click())
 
         awaitView(withText("Siembra"))
         onView(withText("Siembra")).check(matches(isDisplayed()))
@@ -209,7 +215,8 @@ class HU07CreateAlbumTest {
         onView(withId(R.id.create_album_button)).perform(click())
 
         onView(withId(R.id.name_input)).perform(replaceText("Borrador"), closeSoftKeyboard())
-        onView(withId(R.id.cancel_button)).perform(scrollTo(), click())
+        onView(withId(R.id.form_scroll)).perform(scrollToBottom())
+        onView(withId(R.id.cancel_button)).perform(click())
 
         onView(withId(R.id.album_list)).check(matches(isDisplayed()))
         assertEquals(0, postCalls)

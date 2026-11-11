@@ -3,13 +3,13 @@ package co.edu.uniandes.vinilos
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import co.edu.uniandes.vinilos.data.network.NetworkIdlingResource
 import co.edu.uniandes.vinilos.testutil.awaitView
 import co.edu.uniandes.vinilos.testutil.VinilosTestRule
+import co.edu.uniandes.vinilos.testutil.scrollToBottom
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Rule
@@ -57,7 +57,8 @@ class AlbumErrorFlowTest {
         enter()
         onView(withText(R.string.error_server)).check(matches(isDisplayed()))
         server.enqueue(json("[$ALBUM]"))
-        onView(withId(R.id.retry_button)).perform(scrollTo(), click())
+        onView(withId(R.id.error)).perform(scrollToBottom())
+        onView(withId(R.id.retry_button)).perform(click())
         awaitView(withText("Álbum de prueba"))
         onView(withText("Álbum de prueba")).check(matches(isDisplayed()))
     }

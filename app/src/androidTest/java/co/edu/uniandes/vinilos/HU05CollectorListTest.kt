@@ -8,6 +8,8 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import co.edu.uniandes.vinilos.data.network.NetworkIdlingResource
 import co.edu.uniandes.vinilos.testutil.VinilosTestRule
+import co.edu.uniandes.vinilos.testutil.scrollToBottom
+import co.edu.uniandes.vinilos.testutil.awaitSingleView
 import co.edu.uniandes.vinilos.testutil.awaitView
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
@@ -64,7 +66,7 @@ class HU05CollectorListTest {
         awaitView(withText("Ana López"), present = false)
         onView(withText("José Pérez")).check(matches(isDisplayed()))
         search("")
-        awaitView(withText("Ana López"))
+        awaitSingleView(withText("Ana López"))
         onView(withText("Ana López")).check(matches(isDisplayed()))
     }
     @Test fun informaBusquedaSinResultadosYPermiteOtraConsulta() {
@@ -72,13 +74,13 @@ class HU05CollectorListTest {
         search("inexistente")
         onView(withText(R.string.collectors_no_results_title)).check(matches(isDisplayed()))
         search("ana")
-        awaitView(withText("Ana López"))
+        awaitSingleView(withText("Ana López"))
         onView(withText("Ana López")).check(matches(isDisplayed()))
     }
     @Test fun abreElColeccionistaSeleccionadoYConservaBusquedaAlVolver() {
         enter()
         search("ana")
-        awaitView(withText("Ana López"))
+        awaitSingleView(withText("Ana López"))
         onView(withText("Ana López")).perform(click())
         onView(withId(R.id.collector_name)).check(matches(withText("Ana López")))
         onView(withId(R.id.collector_email)).check(matches(withText("ana@example.com")))
@@ -106,7 +108,8 @@ class HU05CollectorListTest {
         enter()
         onView(withText(R.string.error_server)).check(matches(isDisplayed()))
         status = 200
-        onView(withId(R.id.retry_button)).perform(scrollTo(), click())
+        onView(withId(R.id.error)).perform(scrollToBottom())
+        onView(withId(R.id.retry_button)).perform(click())
         awaitView(withText("José Pérez"))
         onView(withText("José Pérez")).check(matches(isDisplayed()))
     }
