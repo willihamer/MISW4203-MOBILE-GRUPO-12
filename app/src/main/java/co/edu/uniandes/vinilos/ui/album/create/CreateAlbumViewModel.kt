@@ -103,16 +103,16 @@ class CreateAlbumViewModel(private val repository: AlbumRepository) : ViewModel(
         val trimmedCover = current.coverUrl.trim()
         val trimmedDescription = current.description.trim()
 
-        val nameError = if (trimmedName.isEmpty()) R.string.album_create_error_required else null
+        val nameError = if (trimmedName.isEmpty()) R.string.error_required_field else null
         val coverError = when {
-            trimmedCover.isEmpty() -> R.string.album_create_error_required
+            trimmedCover.isEmpty() -> R.string.error_required_field
             !isValidHttpUrl(trimmedCover) -> R.string.album_create_error_cover_url
             else -> null
         }
-        val releaseDateError = if (current.releaseDate == null) R.string.album_create_error_required else null
-        val genreError = if (current.genre == null) R.string.album_create_error_required else null
-        val recordLabelError = if (current.recordLabel == null) R.string.album_create_error_required else null
-        val descriptionError = if (trimmedDescription.isEmpty()) R.string.album_create_error_required else null
+        val releaseDateError = if (current.releaseDate == null) R.string.error_required_field else null
+        val genreError = if (current.genre == null) R.string.error_required_field else null
+        val recordLabelError = if (current.recordLabel == null) R.string.error_required_field else null
+        val descriptionError = if (trimmedDescription.isEmpty()) R.string.error_required_field else null
 
         val validated = current.copy(
             nameError = nameError,

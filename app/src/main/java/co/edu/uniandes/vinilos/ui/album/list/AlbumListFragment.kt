@@ -135,7 +135,7 @@ class AlbumListFragment : Fragment(R.layout.fragment_album_list) {
             UiState.Loading -> Unit
         }
         if (noResults) {
-            binding.empty.emptyTitle.setText(R.string.albums_no_results_title)
+            binding.empty.emptyTitle.setText(R.string.no_results_title)
             binding.empty.emptyMessage.setText(R.string.albums_no_results_message)
         }
     }

@@ -183,7 +183,7 @@
                     android:id="@+id/name_required_badge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/album_create_required_badge"
+                    android:text="@string/required_badge"
                     android:textAppearance="@style/TextAppearance.Vinilos.LabelMedium"
                     android:textColor="@color/vn_error"
                     android:visibility="gone"
@@ -211,7 +211,7 @@
                 android:textColor="@color/vn_error"
                 android:visibility="gone"
                 app:drawableStartCompat="@drawable/ic_error_outline"
-                tools:text="@string/album_create_error_required"
+                tools:text="@string/error_required_field"
                 tools:visibility="visible" />
 
             <!-- Campo 2: URL de la portada -->
@@ -233,7 +233,7 @@
                     android:id="@+id/cover_required_badge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/album_create_required_badge"
+                    android:text="@string/required_badge"
                     android:textAppearance="@style/TextAppearance.Vinilos.LabelMedium"
                     android:textColor="@color/vn_error"
                     android:visibility="gone" />
@@ -281,7 +281,7 @@
                     android:id="@+id/release_date_required_badge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/album_create_required_badge"
+                    android:text="@string/required_badge"
                     android:textAppearance="@style/TextAppearance.Vinilos.LabelMedium"
                     android:textColor="@color/vn_error"
                     android:visibility="gone" />
@@ -330,7 +330,7 @@
                     android:id="@+id/genre_required_badge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/album_create_required_badge"
+                    android:text="@string/required_badge"
                     android:textAppearance="@style/TextAppearance.Vinilos.LabelMedium"
                     android:textColor="@color/vn_error"
                     android:visibility="gone" />
@@ -379,7 +379,7 @@
                     android:id="@+id/record_label_required_badge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/album_create_required_badge"
+                    android:text="@string/required_badge"
                     android:textAppearance="@style/TextAppearance.Vinilos.LabelMedium"
                     android:textColor="@color/vn_error"
                     android:visibility="gone" />
@@ -428,7 +428,7 @@
                     android:id="@+id/description_required_badge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/album_create_required_badge"
+                    android:text="@string/required_badge"
                     android:textAppearance="@style/TextAppearance.Vinilos.LabelMedium"
                     android:textColor="@color/vn_error"
                     android:visibility="gone" />
@@ -496,7 +496,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/vn_space_sm"
                     android:layout_weight="1"
-                    android:text="@string/album_create_cancel" />
+                    android:text="@string/action_cancel" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/save_button"

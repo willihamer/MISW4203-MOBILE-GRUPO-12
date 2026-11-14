@@ -35,7 +35,7 @@
     <string name="albums_subtitle">Explora el catálogo de vinilos</string>
     <string name="albums_search_hint">Buscar álbum, artista o sello…</string>
     <string name="albums_search">Buscar</string>
-    <string name="albums_filter_all">Todos</string>
+    <string name="filter_all">Todos</string>
     <!-- Valores del enum GENRE del backend: se muestran tal como los entrega la API -->
     <string name="genre_salsa" translatable="false">Salsa</string>
     <string name="genre_rock" translatable="false">Rock</string>
@@ -46,14 +46,13 @@
     <string name="album_cover_description">Portada de %1$s</string>
     <string name="albums_empty_title">Aún no hay álbumes en el catálogo</string>
     <string name="albums_empty_message">La colección está vacía por el momento.</string>
-    <string name="albums_no_results_title">Sin resultados</string>
+    <string name="no_results_title">Sin resultados</string>
     <string name="albums_no_results_message">Ningún álbum coincide con la búsqueda o el filtro.</string>
 
     <!-- P04 Listado de artistas (HU03) -->
     <string name="artists_title">Artistas</string>
     <string name="artists_subtitle">Músicos y bandas del catálogo</string>
     <string name="artists_search_hint">Buscar artista</string>
-    <string name="artists_filter_all">Todos</string>
     <string name="artists_filter_musicians">Músicos</string>
     <string name="artists_filter_bands">Bandas</string>
     <string name="artist_type_musician">Músico</string>
@@ -62,7 +61,6 @@
     <string name="artists_loading">Cargando artistas…</string>
     <string name="artists_empty_title">Aún no hay artistas en el catálogo</string>
     <string name="artists_empty_message">No encontramos músicos ni bandas registrados en el servidor.</string>
-    <string name="artists_no_results_title">Sin resultados</string>
     <string name="artists_no_results_message">Ningún artista coincide con la búsqueda o el filtro.</string>
     <string name="artists_prizes_button">Premios</string>
 
@@ -121,7 +119,7 @@
     <string name="album_create_preview_title_placeholder">Título del Álbum</string>
     <string name="album_create_preview_genre_placeholder">Género</string>
     <string name="album_create_preview_label_placeholder">· %1$s</string>
-    <string name="album_create_required_badge">Requerido</string>
+    <string name="required_badge">Requerido</string>
     <string name="album_create_name_label">Nombre del álbum *</string>
     <string name="album_create_name_hint">Ej. Siembra, Buscando América…</string>
     <string name="album_create_cover_label">URL de la portada *</string>
@@ -134,28 +132,24 @@
     <string name="album_create_record_label_hint">Selecciona un sello</string>
     <string name="album_create_description_label">Descripción del álbum *</string>
     <string name="album_create_description_hint">Reseña histórica, estilo musical o notas de producción…</string>
-    <string name="album_create_cancel">Cancelar</string>
+    <string name="action_cancel">Cancelar</string>
     <string name="album_create_save">Guardar álbum</string>
     <string name="album_create_saving">Guardando…</string>
     <string name="album_create_success">Álbum creado exitosamente</string>
-    <string name="album_create_error_required">Este campo es obligatorio</string>
+    <string name="error_required_field">Este campo es obligatorio</string>
     <string name="album_create_error_cover_url">Ingresa una URL válida con http o https</string>
 
     <!-- HU08 / P09 Agregar track -->
     <string name="track_add_button">Agregar track</string>
     <string name="track_add_overline">Nueva entrada</string>
-    <string name="track_add_title">Agregar track</string>
     <string name="track_add_subtitle">%1$s • %2$s</string>
-    <string name="track_add_required_badge">Requerido</string>
     <string name="track_add_name_label">Nombre del track *</string>
     <string name="track_add_name_hint">Ej. Desapariciones</string>
     <string name="track_add_duration_label">Duración *</string>
     <string name="track_add_duration_hint">Ej. 04:35</string>
     <string name="track_add_duration_helper">Formato mm:ss</string>
-    <string name="track_add_cancel">Cancelar</string>
     <string name="track_add_save">Agregar</string>
     <string name="track_add_saving">Agregando…</string>
     <string name="track_add_success">Track agregado al álbum</string>
-    <string name="track_add_error_required">Este campo es obligatorio</string>
     <string name="track_add_error_duration_format">Usa el formato mm:ss, p. ej. 04:35</string>
 </resources>

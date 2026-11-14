@@ -107,7 +107,7 @@ class ArtistListFragment : Fragment(R.layout.fragment_artist_list) {
             UiState.Loading -> Unit
         }
         if (noResults) {
-            binding.empty.emptyTitle.setText(R.string.artists_no_results_title)
+            binding.empty.emptyTitle.setText(R.string.no_results_title)
             binding.empty.emptyMessage.setText(R.string.artists_no_results_message)
         }
     }

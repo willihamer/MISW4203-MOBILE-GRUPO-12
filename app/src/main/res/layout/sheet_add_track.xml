@@ -61,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vn_space_xs"
-            android:text="@string/track_add_title"
+            android:text="@string/track_add_button"
             android:textAppearance="@style/TextAppearance.Vinilos.HeadlineLarge" />
 
         <TextView
@@ -94,7 +94,7 @@
                 android:id="@+id/track_name_required_badge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/track_add_required_badge"
+                android:text="@string/required_badge"
                 android:textAppearance="@style/TextAppearance.Vinilos.LabelMedium"
                 android:textColor="@color/vn_primary_light" />
         </LinearLayout>
@@ -124,7 +124,7 @@
             android:textColor="@color/vn_error"
             android:visibility="gone"
             app:drawableStartCompat="@drawable/ic_error_outline"
-            tools:text="@string/track_add_error_required"
+            tools:text="@string/error_required_field"
             tools:visibility="visible" />
 
         <!-- Campo 2: duración mm:ss -->
@@ -146,7 +146,7 @@
                 android:id="@+id/track_duration_required_badge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/track_add_required_badge"
+                android:text="@string/required_badge"
                 android:textAppearance="@style/TextAppearance.Vinilos.LabelMedium"
                 android:textColor="@color/vn_primary_light" />
         </LinearLayout>
@@ -223,7 +223,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/vn_space_sm"
                 android:layout_weight="1"
-                android:text="@string/track_add_cancel" />
+                android:text="@string/action_cancel" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/save_track_button"

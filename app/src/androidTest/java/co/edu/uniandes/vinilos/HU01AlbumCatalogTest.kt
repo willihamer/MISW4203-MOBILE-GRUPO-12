@@ -90,7 +90,7 @@ class HU01AlbumCatalogTest {
     fun informaCuandoNingunAlbumCoincide() {
         onView(withId(R.id.search_field)).perform(replaceText("zzzz"), closeSoftKeyboard())
 
-        onView(withText(R.string.albums_no_results_title)).check(matches(isDisplayed()))
+        onView(withText(R.string.no_results_title)).check(matches(isDisplayed()))
     }
 
     @Test

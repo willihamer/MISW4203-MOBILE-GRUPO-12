@@ -139,8 +139,8 @@ class HU08AddTrackTest {
 
         onView(withId(R.id.save_track_button)).perform(scrollTo(), click())
 
-        onView(withId(R.id.track_name_error)).check(matches(withText(R.string.track_add_error_required)))
-        onView(withId(R.id.track_duration_error)).check(matches(withText(R.string.track_add_error_required)))
+        onView(withId(R.id.track_name_error)).check(matches(withText(R.string.error_required_field)))
+        onView(withId(R.id.track_duration_error)).check(matches(withText(R.string.error_required_field)))
         assertEquals(0, postCalls)
     }
 

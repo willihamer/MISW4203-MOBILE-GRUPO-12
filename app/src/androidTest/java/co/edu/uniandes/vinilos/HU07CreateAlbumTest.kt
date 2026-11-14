@@ -133,17 +133,17 @@ class HU07CreateAlbumTest {
         onView(withId(R.id.save_button)).perform(click())
 
         onView(withId(R.id.name_error))
-            .check(matches(withText(R.string.album_create_error_required)))
+            .check(matches(withText(R.string.error_required_field)))
         onView(withId(R.id.cover_error))
-            .check(matches(withText(R.string.album_create_error_required)))
+            .check(matches(withText(R.string.error_required_field)))
         onView(withId(R.id.release_date_error))
-            .check(matches(withText(R.string.album_create_error_required)))
+            .check(matches(withText(R.string.error_required_field)))
         onView(withId(R.id.genre_error))
-            .check(matches(withText(R.string.album_create_error_required)))
+            .check(matches(withText(R.string.error_required_field)))
         onView(withId(R.id.record_label_error))
-            .check(matches(withText(R.string.album_create_error_required)))
+            .check(matches(withText(R.string.error_required_field)))
         onView(withId(R.id.description_error))
-            .check(matches(withText(R.string.album_create_error_required)))
+            .check(matches(withText(R.string.error_required_field)))
         assertEquals(0, postCalls)
     }
 
