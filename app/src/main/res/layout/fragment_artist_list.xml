@@ -41,7 +41,6 @@
         </LinearLayout>
 
         <ImageButton
-            android:id="@+id/prizes_button"
             style="@style/Widget.Vinilos.IconButton"
             android:layout_marginEnd="@dimen/vn_space_sm"
             android:contentDescription="@string/artists_prizes_button"

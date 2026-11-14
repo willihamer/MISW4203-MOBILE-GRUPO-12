@@ -22,7 +22,6 @@
         app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
 
     <View
-        android:id="@+id/skeleton_name"
         android:layout_width="140dp"
         android:layout_height="18dp"
         android:layout_marginStart="@dimen/vn_space_md"
@@ -32,7 +31,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/skeleton_badge"
         android:layout_width="64dp"
         android:layout_height="24dp"
         android:layout_marginEnd="@dimen/vn_space_md"
