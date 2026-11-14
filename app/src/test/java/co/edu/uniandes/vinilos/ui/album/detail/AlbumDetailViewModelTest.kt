@@ -8,6 +8,7 @@ import co.edu.uniandes.vinilos.data.model.NewTrack
 import co.edu.uniandes.vinilos.data.network.NetworkServiceAdapter
 import co.edu.uniandes.vinilos.data.network.dto.TrackDto
 import co.edu.uniandes.vinilos.data.repository.AlbumRepository
+import co.edu.uniandes.vinilos.data.repository.AlbumRepositoryImpl
 import co.edu.uniandes.vinilos.testutil.FakeVinilosApi
 import co.edu.uniandes.vinilos.testutil.MainDispatcherRule
 import co.edu.uniandes.vinilos.testutil.SampleData
@@ -23,7 +24,7 @@ class AlbumDetailViewModelTest {
     @get:Rule val mainDispatcherRule = MainDispatcherRule()
     private val api = FakeVinilosApi()
     private fun model(id: Int = 100) = AlbumDetailViewModel(
-        AlbumRepository(NetworkServiceAdapter(api), mainDispatcherRule.dispatcher),
+        AlbumRepositoryImpl(NetworkServiceAdapter(api), mainDispatcherRule.dispatcher),
         SavedStateHandle(mapOf(AlbumDetailViewModel.ARG_ALBUM_ID to id)),
     )
     private fun AlbumDetailViewModel.album() = (state.value as UiState.Success<Album>).data
@@ -52,7 +53,7 @@ class AlbumDetailViewModelTest {
         assertEquals("Buscando América", vm.album().name)
     }
     @Test fun `tras agregar un track muestra el detalle actualizado desde la cache sin otra consulta`() {
-        val repository = AlbumRepository(NetworkServiceAdapter(api), mainDispatcherRule.dispatcher)
+        val repository: AlbumRepository = AlbumRepositoryImpl(NetworkServiceAdapter(api), mainDispatcherRule.dispatcher)
         val vm = AlbumDetailViewModel(repository, SavedStateHandle(mapOf(AlbumDetailViewModel.ARG_ALBUM_ID to 100)))
         assertTrue(vm.album().tracks.isEmpty())
 

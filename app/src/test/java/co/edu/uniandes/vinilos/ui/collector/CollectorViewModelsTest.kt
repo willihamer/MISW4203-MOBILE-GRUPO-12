@@ -7,6 +7,7 @@ import co.edu.uniandes.vinilos.data.model.Collector
 import co.edu.uniandes.vinilos.data.network.NetworkServiceAdapter
 import co.edu.uniandes.vinilos.data.network.dto.CollectorDto
 import co.edu.uniandes.vinilos.data.repository.CollectorRepository
+import co.edu.uniandes.vinilos.data.repository.CollectorRepositoryImpl
 import co.edu.uniandes.vinilos.testutil.FakeVinilosApi
 import co.edu.uniandes.vinilos.testutil.MainDispatcherRule
 import co.edu.uniandes.vinilos.ui.collector.detail.CollectorDetailViewModel
@@ -26,7 +27,7 @@ class CollectorViewModelsTest {
     )
     private var calls = 0
     private val api = FakeVinilosApi(collectors = { calls++; records })
-    private val repository get() = CollectorRepository(NetworkServiceAdapter(api), mainDispatcherRule.dispatcher)
+    private val repository: CollectorRepository get() = CollectorRepositoryImpl(NetworkServiceAdapter(api), mainDispatcherRule.dispatcher)
     private fun list(saved: SavedStateHandle = SavedStateHandle()) = CollectorListViewModel(repository, saved)
     private fun CollectorListViewModel.names(): List<String> =
         (state.value as UiState.Success<List<Collector>>).data.map { it.name }

@@ -23,7 +23,7 @@ class ArtistRepositoryTest {
         musicians = { SampleData.musicians },
         bands = { SampleData.bands },
     )
-    private val repository = ArtistRepository(
+    private val repository: ArtistRepository = ArtistRepositoryImpl(
         NetworkServiceAdapter(api),
         mainDispatcherRule.dispatcher,
     )
