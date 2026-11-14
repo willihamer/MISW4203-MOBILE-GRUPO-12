@@ -68,7 +68,7 @@ class HU03ArtistListTest {
         onView(withText("Rubén Blades Bellido de Luna")).check(doesNotExist())
 
         // Volver a Todos
-        onView(withText(R.string.artists_filter_all)).perform(click())
+        onView(withText(R.string.filter_all)).perform(click())
         onView(withText("Rubén Blades Bellido de Luna")).check(matches(isDisplayed()))
         onView(withText("Queen")).check(matches(isDisplayed()))
     }
@@ -86,7 +86,7 @@ class HU03ArtistListTest {
     fun informaCuandoNingunArtistaCoincide() {
         onView(withId(R.id.search_field)).perform(replaceText("zzzz"), closeSoftKeyboard())
 
-        onView(withText(R.string.artists_no_results_title)).check(matches(isDisplayed()))
+        onView(withText(R.string.no_results_title)).check(matches(isDisplayed()))
     }
 
     @Test

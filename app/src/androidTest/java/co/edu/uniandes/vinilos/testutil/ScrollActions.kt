@@ -22,3 +22,16 @@ fun scrollToBottom(): ViewAction = object : ViewAction {
         uiController.loopMainThreadUntilIdle()
     }
 }
+
+/**
+ * Pide al contenedor que muestre la vista completa. RecyclerViewActions.scrollTo() deja el elemento
+ * apenas visible en el borde; en pantallas bajas su parte inferior (p. ej. el nombre) queda fuera.
+ */
+fun showCompletely(): ViewAction = object : ViewAction {
+    override fun getConstraints(): Matcher<View> = isAssignableFrom(View::class.java)
+    override fun getDescription() = "mostrar la vista completa"
+    override fun perform(uiController: UiController, view: View) {
+        view.requestRectangleOnScreen(android.graphics.Rect(0, 0, view.width, view.height), true)
+        uiController.loopMainThreadUntilIdle()
+    }
+}

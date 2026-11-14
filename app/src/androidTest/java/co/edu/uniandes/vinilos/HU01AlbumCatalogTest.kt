@@ -13,6 +13,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import co.edu.uniandes.vinilos.testutil.awaitView
 import co.edu.uniandes.vinilos.testutil.VinilosTestRule
+import co.edu.uniandes.vinilos.testutil.showCompletely
 import org.hamcrest.Matchers.allOf
 import org.junit.Before
 import org.junit.Rule
@@ -55,8 +56,9 @@ class HU01AlbumCatalogTest {
     fun recorreLosCuatroAlbumesDelCatalogo() {
         listOf("Buscando América", "Poeta del pueblo", "A Night at the Opera", "A Day at the Races").forEach { name ->
             onView(withId(R.id.album_list)).perform(
-                androidx.test.espresso.contrib.RecyclerViewActions.scrollTo<androidx.recyclerview.widget.RecyclerView.ViewHolder>(
+                androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem<androidx.recyclerview.widget.RecyclerView.ViewHolder>(
                     hasDescendant(withText(name)),
+                    showCompletely(),
                 ),
             )
             onView(withText(name)).check(matches(isDisplayed()))
@@ -68,8 +70,9 @@ class HU01AlbumCatalogTest {
         onView(withText(R.string.genre_rock)).perform(click())
 
         onView(withId(R.id.album_list)).perform(
-            androidx.test.espresso.contrib.RecyclerViewActions.scrollTo<androidx.recyclerview.widget.RecyclerView.ViewHolder>(
+            androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem<androidx.recyclerview.widget.RecyclerView.ViewHolder>(
                 hasDescendant(withText("A Night at the Opera")),
+                showCompletely(),
             ),
         )
         onView(withText("A Night at the Opera")).check(matches(isDisplayed()))
@@ -90,7 +93,7 @@ class HU01AlbumCatalogTest {
     fun informaCuandoNingunAlbumCoincide() {
         onView(withId(R.id.search_field)).perform(replaceText("zzzz"), closeSoftKeyboard())
 
-        onView(withText(R.string.albums_no_results_title)).check(matches(isDisplayed()))
+        onView(withText(R.string.no_results_title)).check(matches(isDisplayed()))
     }
 
     @Test

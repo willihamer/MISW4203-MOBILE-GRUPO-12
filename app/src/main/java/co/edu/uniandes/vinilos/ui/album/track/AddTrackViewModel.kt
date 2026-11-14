@@ -68,9 +68,9 @@ class AddTrackViewModel(
         val name = current.name.trim()
         val duration = current.duration.trim()
 
-        val nameError = if (name.isEmpty()) R.string.track_add_error_required else null
+        val nameError = if (name.isEmpty()) R.string.error_required_field else null
         val durationError = when {
-            duration.isEmpty() -> R.string.track_add_error_required
+            duration.isEmpty() -> R.string.error_required_field
             !isValidTrackDuration(duration) -> R.string.track_add_error_duration_format
             else -> null
         }

@@ -10,7 +10,9 @@ import co.edu.uniandes.vinilos.data.network.AppError
 import co.edu.uniandes.vinilos.data.repository.CollectorRepository
 import co.edu.uniandes.vinilos.ui.common.UiState
 import co.edu.uniandes.vinilos.ui.common.messageRes
+import co.edu.uniandes.vinilos.ui.common.Searchable
 import co.edu.uniandes.vinilos.ui.common.normalizedForSearch
+import co.edu.uniandes.vinilos.ui.common.withSearchKeys
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -21,7 +23,7 @@ class CollectorListViewModel(
     private val _state = MutableLiveData<UiState<List<Collector>>>()
     val state: LiveData<UiState<List<Collector>>> = _state
     val query: String get() = savedState[QUERY] ?: ""
-    private var collectors: List<Collector> = emptyList()
+    private var collectors: List<Searchable<Collector>> = emptyList()
     private var loadJob: Job? = null
 
     init { load() }
@@ -31,7 +33,7 @@ class CollectorListViewModel(
         _state.value = UiState.Loading
         loadJob = viewModelScope.launch {
             try {
-                collectors = repository.getCollectors(forceRefresh)
+                collectors = repository.getCollectors(forceRefresh).withSearchKeys { listOf(it.name) }
                 publish()
             } catch (error: AppError) {
                 _state.value = UiState.Error(error.messageRes())
@@ -47,7 +49,7 @@ class CollectorListViewModel(
     private fun publish() {
         val term = query.normalizedForSearch()
         _state.value = if (collectors.isEmpty()) UiState.Empty else UiState.Success(
-            collectors.filter { it.name.normalizedForSearch().contains(term) },
+            collectors.filter { it.key.contains(term) }.map { it.item },
         )
     }
 

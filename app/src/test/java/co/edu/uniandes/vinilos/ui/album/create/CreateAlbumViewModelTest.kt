@@ -41,12 +41,12 @@ class CreateAlbumViewModelTest {
         viewModel.submit()
 
         val state = checkNotNull(viewModel.formState.value)
-        assertEquals(R.string.album_create_error_required, state.nameError)
-        assertEquals(R.string.album_create_error_required, state.coverError)
-        assertEquals(R.string.album_create_error_required, state.releaseDateError)
-        assertEquals(R.string.album_create_error_required, state.genreError)
-        assertEquals(R.string.album_create_error_required, state.recordLabelError)
-        assertEquals(R.string.album_create_error_required, state.descriptionError)
+        assertEquals(R.string.error_required_field, state.nameError)
+        assertEquals(R.string.error_required_field, state.coverError)
+        assertEquals(R.string.error_required_field, state.releaseDateError)
+        assertEquals(R.string.error_required_field, state.genreError)
+        assertEquals(R.string.error_required_field, state.recordLabelError)
+        assertEquals(R.string.error_required_field, state.descriptionError)
         assertEquals(SaveAlbumUiState.Idle, viewModel.saveState.value)
         assertEquals(0, api.createAlbumCalls)
     }

@@ -86,7 +86,7 @@
             <RadioButton
                 android:id="@+id/genre_all"
                 style="@style/Widget.Vinilos.Chip"
-                android:text="@string/albums_filter_all" />
+                android:text="@string/filter_all" />
 
             <RadioButton
                 android:id="@+id/genre_salsa"

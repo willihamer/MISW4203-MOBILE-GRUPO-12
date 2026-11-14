@@ -43,8 +43,8 @@ class AddTrackViewModelTest {
         viewModel.submit()
 
         val state = checkNotNull(viewModel.formState.value)
-        assertEquals(R.string.track_add_error_required, state.nameError)
-        assertEquals(R.string.track_add_error_required, state.durationError)
+        assertEquals(R.string.error_required_field, state.nameError)
+        assertEquals(R.string.error_required_field, state.durationError)
         assertEquals(SaveTrackUiState.Idle, viewModel.saveState.value)
         assertEquals(0, api.addTrackCalls)
     }
@@ -78,7 +78,7 @@ class AddTrackViewModelTest {
 
         val state = checkNotNull(viewModel.formState.value)
         assertNull(state.nameError)
-        assertEquals(R.string.track_add_error_required, state.durationError)
+        assertEquals(R.string.error_required_field, state.durationError)
     }
 
     @Test

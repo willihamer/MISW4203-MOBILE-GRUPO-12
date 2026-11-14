@@ -114,7 +114,6 @@
                 tools:visibility="visible">
 
                 <TextView
-                    android:id="@+id/members_title"
                     style="@style/Widget.Vinilos.SectionTitle"
                     android:text="@string/artist_members_title"
                     app:drawableStartCompat="@drawable/ic_people" />
@@ -141,7 +140,6 @@
 
             <!-- Álbumes del artista -->
             <TextView
-                android:id="@+id/albums_title"
                 style="@style/Widget.Vinilos.SectionTitle"
                 android:layout_marginTop="@dimen/vn_space_xl"
                 android:text="@string/artist_albums_title"

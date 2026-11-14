@@ -41,7 +41,6 @@
         </LinearLayout>
 
         <ImageButton
-            android:id="@+id/prizes_button"
             style="@style/Widget.Vinilos.IconButton"
             android:layout_marginEnd="@dimen/vn_space_sm"
             android:contentDescription="@string/artists_prizes_button"
@@ -86,7 +85,7 @@
             android:background="@drawable/bg_artist_filter_tab"
             android:button="@null"
             android:gravity="center"
-            android:text="@string/artists_filter_all"
+            android:text="@string/filter_all"
             android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge"
             android:textColor="@color/vn_chip_text" />
 
