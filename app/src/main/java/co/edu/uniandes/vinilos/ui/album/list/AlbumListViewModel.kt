@@ -10,7 +10,9 @@ import co.edu.uniandes.vinilos.data.network.AppError
 import co.edu.uniandes.vinilos.data.repository.AlbumRepository
 import co.edu.uniandes.vinilos.ui.common.UiState
 import co.edu.uniandes.vinilos.ui.common.messageRes
+import co.edu.uniandes.vinilos.ui.common.Searchable
 import co.edu.uniandes.vinilos.ui.common.normalizedForSearch
+import co.edu.uniandes.vinilos.ui.common.withSearchKeys
 import kotlinx.coroutines.launch
 
 /**
@@ -26,7 +28,7 @@ class AlbumListViewModel(private val repository: AlbumRepository) : ViewModel() 
     private val _selectedGenre = MutableLiveData<Genre?>(null)
     val selectedGenre: LiveData<Genre?> = _selectedGenre
 
-    private var albums: List<Album> = emptyList()
+    private var albums: List<Searchable<Album>> = emptyList()
     private var query: String = ""
 
     init {
@@ -38,6 +40,7 @@ class AlbumListViewModel(private val repository: AlbumRepository) : ViewModel() 
         viewModelScope.launch {
             try {
                 albums = repository.getAlbums(forceRefresh)
+                    .withSearchKeys { album -> listOf(album.name, album.recordLabel) + album.performers.map { it.name } }
                 publish()
             } catch (e: AppError) {
                 _state.value = UiState.Error(e.messageRes())
@@ -74,15 +77,10 @@ class AlbumListViewModel(private val repository: AlbumRepository) : ViewModel() 
         _state.value = if (albums.isEmpty()) UiState.Empty else UiState.Success(filter(albums))
     }
 
-    private fun filter(source: List<Album>): List<Album> {
+    private fun filter(source: List<Searchable<Album>>): List<Album> {
         val genre = _selectedGenre.value
-        return source.filter { album ->
-            (genre == null || album.genre == genre) && (query.isEmpty() || album.matches(query))
-        }
+        return source.filter { (album, key) ->
+            (genre == null || album.genre == genre) && (query.isEmpty() || key.contains(query))
+        }.map { it.item }
     }
-
-    private fun Album.matches(normalizedQuery: String): Boolean =
-        name.normalizedForSearch().contains(normalizedQuery) ||
-            recordLabel.normalizedForSearch().contains(normalizedQuery) ||
-            performers.any { it.name.normalizedForSearch().contains(normalizedQuery) }
 }
