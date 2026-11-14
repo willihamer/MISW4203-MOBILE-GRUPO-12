@@ -17,7 +17,7 @@ import java.time.LocalDate
 class AlbumRepositoryTest {
     @Test fun `cache por id evita red y conserva albumes distintos`() = runTest {
         val api = FakeVinilosApi()
-        val repo = AlbumRepository(NetworkServiceAdapter(api), UnconfinedTestDispatcher(testScheduler))
+        val repo: AlbumRepository = AlbumRepositoryImpl(NetworkServiceAdapter(api), UnconfinedTestDispatcher(testScheduler))
         assertEquals("Buscando América", repo.getAlbum(100).name)
         assertEquals("A Night at the Opera", repo.getAlbum(102).name)
         repo.getAlbum(100)
@@ -25,7 +25,7 @@ class AlbumRepositoryTest {
     }
     @Test fun `forzar refresco actualiza detalle almacenado`() = runTest {
         val api = FakeVinilosApi()
-        val repo = AlbumRepository(NetworkServiceAdapter(api), UnconfinedTestDispatcher(testScheduler))
+        val repo: AlbumRepository = AlbumRepositoryImpl(NetworkServiceAdapter(api), UnconfinedTestDispatcher(testScheduler))
         repo.getAlbum(100)
         api.album = { SampleData.buscandoAmerica.copy(description = "Actualizada") }
         assertEquals("Actualizada", repo.getAlbum(100, true).description)
@@ -34,7 +34,7 @@ class AlbumRepositoryTest {
     }
     @Test fun `catalogo no reemplaza la consulta completa del detalle`() = runTest {
         val api = FakeVinilosApi(albums = { SampleData.albums })
-        val repo = AlbumRepository(NetworkServiceAdapter(api), UnconfinedTestDispatcher(testScheduler))
+        val repo: AlbumRepository = AlbumRepositoryImpl(NetworkServiceAdapter(api), UnconfinedTestDispatcher(testScheduler))
         repo.getAlbums()
         repo.getAlbum(100)
         assertEquals(1, api.albumDetailCalls)
@@ -43,7 +43,7 @@ class AlbumRepositoryTest {
     @Test fun `crear un album invalida la cache del catalogo y fuerza nueva consulta`() = runTest {
         var currentAlbums = SampleData.albums
         val api = FakeVinilosApi(albums = { currentAlbums })
-        val repo = AlbumRepository(NetworkServiceAdapter(api), UnconfinedTestDispatcher(testScheduler))
+        val repo: AlbumRepository = AlbumRepositoryImpl(NetworkServiceAdapter(api), UnconfinedTestDispatcher(testScheduler))
 
         assertEquals(2, repo.getAlbums().size)
         assertTrue(repo.isCatalogCacheValid)
@@ -69,7 +69,7 @@ class AlbumRepositoryTest {
 
     @Test fun `agregar un track actualiza el detalle en cache sin volver a consultar la red`() = runTest {
         val api = FakeVinilosApi()
-        val repo = AlbumRepository(NetworkServiceAdapter(api), UnconfinedTestDispatcher(testScheduler))
+        val repo: AlbumRepository = AlbumRepositoryImpl(NetworkServiceAdapter(api), UnconfinedTestDispatcher(testScheduler))
         assertTrue(repo.getAlbum(100).tracks.isEmpty())
 
         val created = repo.addTrack(100, NewTrack(name = "Decisiones", duration = "5:05"))
@@ -82,7 +82,7 @@ class AlbumRepositoryTest {
 
     @Test fun `agregar un track a un album sin detalle en cache no lo consulta`() = runTest {
         val api = FakeVinilosApi()
-        val repo = AlbumRepository(NetworkServiceAdapter(api), UnconfinedTestDispatcher(testScheduler))
+        val repo: AlbumRepository = AlbumRepositoryImpl(NetworkServiceAdapter(api), UnconfinedTestDispatcher(testScheduler))
 
         repo.addTrack(102, NewTrack(name = "Bohemian Rhapsody", duration = "5:55"))
 

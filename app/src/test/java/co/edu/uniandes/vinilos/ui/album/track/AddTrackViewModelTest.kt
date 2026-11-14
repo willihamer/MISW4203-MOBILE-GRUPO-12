@@ -6,6 +6,7 @@ import co.edu.uniandes.vinilos.R
 import co.edu.uniandes.vinilos.data.network.NetworkServiceAdapter
 import co.edu.uniandes.vinilos.data.network.dto.TrackDto
 import co.edu.uniandes.vinilos.data.repository.AlbumRepository
+import co.edu.uniandes.vinilos.data.repository.AlbumRepositoryImpl
 import co.edu.uniandes.vinilos.testutil.FakeVinilosApi
 import co.edu.uniandes.vinilos.testutil.MainDispatcherRule
 import okhttp3.ResponseBody.Companion.toResponseBody
@@ -28,7 +29,7 @@ class AddTrackViewModelTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     private val api = FakeVinilosApi()
-    private val repository = AlbumRepository(NetworkServiceAdapter(api), mainDispatcherRule.dispatcher)
+    private val repository: AlbumRepository = AlbumRepositoryImpl(NetworkServiceAdapter(api), mainDispatcherRule.dispatcher)
 
     private fun createViewModel(albumId: Int = 100) = AddTrackViewModel(
         repository,

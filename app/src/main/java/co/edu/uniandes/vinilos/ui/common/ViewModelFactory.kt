@@ -1,37 +1,53 @@
 package co.edu.uniandes.vinilos.ui.common
 
-import co.edu.uniandes.vinilos.ui.album.detail.AlbumDetailViewModel
-import co.edu.uniandes.vinilos.ui.collector.list.CollectorListViewModel
-import co.edu.uniandes.vinilos.ui.collector.detail.CollectorDetailViewModel
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
+import co.edu.uniandes.vinilos.data.repository.AlbumRepository
+import co.edu.uniandes.vinilos.data.repository.ArtistRepository
+import co.edu.uniandes.vinilos.data.repository.CollectorRepository
+import co.edu.uniandes.vinilos.data.repository.ProfileRepository
 import co.edu.uniandes.vinilos.di.AppContainer
 import co.edu.uniandes.vinilos.ui.album.create.CreateAlbumViewModel
+import co.edu.uniandes.vinilos.ui.album.detail.AlbumDetailViewModel
 import co.edu.uniandes.vinilos.ui.album.list.AlbumListViewModel
 import co.edu.uniandes.vinilos.ui.album.track.AddTrackViewModel
 import co.edu.uniandes.vinilos.ui.artist.detail.ArtistDetailViewModel
 import co.edu.uniandes.vinilos.ui.artist.list.ArtistListViewModel
+import co.edu.uniandes.vinilos.ui.collector.detail.CollectorDetailViewModel
+import co.edu.uniandes.vinilos.ui.collector.list.CollectorListViewModel
 import co.edu.uniandes.vinilos.ui.profile.CollectorPickerViewModel
 import co.edu.uniandes.vinilos.ui.profile.ProfileViewModel
 
-/** Crea los ViewModels con sus dependencias tomadas del [AppContainer]. */
-class ViewModelFactory(private val container: AppContainer) : ViewModelProvider.Factory {
+/** Crea los ViewModels con las interfaces de repositorio registradas en el [AppContainer]. */
+class ViewModelFactory(
+    private val albumRepository: AlbumRepository,
+    private val artistRepository: ArtistRepository,
+    private val collectorRepository: CollectorRepository,
+    private val profileRepository: ProfileRepository,
+) : ViewModelProvider.Factory {
+
+    constructor(container: AppContainer) : this(
+        albumRepository = container.albumRepository,
+        artistRepository = container.artistRepository,
+        collectorRepository = container.collectorRepository,
+        profileRepository = container.profileRepository,
+    )
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T = when {
         modelClass.isAssignableFrom(AlbumListViewModel::class.java) ->
-            AlbumListViewModel(container.albumRepository)
+            AlbumListViewModel(albumRepository)
         modelClass.isAssignableFrom(CreateAlbumViewModel::class.java) ->
-            CreateAlbumViewModel(container.albumRepository)
+            CreateAlbumViewModel(albumRepository)
         modelClass.isAssignableFrom(ArtistListViewModel::class.java) ->
-            ArtistListViewModel(container.artistRepository)
+            ArtistListViewModel(artistRepository)
         modelClass.isAssignableFrom(CollectorPickerViewModel::class.java) ->
-            CollectorPickerViewModel(container.collectorRepository)
+            CollectorPickerViewModel(collectorRepository)
         modelClass.isAssignableFrom(ProfileViewModel::class.java) ->
-            ProfileViewModel(container.profileRepository)
+            ProfileViewModel(profileRepository)
         else -> throw IllegalArgumentException("ViewModel desconocido: ${modelClass.name}")
     } as T
 
@@ -39,15 +55,15 @@ class ViewModelFactory(private val container: AppContainer) : ViewModelProvider.
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T = when {
         modelClass.isAssignableFrom(CollectorListViewModel::class.java) ->
-            CollectorListViewModel(container.collectorRepository, extras.createSavedStateHandle()) as T
+            CollectorListViewModel(collectorRepository, extras.createSavedStateHandle()) as T
         modelClass.isAssignableFrom(CollectorDetailViewModel::class.java) ->
-            CollectorDetailViewModel(container.collectorRepository, extras.createSavedStateHandle()) as T
+            CollectorDetailViewModel(collectorRepository, extras.createSavedStateHandle()) as T
         modelClass.isAssignableFrom(AlbumDetailViewModel::class.java) ->
-            AlbumDetailViewModel(container.albumRepository, extras.createSavedStateHandle()) as T
+            AlbumDetailViewModel(albumRepository, extras.createSavedStateHandle()) as T
         modelClass.isAssignableFrom(AddTrackViewModel::class.java) ->
-            AddTrackViewModel(container.albumRepository, extras.createSavedStateHandle()) as T
+            AddTrackViewModel(albumRepository, extras.createSavedStateHandle()) as T
         modelClass.isAssignableFrom(ArtistDetailViewModel::class.java) ->
-            ArtistDetailViewModel(container.artistRepository, extras.createSavedStateHandle()) as T
+            ArtistDetailViewModel(artistRepository, extras.createSavedStateHandle()) as T
         else -> create(modelClass)
     }
 }

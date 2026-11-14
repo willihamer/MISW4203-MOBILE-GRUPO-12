@@ -8,6 +8,7 @@ import co.edu.uniandes.vinilos.data.model.NewAlbum
 import co.edu.uniandes.vinilos.data.model.RecordLabel
 import co.edu.uniandes.vinilos.data.network.NetworkServiceAdapter
 import co.edu.uniandes.vinilos.data.repository.AlbumRepository
+import co.edu.uniandes.vinilos.data.repository.AlbumRepositoryImpl
 import co.edu.uniandes.vinilos.testutil.FakeVinilosApi
 import co.edu.uniandes.vinilos.testutil.MainDispatcherRule
 import co.edu.uniandes.vinilos.testutil.SampleData
@@ -30,7 +31,7 @@ class AlbumListViewModelTest {
     private val api = FakeVinilosApi(albums = { SampleData.albums })
 
     private fun createViewModel() = AlbumListViewModel(
-        AlbumRepository(NetworkServiceAdapter(api), mainDispatcherRule.dispatcher),
+        AlbumRepositoryImpl(NetworkServiceAdapter(api), mainDispatcherRule.dispatcher),
     )
 
     private fun AlbumListViewModel.albumNames(): List<String> {
@@ -120,7 +121,7 @@ class AlbumListViewModelTest {
     fun `refreshIfInvalidated recarga el catalogo cuando se crea un album`() = runTest {
         var currentAlbums = SampleData.albums
         api.albums = { currentAlbums }
-        val repository = AlbumRepository(NetworkServiceAdapter(api), mainDispatcherRule.dispatcher)
+        val repository: AlbumRepository = AlbumRepositoryImpl(NetworkServiceAdapter(api), mainDispatcherRule.dispatcher)
         val viewModel = AlbumListViewModel(repository)
 
         assertEquals(1, api.albumCalls)
