@@ -49,6 +49,7 @@ class ArtistListFragment : Fragment(R.layout.fragment_artist_list) {
 
         setUpHeader()
         setUpFilters()
+        binding.error.errorTitle.setText(R.string.error_artists_title)
         binding.error.retryButton.setOnClickListener { viewModel.load(forceRefresh = true) }
 
         viewModel.state.observe(viewLifecycleOwner) { state -> render(state, adapter) }

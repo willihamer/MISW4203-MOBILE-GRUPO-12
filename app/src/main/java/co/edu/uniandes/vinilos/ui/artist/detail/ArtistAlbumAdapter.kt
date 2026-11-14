@@ -11,6 +11,7 @@ import co.edu.uniandes.vinilos.data.model.Album
 import co.edu.uniandes.vinilos.databinding.ItemArtistAlbumBinding
 import co.edu.uniandes.vinilos.ui.common.remoteImage
 import com.bumptech.glide.Glide
+import java.util.Locale
 
 /** Carrusel de álbumes del artista en el detalle (HU04). */
 class ArtistAlbumAdapter(
@@ -29,7 +30,7 @@ class ArtistAlbumAdapter(
 
         fun bind(album: Album) {
             binding.name.text = album.name
-            binding.year.text = album.releaseYear?.toString()
+            binding.year.text = album.releaseYear?.let { String.format(Locale.getDefault(), "%d", it) }
             binding.year.isVisible = album.releaseYear != null
             binding.cover.contentDescription =
                 binding.root.context.getString(R.string.album_cover_description, album.name)

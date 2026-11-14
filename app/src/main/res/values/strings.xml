@@ -1,4 +1,5 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:locale="es">
     <string name="app_name">Vinilos</string>
 
     <!-- P01 Bienvenida -->
@@ -17,7 +18,7 @@
     <string name="collector_picker_subtitle">Selecciona tu perfil de coleccionista para continuar</string>
     <string name="collector_picker_continue">Continuar</string>
     <string name="collector_picker_empty">No hay coleccionistas registrados en el servidor.</string>
-    <string name="collector_picker_error">No pudimos cargar los coleccionistas.</string>
+    <string name="collector_picker_error">No pudimos cargar los coleccionistas.\n%1$s</string>
 
     <!-- Perfil -->
     <string name="profile_visitor">Visitante</string>
@@ -42,7 +43,6 @@
     <string name="genre_classical" translatable="false">Classical</string>
     <string name="albums_loading">Sincronizando biblioteca…</string>
     <string name="albums_unknown_artist">Artista desconocido</string>
-    <string name="album_meta">%1$d • %2$s</string>
     <string name="album_cover_description">Portada de %1$s</string>
     <string name="albums_empty_title">Aún no hay álbumes en el catálogo</string>
     <string name="albums_empty_message">La colección está vacía por el momento.</string>
@@ -53,7 +53,6 @@
     <string name="artists_title">Artistas</string>
     <string name="artists_subtitle">Músicos y bandas del catálogo</string>
     <string name="artists_search_hint">Buscar artista</string>
-    <string name="artists_search">Buscar</string>
     <string name="artists_filter_all">Todos</string>
     <string name="artists_filter_musicians">Músicos</string>
     <string name="artists_filter_bands">Bandas</string>
@@ -87,11 +86,6 @@
     <string name="error_server">El servidor respondió con un error. Inténtalo nuevamente en unos minutos.</string>
     <string name="error_unknown">Ocurrió un error inesperado. Inténtalo nuevamente.</string>
     <string name="retry">Reintentar</string>
-
-    <!-- Pestañas del Sprint 2 -->
-    <string name="coming_soon_title">Próximamente</string>
-    <string name="coming_soon_artists">El listado de artistas llega en el Sprint 2.</string>
-    <string name="coming_soon_collectors">El listado de coleccionistas llega en el Sprint 2.</string>
 
     <!-- Accesibilidad -->
     <string name="cd_close">Cerrar</string>
@@ -164,11 +158,4 @@
     <string name="track_add_success">Track agregado al álbum</string>
     <string name="track_add_error_required">Este campo es obligatorio</string>
     <string name="track_add_error_duration_format">Usa el formato mm:ss, p. ej. 04:35</string>
-
-    <!-- Valores del enum RECORD_LABEL del backend -->
-    <string name="record_label_sony_music" translatable="false">Sony Music</string>
-    <string name="record_label_emi" translatable="false">EMI</string>
-    <string name="record_label_discos_fuentes" translatable="false">Discos Fuentes</string>
-    <string name="record_label_elektra" translatable="false">Elektra</string>
-    <string name="record_label_fania_records" translatable="false">Fania Records</string>
 </resources>

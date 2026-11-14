@@ -54,7 +54,7 @@ class CollectorPickerBottomSheet : BottomSheetDialogFragment() {
             when (state) {
                 is UiState.Success -> adapter.submitList(state.data)
                 is UiState.Error -> binding.message.text =
-                    getString(R.string.collector_picker_error) + "\n" + getString(state.message)
+                    getString(R.string.collector_picker_error, getString(state.message))
                 UiState.Empty -> binding.message.setText(R.string.collector_picker_empty)
                 UiState.Loading -> Unit
             }
