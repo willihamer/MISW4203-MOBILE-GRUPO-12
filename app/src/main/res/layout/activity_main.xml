@@ -32,7 +32,8 @@
 
         <LinearLayout
             android:id="@+id/tab_albums"
-            style="@style/Widget.Vinilos.Tab">
+            style="@style/Widget.Vinilos.Tab"
+            tools:ignore="UseCompoundDrawables">
 
             <ImageView
                 style="@style/Widget.Vinilos.Tab.Icon"
@@ -46,7 +47,8 @@
 
         <LinearLayout
             android:id="@+id/tab_artists"
-            style="@style/Widget.Vinilos.Tab">
+            style="@style/Widget.Vinilos.Tab"
+            tools:ignore="UseCompoundDrawables">
 
             <ImageView
                 style="@style/Widget.Vinilos.Tab.Icon"
@@ -60,7 +62,8 @@
 
         <LinearLayout
             android:id="@+id/tab_collectors"
-            style="@style/Widget.Vinilos.Tab">
+            style="@style/Widget.Vinilos.Tab"
+            tools:ignore="UseCompoundDrawables">
 
             <ImageView
                 style="@style/Widget.Vinilos.Tab.Icon"

@@ -30,7 +30,8 @@
                 android:accessibilityHeading="true"
                 android:text="@string/albums_title"
                 android:textAppearance="@style/TextAppearance.Vinilos.HeadlineLarge"
-                android:textSize="28sp" />
+                android:textSize="28sp"
+                tools:targetApi="28" />
 
             <TextView
                 android:layout_width="wrap_content"

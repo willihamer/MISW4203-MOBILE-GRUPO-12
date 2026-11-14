@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Design system "Vinilos Liquid Dark" (docs/diseno/DESIGN.md). Solo modo oscuro. -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@color/vn_success,@color/vn_scrim">
     <!-- Lienzo -->
     <color name="vn_background">#FF0A0A14</color>
     <color name="vn_surface">#FF12121D</color>
