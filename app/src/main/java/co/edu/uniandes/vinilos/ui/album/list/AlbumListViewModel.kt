@@ -13,6 +13,7 @@ import co.edu.uniandes.vinilos.ui.common.messageRes
 import co.edu.uniandes.vinilos.ui.common.Searchable
 import co.edu.uniandes.vinilos.ui.common.normalizedForSearch
 import co.edu.uniandes.vinilos.ui.common.withSearchKeys
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 /**
@@ -30,14 +31,17 @@ class AlbumListViewModel(private val repository: AlbumRepository) : ViewModel() 
 
     private var albums: List<Searchable<Album>> = emptyList()
     private var query: String = ""
+    private var loadJob: Job? = null
 
     init {
         load()
     }
 
     fun load(forceRefresh: Boolean = false) {
+        // Un reintento cancela la carga anterior: la respuesta más lenta no pisa a la más reciente
+        loadJob?.cancel()
         _state.value = UiState.Loading
-        viewModelScope.launch {
+        loadJob = viewModelScope.launch {
             try {
                 albums = repository.getAlbums(forceRefresh)
                     .withSearchKeys { album -> listOf(album.name, album.recordLabel) + album.performers.map { it.name } }
