@@ -38,6 +38,8 @@ class CollectorListFragment : Fragment(R.layout.fragment_collector_list) {
         _binding = FragmentCollectorListBinding.bind(view)
 
         val adapter = CollectorAdapter(::openCollector)
+        // La lista ocupa todo su contenedor: cambiar los elementos no cambia su tamaño y evita remedirla
+        binding.collectorList.setHasFixedSize(true)
         binding.collectorList.adapter = adapter
 
         ViewCompat.setAccessibilityHeading(binding.title, true)

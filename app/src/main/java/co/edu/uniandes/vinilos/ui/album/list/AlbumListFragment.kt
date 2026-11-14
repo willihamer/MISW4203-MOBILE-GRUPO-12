@@ -49,6 +49,8 @@ class AlbumListFragment : Fragment(R.layout.fragment_album_list) {
         _binding = FragmentAlbumListBinding.bind(view)
 
         val adapter = AlbumAdapter(::openAlbum)
+        // La lista ocupa todo su contenedor: cambiar los elementos no cambia su tamaño y evita remedirla
+        binding.albumList.setHasFixedSize(true)
         binding.albumList.adapter = adapter
 
         setUpHeader()

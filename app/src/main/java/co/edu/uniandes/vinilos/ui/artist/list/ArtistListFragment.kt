@@ -45,6 +45,8 @@ class ArtistListFragment : Fragment(R.layout.fragment_artist_list) {
         _binding = FragmentArtistListBinding.bind(view)
 
         val adapter = ArtistAdapter(::openArtist)
+        // La lista ocupa todo su contenedor: cambiar los elementos no cambia su tamaño y evita remedirla
+        binding.artistList.setHasFixedSize(true)
         binding.artistList.adapter = adapter
 
         setUpHeader()
