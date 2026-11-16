@@ -8,6 +8,10 @@
     <dimen name="vn_space_xl">32dp</dimen>
     <dimen name="vn_screen_margin">16dp</dimen>
 
+    <!-- Vinilo de la bienvenida: más pequeño en pantallas bajas (values-h720dp usa 220 dp) para
+         que las dos opciones de perfil se vean sin desplazarse, p. ej. en un Nexus 5 -->
+    <dimen name="vn_welcome_vinyl">150dp</dimen>
+
     <!-- Radios -->
     <dimen name="vn_radius_input">16dp</dimen>
     <dimen name="vn_radius_card">24dp</dimen>
@@ -23,6 +27,8 @@
     <dimen name="vn_bottom_bar_height">64dp</dimen>
     <!-- Espacio que se deja al final de las listas para que no queden bajo la barra flotante -->
     <dimen name="vn_bottom_bar_clearance">104dp</dimen>
+    <!-- Margen inferior para botones flotantes sobre la barra de navegación inferior -->
+    <dimen name="vn_fab_bottom_clearance">124dp</dimen>
     <dimen name="vn_border">1dp</dimen>
 
     <!-- Detalle de artista (HU04) -->
@@ -32,4 +38,8 @@
     <dimen name="vn_artist_hero_overlap">-88dp</dimen>
     <dimen name="vn_artist_top_bar_height">72dp</dimen>
     <dimen name="vn_artist_album_width">168dp</dimen>
+    <!-- P07 Detalle de coleccionista (HU06) -->
+    <dimen name="vn_collector_avatar_size">112dp</dimen>
+    <dimen name="vn_favorite_item_width">104dp</dimen>
+    <dimen name="vn_favorite_avatar_size">80dp</dimen>
 </resources>

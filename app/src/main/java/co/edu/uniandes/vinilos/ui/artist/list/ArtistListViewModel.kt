@@ -10,7 +10,10 @@ import co.edu.uniandes.vinilos.data.network.AppError
 import co.edu.uniandes.vinilos.data.repository.ArtistRepository
 import co.edu.uniandes.vinilos.ui.common.UiState
 import co.edu.uniandes.vinilos.ui.common.messageRes
+import co.edu.uniandes.vinilos.ui.common.Searchable
 import co.edu.uniandes.vinilos.ui.common.normalizedForSearch
+import co.edu.uniandes.vinilos.ui.common.withSearchKeys
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 /**
@@ -27,18 +30,21 @@ class ArtistListViewModel(private val repository: ArtistRepository) : ViewModel(
     private val _selectedType = MutableLiveData<ArtistType?>(null)
     val selectedType: LiveData<ArtistType?> = _selectedType
 
-    private var artists: List<Artist> = emptyList()
+    private var artists: List<Searchable<Artist>> = emptyList()
     private var query: String = ""
+    private var loadJob: Job? = null
 
     init {
         load()
     }
 
     fun load(forceRefresh: Boolean = false) {
+        // Un reintento cancela la carga anterior: la respuesta más lenta no pisa a la más reciente
+        loadJob?.cancel()
         _state.value = UiState.Loading
-        viewModelScope.launch {
+        loadJob = viewModelScope.launch {
             try {
-                artists = repository.getArtists(forceRefresh)
+                artists = repository.getArtists(forceRefresh).withSearchKeys { listOf(it.name) }
                 publish()
             } catch (e: AppError) {
                 _state.value = UiState.Error(e.messageRes())
@@ -68,13 +74,10 @@ class ArtistListViewModel(private val repository: ArtistRepository) : ViewModel(
         _state.value = if (artists.isEmpty()) UiState.Empty else UiState.Success(filter(artists))
     }
 
-    private fun filter(source: List<Artist>): List<Artist> {
+    private fun filter(source: List<Searchable<Artist>>): List<Artist> {
         val type = _selectedType.value
-        return source.filter { artist ->
-            (type == null || artist.type == type) && (query.isEmpty() || artist.matches(query))
-        }
+        return source.filter { (artist, key) ->
+            (type == null || artist.type == type) && (query.isEmpty() || key.contains(query))
+        }.map { it.item }
     }
-
-    private fun Artist.matches(normalizedQuery: String): Boolean =
-        name.normalizedForSearch().contains(normalizedQuery)
 }

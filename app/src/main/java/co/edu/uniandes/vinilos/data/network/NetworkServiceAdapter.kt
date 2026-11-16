@@ -3,7 +3,14 @@ package co.edu.uniandes.vinilos.data.network
 import co.edu.uniandes.vinilos.data.model.Album
 import co.edu.uniandes.vinilos.data.model.Artist
 import co.edu.uniandes.vinilos.data.model.Collector
+import co.edu.uniandes.vinilos.data.model.CollectorAlbum
+import co.edu.uniandes.vinilos.data.model.CollectorDetail
+import co.edu.uniandes.vinilos.data.model.NewAlbum
+import co.edu.uniandes.vinilos.data.model.NewTrack
+import co.edu.uniandes.vinilos.data.model.Track
+import co.edu.uniandes.vinilos.data.network.mapper.toDetail
 import co.edu.uniandes.vinilos.data.network.mapper.toModel
+import co.edu.uniandes.vinilos.data.network.mapper.toRequestDto
 import kotlinx.coroutines.CancellationException
 import retrofit2.HttpException
 import java.io.IOException
@@ -18,7 +25,18 @@ class NetworkServiceAdapter(private val api: VinilosApi) {
 
     suspend fun getAlbum(id: Int): Album = call { api.getAlbum(id).toModel() }
 
+    suspend fun createAlbum(album: NewAlbum): Album = call { api.createAlbum(album.toRequestDto()).toModel() }
+
+    suspend fun addTrack(albumId: Int, track: NewTrack): Track =
+        call { api.addTrack(albumId, track.toRequestDto()).toModel() }
+
     suspend fun getCollectors(): List<Collector> = call { api.getCollectors().map { it.toModel() } }
+
+    /** Contacto y artistas favoritos; los álbumes llegan aparte en [getCollectorAlbums]. */
+    suspend fun getCollector(id: Int): CollectorDetail = call { api.getCollector(id).toDetail() }
+
+    suspend fun getCollectorAlbums(id: Int): List<CollectorAlbum> =
+        call { api.getCollectorAlbums(id).mapNotNull { it.toModel() } }
 
     suspend fun getMusicians(): List<Artist.Musician> = call { api.getMusicians().map { it.toModel() } }
 

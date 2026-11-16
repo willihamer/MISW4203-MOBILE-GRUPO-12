@@ -5,9 +5,11 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -16,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import co.edu.uniandes.vinilos.R
 import co.edu.uniandes.vinilos.data.model.Album
 import co.edu.uniandes.vinilos.data.model.Genre
+import co.edu.uniandes.vinilos.data.model.Profile
 import co.edu.uniandes.vinilos.databinding.FragmentAlbumListBinding
 import co.edu.uniandes.vinilos.ui.common.UiState
 import co.edu.uniandes.vinilos.ui.common.render
@@ -46,14 +49,24 @@ class AlbumListFragment : Fragment(R.layout.fragment_album_list) {
         _binding = FragmentAlbumListBinding.bind(view)
 
         val adapter = AlbumAdapter(::openAlbum)
+        // La lista ocupa todo su contenedor: cambiar los elementos no cambia su tamaño y evita remedirla
+        binding.albumList.setHasFixedSize(true)
         binding.albumList.adapter = adapter
 
         setUpHeader()
         setUpFilters()
         binding.error.retryButton.setOnClickListener { viewModel.load(forceRefresh = true) }
+        binding.createAlbumButton.setOnClickListener {
+            findNavController().navigate(R.id.createAlbumFragment)
+        }
+        applyFabInsets()
 
+        viewModel.refreshIfInvalidated()
         viewModel.state.observe(viewLifecycleOwner) { state -> render(state, adapter) }
-        profileViewModel.profile.observe(viewLifecycleOwner) { binding.profileChip.render(it) }
+        profileViewModel.profile.observe(viewLifecycleOwner) { profile ->
+            binding.profileChip.render(profile)
+            binding.createAlbumButton.isVisible = profile is Profile.CollectorProfile
+        }
     }
 
     private fun setUpHeader() {
@@ -65,6 +78,18 @@ class AlbumListFragment : Fragment(R.layout.fragment_album_list) {
         binding.profileChip.root.setOnClickListener {
             profileViewModel.changeProfile()
             findNavController().navigate(R.id.action_global_welcome)
+        }
+    }
+
+    /**
+     * Mantiene el botón flotante por encima de la barra inferior. La barra de navegación del
+     * sistema ya la descuenta MainActivity con el padding del contenedor de pantallas.
+     */
+    private fun applyFabInsets() {
+        val baseClearance = resources.getDimensionPixelSize(R.dimen.vn_bottom_bar_height) +
+            resources.getDimensionPixelSize(R.dimen.vn_space_md) * 2
+        binding.createAlbumButton.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+            bottomMargin = baseClearance
         }
     }
 
@@ -110,7 +135,7 @@ class AlbumListFragment : Fragment(R.layout.fragment_album_list) {
             UiState.Loading -> Unit
         }
         if (noResults) {
-            binding.empty.emptyTitle.setText(R.string.albums_no_results_title)
+            binding.empty.emptyTitle.setText(R.string.no_results_title)
             binding.empty.emptyMessage.setText(R.string.albums_no_results_message)
         }
     }

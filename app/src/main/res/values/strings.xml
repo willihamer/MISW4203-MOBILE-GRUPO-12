@@ -1,4 +1,5 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:locale="es">
     <string name="app_name">Vinilos</string>
 
     <!-- P01 Bienvenida -->
@@ -17,7 +18,7 @@
     <string name="collector_picker_subtitle">Selecciona tu perfil de coleccionista para continuar</string>
     <string name="collector_picker_continue">Continuar</string>
     <string name="collector_picker_empty">No hay coleccionistas registrados en el servidor.</string>
-    <string name="collector_picker_error">No pudimos cargar los coleccionistas.</string>
+    <string name="collector_picker_error">No pudimos cargar los coleccionistas.\n%1$s</string>
 
     <!-- Perfil -->
     <string name="profile_visitor">Visitante</string>
@@ -34,7 +35,7 @@
     <string name="albums_subtitle">Explora el catálogo de vinilos</string>
     <string name="albums_search_hint">Buscar álbum, artista o sello…</string>
     <string name="albums_search">Buscar</string>
-    <string name="albums_filter_all">Todos</string>
+    <string name="filter_all">Todos</string>
     <!-- Valores del enum GENRE del backend: se muestran tal como los entrega la API -->
     <string name="genre_salsa" translatable="false">Salsa</string>
     <string name="genre_rock" translatable="false">Rock</string>
@@ -42,19 +43,16 @@
     <string name="genre_classical" translatable="false">Classical</string>
     <string name="albums_loading">Sincronizando biblioteca…</string>
     <string name="albums_unknown_artist">Artista desconocido</string>
-    <string name="album_meta">%1$d • %2$s</string>
     <string name="album_cover_description">Portada de %1$s</string>
     <string name="albums_empty_title">Aún no hay álbumes en el catálogo</string>
     <string name="albums_empty_message">La colección está vacía por el momento.</string>
-    <string name="albums_no_results_title">Sin resultados</string>
+    <string name="no_results_title">Sin resultados</string>
     <string name="albums_no_results_message">Ningún álbum coincide con la búsqueda o el filtro.</string>
 
     <!-- P04 Listado de artistas (HU03) -->
     <string name="artists_title">Artistas</string>
     <string name="artists_subtitle">Músicos y bandas del catálogo</string>
     <string name="artists_search_hint">Buscar artista</string>
-    <string name="artists_search">Buscar</string>
-    <string name="artists_filter_all">Todos</string>
     <string name="artists_filter_musicians">Músicos</string>
     <string name="artists_filter_bands">Bandas</string>
     <string name="artist_type_musician">Músico</string>
@@ -63,7 +61,6 @@
     <string name="artists_loading">Cargando artistas…</string>
     <string name="artists_empty_title">Aún no hay artistas en el catálogo</string>
     <string name="artists_empty_message">No encontramos músicos ni bandas registrados en el servidor.</string>
-    <string name="artists_no_results_title">Sin resultados</string>
     <string name="artists_no_results_message">Ningún artista coincide con la búsqueda o el filtro.</string>
     <string name="artists_prizes_button">Premios</string>
 
@@ -88,11 +85,6 @@
     <string name="error_unknown">Ocurrió un error inesperado. Inténtalo nuevamente.</string>
     <string name="retry">Reintentar</string>
 
-    <!-- Pestañas del Sprint 2 -->
-    <string name="coming_soon_title">Próximamente</string>
-    <string name="coming_soon_artists">El listado de artistas llega en el Sprint 2.</string>
-    <string name="coming_soon_collectors">El listado de coleccionistas llega en el Sprint 2.</string>
-
     <!-- Accesibilidad -->
     <string name="cd_close">Cerrar</string>
     <string name="cd_vinyl">Disco de vinilo</string>
@@ -108,4 +100,64 @@
     <string name="error_album_not_found">Este álbum ya no está disponible en el catálogo.</string>
     <string name="album_tracks_row">%1$s · %2$s</string>
     <string name="album_unknown_date">No disponible</string>
+    <string name="collectors_subtitle">Conoce a otros amantes del vinilo</string>
+    <string name="collectors_search_hint">Buscar coleccionista</string>
+    <string name="collectors_loading">Cargando coleccionistas…</string>
+    <string name="collectors_empty_title">Aún no hay coleccionistas</string>
+    <string name="collectors_empty_message">Los coleccionistas registrados aparecerán aquí.</string>
+    <string name="collectors_no_results_title">No encontramos coleccionistas</string>
+    <string name="collectors_no_results_message">Prueba con otro nombre.</string>
+    <string name="error_collectors_title">No pudimos cargar los coleccionistas</string>
+    <string name="error_collector_title">No pudimos cargar el coleccionista</string>
+    <string name="error_collector_not_found">Este coleccionista ya no está disponible.</string>
+    <string name="collector_detail_title">Detalle del coleccionista</string>
+    <string name="collector_loading">Cargando coleccionista…</string>
+    <string name="collector_phone_description">Teléfono: %1$s</string>
+    <string name="collector_email_description">Correo: %1$s</string>
+    <string name="collector_favorites_title">Artistas favoritos</string>
+    <string name="collector_favorites_empty">Este coleccionista aún no tiene artistas favoritos.</string>
+    <string name="collector_albums_title">Su colección</string>
+    <string name="collector_albums_empty">Este coleccionista aún no tiene álbumes en su colección.</string>
+    <string name="collector_album_price">$%1$s COP</string>
+
+    <!-- P08 Crear álbum (HU07) -->
+    <string name="album_create_button">Crear álbum</string>
+    <string name="album_create_title">Nuevo álbum</string>
+    <string name="album_create_preview_cover_label">Vista previa de\ncarátula</string>
+    <string name="album_create_preview_title_placeholder">Título del Álbum</string>
+    <string name="album_create_preview_genre_placeholder">Género</string>
+    <string name="album_create_preview_label_placeholder">· %1$s</string>
+    <string name="required_badge">Requerido</string>
+    <string name="album_create_name_label">Nombre del álbum *</string>
+    <string name="album_create_name_hint">Ej. Siembra, Buscando América…</string>
+    <string name="album_create_cover_label">URL de la portada *</string>
+    <string name="album_create_cover_hint">https://ejemplo.com/portada.jpg</string>
+    <string name="album_create_release_date_label">Fecha de lanzamiento *</string>
+    <string name="album_create_release_date_hint">dd / mm / aaaa</string>
+    <string name="album_create_genre_label">Género *</string>
+    <string name="album_create_genre_hint">Selecciona un género</string>
+    <string name="album_create_record_label_label">Sello discográfico *</string>
+    <string name="album_create_record_label_hint">Selecciona un sello</string>
+    <string name="album_create_description_label">Descripción del álbum *</string>
+    <string name="album_create_description_hint">Reseña histórica, estilo musical o notas de producción…</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="album_create_save">Guardar álbum</string>
+    <string name="album_create_saving">Guardando…</string>
+    <string name="album_create_success">Álbum creado exitosamente</string>
+    <string name="error_required_field">Este campo es obligatorio</string>
+    <string name="album_create_error_cover_url">Ingresa una URL válida con http o https</string>
+
+    <!-- HU08 / P09 Agregar track -->
+    <string name="track_add_button">Agregar track</string>
+    <string name="track_add_overline">Nueva entrada</string>
+    <string name="track_add_subtitle">%1$s • %2$s</string>
+    <string name="track_add_name_label">Nombre del track *</string>
+    <string name="track_add_name_hint">Ej. Desapariciones</string>
+    <string name="track_add_duration_label">Duración *</string>
+    <string name="track_add_duration_hint">Ej. 04:35</string>
+    <string name="track_add_duration_helper">Formato mm:ss</string>
+    <string name="track_add_save">Agregar</string>
+    <string name="track_add_saving">Agregando…</string>
+    <string name="track_add_success">Track agregado al álbum</string>
+    <string name="track_add_error_duration_format">Usa el formato mm:ss, p. ej. 04:35</string>
 </resources>

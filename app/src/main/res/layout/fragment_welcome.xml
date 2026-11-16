@@ -17,8 +17,8 @@
         android:paddingBottom="@dimen/vn_space_lg">
 
         <ImageView
-            android:layout_width="220dp"
-            android:layout_height="220dp"
+            android:layout_width="@dimen/vn_welcome_vinyl"
+            android:layout_height="@dimen/vn_welcome_vinyl"
             android:contentDescription="@string/cd_vinyl"
             android:src="@drawable/ic_vinyl" />
 

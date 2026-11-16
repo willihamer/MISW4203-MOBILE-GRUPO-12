@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lint>
+    <!-- Las versiones de librerías y del plugin de Android están congeladas en gradle/libs.versions.toml
+         para evitar actualizaciones mayores incompatibles (Retrofit 3, OkHttp 5, Glide 5) durante el curso. -->
+    <issue id="AndroidGradlePluginVersion" severity="ignore" />
+    <issue id="GradleDependency" severity="ignore" />
+    <issue id="NewerVersionAvailable" severity="ignore" />
+
+    <!-- El artefacto lifecycle-runtime-release incluye un custom check compilado contra una API anterior
+         del compilador de Kotlin; AGP 9.5 ya lo omite de forma segura. -->
+    <issue id="ObsoleteLintCustomCheck" severity="ignore" />
+</lint>
