@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Respuesta táctil sin fondo propio para elementos sin tarjeta, como los artistas favoritos (HU06). -->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/vn_glass_strong">
+    <item android:id="@android:id/mask">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/vn_space_md" />
+            <solid android:color="@android:color/white" />
+        </shape>
+    </item>
+</ripple>
