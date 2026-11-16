@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
 import co.edu.uniandes.vinilos.R
 import co.edu.uniandes.vinilos.data.model.Collector
+import co.edu.uniandes.vinilos.data.model.CollectorDetail
 import co.edu.uniandes.vinilos.data.network.NetworkServiceAdapter
 import co.edu.uniandes.vinilos.data.network.dto.CollectorDto
 import co.edu.uniandes.vinilos.data.repository.CollectorRepository
@@ -16,6 +17,9 @@ import co.edu.uniandes.vinilos.ui.common.UiState
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
+import okhttp3.ResponseBody.Companion.toResponseBody
+import retrofit2.HttpException
+import retrofit2.Response
 import java.io.IOException
 
 class CollectorViewModelsTest {
@@ -70,30 +74,46 @@ class CollectorViewModelsTest {
         vm.load(true)
         assertEquals(listOf("Ana López"), vm.names())
     }
-    @Test fun `listado y detalle comparten cache y seleccionan por id`() {
-        val repo = repository
-        val vm = CollectorListViewModel(repo, SavedStateHandle())
-        vm.load()
-        val detail = CollectorDetailViewModel(repo, SavedStateHandle(mapOf("collectorId" to 42)))
-        val collector = (detail.state.value as UiState.Success<Collector>).data
-        assertEquals(42, collector.id)
-        assertEquals("Ana López", collector.name)
-        assertEquals(1, calls)
+    private fun detail(id: Int, repo: CollectorRepository = repository) =
+        CollectorDetailViewModel(repo, SavedStateHandle(mapOf(CollectorDetailViewModel.ARG_COLLECTOR_ID to id)))
+    private fun CollectorDetailViewModel.data(): CollectorDetail =
+        (state.value as UiState.Success<CollectorDetail>).data
+
+    @Test fun `detalle muestra contacto, artistas favoritos y albumes de la coleccion`() {
+        val data = detail(100).data()
+        assertEquals("Manolo Bellon", data.name)
+        assertEquals("3502457896", data.telephone)
+        assertEquals("manollo@caracol.com.co", data.email)
+        assertEquals(listOf("Rubén Blades Bellido de Luna", "Queen"), data.favoritePerformers.map { it.name })
+        assertEquals(listOf("Buscando América", "A Night at the Opera"), data.albums.map { it.album.name })
     }
-    @Test fun `detalle recupera el coleccionista sin cache previa`() {
-        val detail = CollectorDetailViewModel(repository, SavedStateHandle(mapOf("collectorId" to 7)))
-        assertEquals("José Pérez", (detail.state.value as UiState.Success<Collector>).data.name)
+    @Test fun `detalle de un coleccionista sin favoritos ni albumes da listas vacias`() {
+        val data = detail(7).data()
+        assertEquals("José Pérez", data.name)
+        assertEquals(emptyList<Any>(), data.favoritePerformers)
+        assertEquals(emptyList<Any>(), data.albums)
+    }
+    @Test fun `volver a abrir el detalle usa la cache del repositorio`() {
+        val repo = repository
+        detail(100, repo)
+        detail(100, repo)
+        assertEquals(1, api.collectorDetailCalls)
+        assertEquals(1, api.collectorAlbumsCalls)
     }
     @Test fun `id inexistente muestra error sin seleccionar otro coleccionista`() {
-        val detail = CollectorDetailViewModel(repository, SavedStateHandle(mapOf("collectorId" to 999)))
-        assertEquals(UiState.Error(R.string.error_collector_not_found), detail.state.value)
+        assertEquals(UiState.Error(R.string.error_collector_not_found), detail(999).state.value)
     }
     @Test fun `detalle permite reintentar una falla de red`() {
-        api.collectors = { throw IOException() }
-        val detail = CollectorDetailViewModel(repository, SavedStateHandle(mapOf("collectorId" to 7)))
-        assertEquals(UiState.Error(R.string.error_no_connection), detail.state.value)
-        api.collectors = { records }
-        detail.load(true)
-        assertEquals(7, (detail.state.value as UiState.Success<Collector>).data.id)
+        val ok = api.collector
+        api.collector = { throw IOException() }
+        val vm = detail(100)
+        assertEquals(UiState.Error(R.string.error_no_connection), vm.state.value)
+        api.collector = ok
+        vm.load(true)
+        assertEquals(100, vm.data().id)
+    }
+    @Test fun `un error del servidor muestra el mensaje generico de servidor`() {
+        api.collectorAlbums = { throw HttpException(Response.error<Any>(500, "".toResponseBody(null))) }
+        assertEquals(UiState.Error(R.string.error_server), detail(100).state.value)
     }
 }
