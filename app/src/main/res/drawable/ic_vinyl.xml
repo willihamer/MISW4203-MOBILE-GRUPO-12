@@ -6,8 +6,10 @@
     android:height="200dp"
     android:viewportWidth="200"
     android:viewportHeight="200">
+    <!-- Hexadecimales directos (equivalentes a vn_vinyl_black, vn_secondary, vn_primary y vn_background)
+         para que los PNG rasterizados en API 21–23 se generen correctamente sin advertencias VectorRaster. -->
     <path
-        android:fillColor="@color/vn_vinyl_black"
+        android:fillColor="#FF0E0E12"
         android:pathData="M0,100a100,100 0,1 0,200 0a100,100 0,1 0,-200 0z" />
     <path
         android:pathData="M8,100a92,92 0,1 0,184 0a92,92 0,1 0,-184 0z M18,100a82,82 0,1 0,164 0a82,82 0,1 0,-164 0z M28,100a72,72 0,1 0,144 0a72,72 0,1 0,-144 0z M38,100a62,62 0,1 0,124 0a62,62 0,1 0,-124 0z M48,100a52,52 0,1 0,104 0a52,52 0,1 0,-104 0z"
@@ -21,10 +23,10 @@
     <path android:pathData="M62,100a38,38 0,1 0,76 0a38,38 0,1 0,-76 0z">
         <aapt:attr name="android:fillColor">
             <gradient
-                android:endColor="@color/vn_secondary"
+                android:endColor="#FF22D3EE"
                 android:endX="138"
                 android:endY="138"
-                android:startColor="@color/vn_primary"
+                android:startColor="#FF7C3AED"
                 android:startX="62"
                 android:startY="62"
                 android:type="linear" />
@@ -35,6 +37,6 @@
         android:strokeWidth="1"
         android:strokeColor="#40FFFFFF" />
     <path
-        android:fillColor="@color/vn_background"
+        android:fillColor="#FF0A0A14"
         android:pathData="M94,100a6,6 0,1 0,12 0a6,6 0,1 0,-12 0z" />
 </vector>

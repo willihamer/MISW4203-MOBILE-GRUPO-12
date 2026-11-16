@@ -10,7 +10,10 @@ import co.edu.uniandes.vinilos.data.network.AppError
 import co.edu.uniandes.vinilos.data.repository.AlbumRepository
 import co.edu.uniandes.vinilos.ui.common.UiState
 import co.edu.uniandes.vinilos.ui.common.messageRes
+import co.edu.uniandes.vinilos.ui.common.Searchable
 import co.edu.uniandes.vinilos.ui.common.normalizedForSearch
+import co.edu.uniandes.vinilos.ui.common.withSearchKeys
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 /**
@@ -26,22 +29,33 @@ class AlbumListViewModel(private val repository: AlbumRepository) : ViewModel() 
     private val _selectedGenre = MutableLiveData<Genre?>(null)
     val selectedGenre: LiveData<Genre?> = _selectedGenre
 
-    private var albums: List<Album> = emptyList()
+    private var albums: List<Searchable<Album>> = emptyList()
     private var query: String = ""
+    private var loadJob: Job? = null
 
     init {
         load()
     }
 
     fun load(forceRefresh: Boolean = false) {
+        // Un reintento cancela la carga anterior: la respuesta más lenta no pisa a la más reciente
+        loadJob?.cancel()
         _state.value = UiState.Loading
-        viewModelScope.launch {
+        loadJob = viewModelScope.launch {
             try {
                 albums = repository.getAlbums(forceRefresh)
+                    .withSearchKeys { album -> listOf(album.name, album.recordLabel) + album.performers.map { it.name } }
                 publish()
             } catch (e: AppError) {
                 _state.value = UiState.Error(e.messageRes())
             }
+        }
+    }
+
+    /** Recarga el catálogo si la caché del repositorio fue invalidada (p. ej. tras crear un álbum). */
+    fun refreshIfInvalidated() {
+        if (!repository.isCatalogCacheValid && _state.value !is UiState.Loading) {
+            load(forceRefresh = true)
         }
     }
 
@@ -67,15 +81,10 @@ class AlbumListViewModel(private val repository: AlbumRepository) : ViewModel() 
         _state.value = if (albums.isEmpty()) UiState.Empty else UiState.Success(filter(albums))
     }
 
-    private fun filter(source: List<Album>): List<Album> {
+    private fun filter(source: List<Searchable<Album>>): List<Album> {
         val genre = _selectedGenre.value
-        return source.filter { album ->
-            (genre == null || album.genre == genre) && (query.isEmpty() || album.matches(query))
-        }
+        return source.filter { (album, key) ->
+            (genre == null || album.genre == genre) && (query.isEmpty() || key.contains(query))
+        }.map { it.item }
     }
-
-    private fun Album.matches(normalizedQuery: String): Boolean =
-        name.normalizedForSearch().contains(normalizedQuery) ||
-            recordLabel.normalizedForSearch().contains(normalizedQuery) ||
-            performers.any { it.name.normalizedForSearch().contains(normalizedQuery) }
 }

@@ -4,15 +4,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="false">
+    android:clipToPadding="false"
+    android:fillViewport="false"
+    android:paddingTop="@dimen/vn_space_lg"
+    android:paddingBottom="@dimen/vn_bottom_bar_clearance">
 
+    <!-- El espacio para la barra flotante va como padding del ScrollView: hasta Android 9 el
+         ScrollView no cuenta los márgenes verticales de su contenido al desplazarse, y el botón
+         de reintentar quedaba siempre bajo la barra. -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/vn_screen_margin"
-        android:layout_marginTop="@dimen/vn_space_lg"
         android:layout_marginEnd="@dimen/vn_screen_margin"
-        android:layout_marginBottom="@dimen/vn_bottom_bar_clearance"
         android:background="@drawable/bg_glass_card"
         android:gravity="center_horizontal"
         android:orientation="vertical"

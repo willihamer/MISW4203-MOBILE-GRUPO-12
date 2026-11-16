@@ -132,4 +132,18 @@
         <item name="android:padding">@dimen/vn_space_md</item>
         <item name="android:textAppearance">@style/TextAppearance.Vinilos.BodyMedium</item>
     </style>
+
+    <!-- Dato de contacto en una píldora de vidrio con ícono (P07, HU06). -->
+    <style name="Widget.Vinilos.ContactPill" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">@dimen/vn_touch_target</item>
+        <item name="android:background">@drawable/bg_glass_pill</item>
+        <item name="android:drawablePadding">@dimen/vn_space_sm</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">@dimen/vn_space_md</item>
+        <item name="android:paddingEnd">@dimen/vn_space_md</item>
+        <item name="android:textAppearance">@style/TextAppearance.Vinilos.BodyLarge</item>
+        <item name="android:textIsSelectable">false</item>
+    </style>
 </resources>

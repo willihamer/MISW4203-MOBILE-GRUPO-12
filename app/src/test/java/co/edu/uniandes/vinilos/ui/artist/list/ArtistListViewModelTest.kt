@@ -5,7 +5,7 @@ import co.edu.uniandes.vinilos.R
 import co.edu.uniandes.vinilos.data.model.Artist
 import co.edu.uniandes.vinilos.data.model.ArtistType
 import co.edu.uniandes.vinilos.data.network.NetworkServiceAdapter
-import co.edu.uniandes.vinilos.data.repository.ArtistRepository
+import co.edu.uniandes.vinilos.data.repository.ArtistRepositoryImpl
 import co.edu.uniandes.vinilos.testutil.FakeVinilosApi
 import co.edu.uniandes.vinilos.testutil.MainDispatcherRule
 import co.edu.uniandes.vinilos.testutil.SampleData
@@ -29,7 +29,7 @@ class ArtistListViewModelTest {
     )
 
     private fun createViewModel() = ArtistListViewModel(
-        ArtistRepository(NetworkServiceAdapter(api), mainDispatcherRule.dispatcher),
+        ArtistRepositoryImpl(NetworkServiceAdapter(api), mainDispatcherRule.dispatcher),
     )
 
     private fun ArtistListViewModel.artistNames(): List<String> {

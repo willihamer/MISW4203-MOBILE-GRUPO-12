@@ -2,6 +2,7 @@
 <!-- P01b ¿Quién eres?: el coleccionista escoge su perfil. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_glass_sheet"
@@ -34,7 +35,8 @@
                 android:layout_height="wrap_content"
                 android:accessibilityHeading="true"
                 android:text="@string/collector_picker_title"
-                android:textAppearance="@style/TextAppearance.Vinilos.HeadlineLarge" />
+                android:textAppearance="@style/TextAppearance.Vinilos.HeadlineLarge"
+                tools:targetApi="28" />
 
             <TextView
                 android:layout_width="wrap_content"

@@ -10,8 +10,8 @@ android {
 
     defaultConfig {
         applicationId = "co.edu.uniandes.vinilos"
-        // API 24 (Android 7.0): decisión del equipo en el acta de la semana 3.
-        minSdk = 24
+        // API 21 (Android 5.0 Lollipop): el curso exige que la app funcione desde la versión L.
+        minSdk = 21
         targetSdk = 37
         versionCode = 1
         versionName = "1.0"
@@ -57,6 +57,7 @@ dependencies {
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.collection)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.constraintlayout)

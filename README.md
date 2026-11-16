@@ -6,7 +6,7 @@ Documentación del proyecto (backlog, diseño, arquitectura, actas): [wiki](http
 
 ## Alcance de esta versión
 
-HU01 catálogo de álbumes, HU02 detalle de álbum, HU03 listado de artistas y HU04 detalle de músico o banda. Coleccionistas y las operaciones de escritura pertenecen a historias posteriores.
+HU01 catálogo de álbumes, HU02 detalle de álbum, HU03 listado de artistas, HU04 detalle de músico o banda, HU05 listado y búsqueda de coleccionistas y HU07 creación de un álbum en modo coleccionista.
 
 ## Requisitos
 
@@ -98,8 +98,11 @@ app/src/main/java/co/edu/uniandes/vinilos/
     ├── profile/                # P01 Bienvenida y P01b ¿Quién eres?
     ├── album/list/             # HU01 Catálogo de álbumes
     ├── album/detail/           # HU02 Detalle de álbum
+    ├── album/create/           # HU07 Crear álbum (modo coleccionista)
     ├── artist/list/            # HU03 Listado de artistas
-    └── artist/detail/          # HU04 Detalle de artista
+    ├── artist/detail/          # HU04 Detalle de artista
+    ├── collector/list/         # HU05 Listado de coleccionistas
+    └── collector/detail/       # Identificación del coleccionista seleccionado
 ```
 
 | Librería | Uso |
