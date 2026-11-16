@@ -111,6 +111,14 @@
     <string name="error_collector_title">No pudimos cargar el coleccionista</string>
     <string name="error_collector_not_found">Este coleccionista ya no está disponible.</string>
     <string name="collector_detail_title">Detalle del coleccionista</string>
+    <string name="collector_loading">Cargando coleccionista…</string>
+    <string name="collector_phone_description">Teléfono: %1$s</string>
+    <string name="collector_email_description">Correo: %1$s</string>
+    <string name="collector_favorites_title">Artistas favoritos</string>
+    <string name="collector_favorites_empty">Este coleccionista aún no tiene artistas favoritos.</string>
+    <string name="collector_albums_title">Su colección</string>
+    <string name="collector_albums_empty">Este coleccionista aún no tiene álbumes en su colección.</string>
+    <string name="collector_album_price">$%1$s COP</string>
 
     <!-- P08 Crear álbum (HU07) -->
     <string name="album_create_button">Crear álbum</string>

@@ -23,6 +23,16 @@ class AlbumRepositoryTest {
         repo.getAlbum(100)
         assertEquals(2, api.albumDetailCalls)
     }
+    @Test fun `la cache de detalles es acotada y descarta el album menos usado`() = runTest {
+        val api = FakeVinilosApi(album = { id -> SampleData.buscandoAmerica.copy(id = id) })
+        val repo: AlbumRepository = AlbumRepositoryImpl(NetworkServiceAdapter(api), UnconfinedTestDispatcher(testScheduler))
+        (1..31).forEach { repo.getAlbum(it) }
+        assertEquals(31, api.albumDetailCalls)
+        repo.getAlbum(31)
+        assertEquals(31, api.albumDetailCalls)
+        repo.getAlbum(1)
+        assertEquals(32, api.albumDetailCalls)
+    }
     @Test fun `forzar refresco actualiza detalle almacenado`() = runTest {
         val api = FakeVinilosApi()
         val repo: AlbumRepository = AlbumRepositoryImpl(NetworkServiceAdapter(api), UnconfinedTestDispatcher(testScheduler))

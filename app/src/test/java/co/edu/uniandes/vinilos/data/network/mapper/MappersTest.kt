@@ -6,6 +6,7 @@ import co.edu.uniandes.vinilos.data.model.NewAlbum
 import co.edu.uniandes.vinilos.data.model.RecordLabel
 import co.edu.uniandes.vinilos.data.network.dto.AlbumDto
 import co.edu.uniandes.vinilos.data.network.dto.BandDto
+import co.edu.uniandes.vinilos.data.network.dto.CollectorAlbumDto
 import co.edu.uniandes.vinilos.data.network.dto.MusicianDto
 import co.edu.uniandes.vinilos.testutil.SampleData
 import org.junit.Assert.assertEquals
@@ -138,5 +139,28 @@ class MappersTest {
         assertEquals(RecordLabel.ELEKTRA, RecordLabel.fromApi("Elektra"))
         assertEquals(RecordLabel.FANIA_RECORDS, RecordLabel.fromApi("Fania Records"))
         assertNull(RecordLabel.fromApi("Otro"))
+    }
+
+    @Test
+    fun `mapea el detalle del coleccionista con sus artistas favoritos y su tipo`() {
+        val detail = SampleData.manoloBellon.toDetail()
+
+        assertEquals(100, detail.id)
+        assertEquals("Manolo Bellon", detail.name)
+        assertEquals("3502457896", detail.telephone)
+        assertEquals("manollo@caracol.com.co", detail.email)
+        assertEquals(listOf("Rubén Blades Bellido de Luna", "Queen"), detail.favoritePerformers.map { it.name })
+        assertEquals(listOf(ArtistType.MUSICIAN, ArtistType.BAND), detail.favoritePerformers.map { it.type })
+        assertTrue(detail.albums.isEmpty())
+    }
+
+    @Test
+    fun `mapea el album de la coleccion con precio y estado y descarta los que no traen album`() {
+        val album = SampleData.collectorAlbums.getValue(100).first().toModel()!!
+
+        assertEquals("Buscando América", album.album.name)
+        assertEquals(35.0, album.price!!, 0.0)
+        assertEquals("Active", album.status)
+        assertNull(CollectorAlbumDto(id = 1, price = 10.0, status = "Active", album = null).toModel())
     }
 }

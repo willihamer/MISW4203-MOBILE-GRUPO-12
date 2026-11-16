@@ -1,5 +1,6 @@
 package co.edu.uniandes.vinilos.data.repository
 
+import androidx.collection.LruCache
 import co.edu.uniandes.vinilos.data.model.Artist
 import co.edu.uniandes.vinilos.data.model.ArtistType
 import co.edu.uniandes.vinilos.data.network.NetworkServiceAdapter
@@ -8,7 +9,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
-import java.util.concurrent.ConcurrentHashMap
 
 /**
  * Fuente única de artistas (músicos y bandas combinados) para los ViewModels.
@@ -21,8 +21,11 @@ class ArtistRepositoryImpl(
     @Volatile
     private var artistsCache: List<Artist>? = null
 
-    /** Detalles ya consultados, por tipo e id: músicos y bandas tienen ids independientes. */
-    private val detailCache = ConcurrentHashMap<Pair<ArtistType, Int>, Artist>()
+    /**
+     * Detalles ya consultados, por tipo e id: músicos y bandas tienen ids independientes.
+     * LruCache limita cuántos se guardan en memoria y descarta los menos usados.
+     */
+    private val detailCache = LruCache<Pair<ArtistType, Int>, Artist>(MAX_CACHED_DETAILS)
 
     override suspend fun getArtists(forceRefresh: Boolean): List<Artist> = withContext(dispatcher) {
         val cached = artistsCache
@@ -55,7 +58,12 @@ class ArtistRepositoryImpl(
                     ArtistType.MUSICIAN -> network.getMusician(id)
                     ArtistType.BAND -> network.getBand(id)
                 }
-                artist.also { detailCache[key] = it }
+                artist.also { detailCache.put(key, it) }
             }
         }
+
+    private companion object {
+        /** Suficiente para navegar entre bandas, integrantes y músicos sin crecer sin límite. */
+        const val MAX_CACHED_DETAILS = 30
+    }
 }

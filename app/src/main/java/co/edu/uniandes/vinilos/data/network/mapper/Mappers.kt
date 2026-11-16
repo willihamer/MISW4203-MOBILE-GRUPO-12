@@ -5,12 +5,15 @@ import co.edu.uniandes.vinilos.data.model.ArtistType
 import co.edu.uniandes.vinilos.data.model.Album
 import co.edu.uniandes.vinilos.data.model.Artist
 import co.edu.uniandes.vinilos.data.model.Collector
+import co.edu.uniandes.vinilos.data.model.CollectorAlbum
+import co.edu.uniandes.vinilos.data.model.CollectorDetail
 import co.edu.uniandes.vinilos.data.model.Genre
 import co.edu.uniandes.vinilos.data.model.NewAlbum
 import co.edu.uniandes.vinilos.data.model.NewTrack
 import co.edu.uniandes.vinilos.data.model.Performer
 import co.edu.uniandes.vinilos.data.network.dto.AlbumDto
 import co.edu.uniandes.vinilos.data.network.dto.BandDto
+import co.edu.uniandes.vinilos.data.network.dto.CollectorAlbumDto
 import co.edu.uniandes.vinilos.data.network.dto.CollectorDto
 import co.edu.uniandes.vinilos.data.network.dto.CreateAlbumRequestDto
 import co.edu.uniandes.vinilos.data.network.dto.CreateTrackRequestDto
@@ -62,6 +65,20 @@ fun CollectorDto.toModel() = Collector(
     telephone = telephone.orEmpty(),
     email = email.orEmpty(),
 )
+
+/** Detalle del coleccionista (HU06) sin álbumes: GET /collectors/{id} solo trae sus ids. */
+fun CollectorDto.toDetail() = CollectorDetail(
+    id = id ?: 0,
+    name = name.orEmpty(),
+    telephone = telephone.orEmpty(),
+    email = email.orEmpty(),
+    favoritePerformers = favoritePerformers.orEmpty().map { it.toModel() },
+)
+
+/** Un elemento sin álbum no se puede mostrar en la colección, así que se descarta. */
+fun CollectorAlbumDto.toModel(): CollectorAlbum? = album?.let {
+    CollectorAlbum(album = it.toModel(), price = price, status = status.orEmpty())
+}
 
 fun MusicianDto.toModel() = Artist.Musician(
     id = id ?: 0,

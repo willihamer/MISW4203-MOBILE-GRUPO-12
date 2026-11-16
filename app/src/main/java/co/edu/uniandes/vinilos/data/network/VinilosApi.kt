@@ -2,6 +2,7 @@ package co.edu.uniandes.vinilos.data.network
 
 import co.edu.uniandes.vinilos.data.network.dto.AlbumDto
 import co.edu.uniandes.vinilos.data.network.dto.BandDto
+import co.edu.uniandes.vinilos.data.network.dto.CollectorAlbumDto
 import co.edu.uniandes.vinilos.data.network.dto.CollectorDto
 import co.edu.uniandes.vinilos.data.network.dto.CreateAlbumRequestDto
 import co.edu.uniandes.vinilos.data.network.dto.CreateTrackRequestDto
@@ -28,6 +29,12 @@ interface VinilosApi {
 
     @GET("collectors")
     suspend fun getCollectors(): List<CollectorDto>
+
+    @GET("collectors/{id}")
+    suspend fun getCollector(@Path("id") id: Int): CollectorDto
+
+    @GET("collectors/{id}/albums")
+    suspend fun getCollectorAlbums(@Path("id") id: Int): List<CollectorAlbumDto>
 
     @GET("musicians")
     suspend fun getMusicians(): List<MusicianDto>

@@ -1,5 +1,6 @@
 package co.edu.uniandes.vinilos.data.repository
 
+import androidx.collection.LruCache
 import co.edu.uniandes.vinilos.data.model.Album
 import co.edu.uniandes.vinilos.data.model.NewAlbum
 import co.edu.uniandes.vinilos.data.model.NewTrack
@@ -8,7 +9,6 @@ import co.edu.uniandes.vinilos.data.network.NetworkServiceAdapter
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.util.concurrent.ConcurrentHashMap
 
 /**
  * Fuente única de álbumes para los ViewModels. El catálogo se guarda en memoria; el
@@ -20,7 +20,11 @@ class AlbumRepositoryImpl(
     private val network: NetworkServiceAdapter,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : AlbumRepository {
-    private val detailCache = ConcurrentHashMap<Int, Album>()
+    /**
+     * Detalles ya consultados por id. LruCache limita cuántos se guardan en memoria y descarta
+     * los menos usados; es sincronizado, así que se puede usar desde varias corrutinas.
+     */
+    private val detailCache = LruCache<Int, Album>(MAX_CACHED_DETAILS)
 
     @Volatile
     private var albumsCache: List<Album>? = null
@@ -31,7 +35,7 @@ class AlbumRepositoryImpl(
     override suspend fun getAlbum(id: Int, forceRefresh: Boolean): Album = withContext(dispatcher) {
         val cached = detailCache[id]
         if (cached != null && !forceRefresh) cached
-        else network.getAlbum(id).also { detailCache[id] = it }
+        else network.getAlbum(id).also { detailCache.put(id, it) }
     }
 
     override suspend fun getAlbums(forceRefresh: Boolean): List<Album> = withContext(dispatcher) {
@@ -43,15 +47,19 @@ class AlbumRepositoryImpl(
         network.createAlbum(album).also { created ->
             albumsCache = null
             if (created.id != 0) {
-                detailCache[created.id] = created
+                detailCache.put(created.id, created)
             }
         }
     }
 
     override suspend fun addTrack(albumId: Int, track: NewTrack): Track = withContext(dispatcher) {
         network.addTrack(albumId, track).also { created ->
-            // get/put en lugar de computeIfPresent, que no existe antes de API 24
-            detailCache[albumId]?.let { album -> detailCache[albumId] = album.copy(tracks = album.tracks + created) }
+            detailCache[albumId]?.let { album -> detailCache.put(albumId, album.copy(tracks = album.tracks + created)) }
         }
+    }
+
+    private companion object {
+        /** Suficiente para ir y volver entre varios álbumes sin crecer sin límite. */
+        const val MAX_CACHED_DETAILS = 30
     }
 }

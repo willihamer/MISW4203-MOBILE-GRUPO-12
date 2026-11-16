@@ -3,6 +3,7 @@ package co.edu.uniandes.vinilos.testutil
 import co.edu.uniandes.vinilos.data.network.VinilosApi
 import co.edu.uniandes.vinilos.data.network.dto.AlbumDto
 import co.edu.uniandes.vinilos.data.network.dto.BandDto
+import co.edu.uniandes.vinilos.data.network.dto.CollectorAlbumDto
 import co.edu.uniandes.vinilos.data.network.dto.CollectorDto
 import co.edu.uniandes.vinilos.data.network.dto.CreateAlbumRequestDto
 import co.edu.uniandes.vinilos.data.network.dto.CreateTrackRequestDto
@@ -38,6 +39,10 @@ class FakeVinilosApi(
     var bands: () -> List<BandDto> = { emptyList() },
     var musician: (Int) -> MusicianDto = { id -> SampleData.musicianDetails[id] ?: throw notFound() },
     var band: (Int) -> BandDto = { id -> SampleData.bandDetails[id] ?: throw notFound() },
+    var collector: (Int) -> CollectorDto = { id -> SampleData.collectorDetails[id] ?: throw notFound() },
+    var collectorAlbums: (Int) -> List<CollectorAlbumDto> = { id ->
+        if (id in SampleData.collectorDetails) SampleData.collectorAlbums[id].orEmpty() else throw notFound()
+    },
 ) : VinilosApi {
     var albumDetailCalls = 0
         private set
@@ -87,6 +92,21 @@ class FakeVinilosApi(
 
     override suspend fun getCollectors(): List<CollectorDto> = collectors()
 
+    var collectorDetailCalls = 0
+        private set
+    var collectorAlbumsCalls = 0
+        private set
+
+    override suspend fun getCollector(id: Int): CollectorDto {
+        collectorDetailCalls++
+        return collector(id)
+    }
+
+    override suspend fun getCollectorAlbums(id: Int): List<CollectorAlbumDto> {
+        collectorAlbumsCalls++
+        return collectorAlbums(id)
+    }
+
     override suspend fun getMusicians(): List<MusicianDto> {
         musicianCalls++
         return musicians()
@@ -108,7 +128,7 @@ class FakeVinilosApi(
     }
 }
 
-/** Respuesta 404 del backend cuando el músico o la banda no existe. */
+/** Respuesta 404 del backend cuando el recurso consultado no existe. */
 fun notFound(): HttpException = HttpException(Response.error<Any>(404, "".toResponseBody(null)))
 
 /** Datos con la misma forma que los datos de prueba de BackVynils. */
@@ -187,4 +207,29 @@ object SampleData {
 
     val musicianDetails = mapOf(100 to rubenBladesDetail, 102 to willieColon)
     val bandDetails = mapOf(101 to queenDetail, 103 to faniaAllStars)
+
+    /** GET /collectors/{id} de Manolo Bellon: un músico favorito y los ids de sus álbumes. */
+    val manoloBellon = CollectorDto(
+        id = 100,
+        name = "Manolo Bellon",
+        telephone = "3502457896",
+        email = "manollo@caracol.com.co",
+        favoritePerformers = listOf(
+            PerformerDto(100, "Rubén Blades Bellido de Luna", "https://example.com/ruben.jpg", birthDate = "1948-07-16T00:00:00.000Z"),
+            PerformerDto(101, "Queen", "https://example.com/queen.jpg", creationDate = "1970-01-01T00:00:00.000Z"),
+        ),
+    )
+
+    /** Coleccionista sin artistas favoritos ni álbumes. */
+    val sinColeccion = CollectorDto(id = 7, name = "José Pérez", telephone = "123", email = "jose@example.com", favoritePerformers = emptyList())
+
+    val collectorDetails = mapOf(100 to manoloBellon, 7 to sinColeccion)
+
+    /** GET /collectors/{id}/albums: cada elemento trae el álbum completo con precio y estado. */
+    val collectorAlbums = mapOf(
+        100 to listOf(
+            CollectorAlbumDto(id = 100, price = 35.0, status = "Active", album = buscandoAmerica),
+            CollectorAlbumDto(id = 101, price = 120000.0, status = "Inactive", album = nightAtTheOpera),
+        ),
+    )
 }
