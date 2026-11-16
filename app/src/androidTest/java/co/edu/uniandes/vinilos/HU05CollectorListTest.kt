@@ -15,6 +15,7 @@ import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okhttp3.mockwebserver.RecordedRequest
+import org.json.JSONArray
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExternalResource
@@ -34,7 +35,11 @@ class HU05CollectorListTest {
         override fun before() {
             server.dispatcher = object : Dispatcher() {
                 override fun dispatch(request: RecordedRequest): MockResponse {
-                    if (request.path != "/collectors") return json("[]")
+                    val path = request.path.orEmpty()
+                    // Desde HU06 el detalle consulta el coleccionista y su colección por id
+                    if (path.endsWith("/albums")) return json("[]")
+                    if (path.startsWith("/collectors/")) return detail(path.removePrefix("/collectors/"))
+                    if (path != "/collectors") return json("[]")
                     if (gate?.await(15, TimeUnit.SECONDS) == false) return MockResponse().setResponseCode(504)
                     return json(body).setResponseCode(status)
                 }
@@ -46,6 +51,12 @@ class HU05CollectorListTest {
     private val app = VinilosTestRule { "http://localhost:${server.port}/" }
     @get:Rule val rules: RuleChain = RuleChain.outerRule(lifecycle).around(app)
     private fun json(value: String) = MockResponse().setHeader("Content-Type", "application/json").setBody(value)
+    private fun detail(id: String): MockResponse {
+        val records = JSONArray(COLLECTORS)
+        val record = (0 until records.length()).map { records.getJSONObject(it) }.firstOrNull { it.optString("id") == id }
+            ?: return json("{}").setResponseCode(404)
+        return json(record.put("favoritePerformers", JSONArray()).toString())
+    }
     private fun enter() {
         onView(withText(R.string.welcome_visitor_title)).perform(click())
         onView(withId(R.id.tab_collectors)).perform(click())
