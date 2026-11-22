@@ -3,6 +3,7 @@ package co.edu.uniandes.vinilos.ui.album.detail
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
@@ -89,6 +90,7 @@ class AlbumDetailFragment : Fragment(R.layout.fragment_album_detail) {
             val button = MaterialButton(requireContext(), null,
                 com.google.android.material.R.attr.materialButtonOutlinedStyle).apply {
                 text = performer.name
+                setTextColor(ContextCompat.getColor(context, R.color.vn_primary_light))
                 isEnabled = performer.type != null
                 setOnClickListener {
                     findNavController().navigate(R.id.artistDetailFragment,

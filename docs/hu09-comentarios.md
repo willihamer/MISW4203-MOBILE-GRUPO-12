@@ -68,4 +68,4 @@ Los reportes se generan en `app/build/reports/` y `app/build/outputs/androidTest
 | Espresso HU09 en API 37 | 7 de 7 aprobadas. |
 | Regresión del coleccionista en API 37 | 6 de 6 aprobadas en HU07 y 7 de 7 en HU08. |
 
-[Formulario tras un error del servidor](evidencias/hu09-reintento.png)
+[Formulario tras un error del servidor](https://raw.githubusercontent.com/wiki/willihamer/MISW4203-MOBILE-GRUPO-12/evidencias/hu09/hu09-reintento.png)

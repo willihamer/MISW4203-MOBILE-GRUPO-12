@@ -16,6 +16,7 @@ import androidx.fragment.app.viewModels
 import co.edu.uniandes.vinilos.R
 import co.edu.uniandes.vinilos.data.model.Profile
 import co.edu.uniandes.vinilos.databinding.SheetAddCommentBinding
+import co.edu.uniandes.vinilos.ui.common.bindFormSubmit
 import co.edu.uniandes.vinilos.ui.common.viewModelFactory
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -61,7 +62,11 @@ class AddCommentBottomSheet : BottomSheetDialogFragment() {
         }
         binding.cancelButton.setOnClickListener { dismiss() }
         binding.closeButton.setOnClickListener { dismiss() }
-        binding.saveCommentButton.setOnClickListener { viewModel.submit() }
+        binding.saveCommentButton.bindFormSubmit(
+            viewModel::submit,
+            binding.commentRating to binding.ratingError,
+            binding.commentInput to null,
+        )
         viewModel.profile.observe(viewLifecycleOwner) { profile ->
             binding.commentAuthor.text = if (profile is Profile.CollectorProfile) {
                 getString(R.string.comment_publishing_as, profile.name)

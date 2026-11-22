@@ -16,7 +16,7 @@ fun ViewProfileChipBinding.render(profile: Profile?) {
             profileName.text = Avatars.shortName(profile.name)
             profileRole.isVisible = true
             profileRole.setText(R.string.profile_collector)
-            root.contentDescription = context.getString(R.string.profile_change) + ": " + profile.name
+            root.contentDescription = context.getString(R.string.profile_change_collector, profile.name)
         }
         else -> {
             profileAvatar.isVisible = false

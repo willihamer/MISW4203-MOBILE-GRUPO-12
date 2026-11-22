@@ -8,7 +8,6 @@ import android.view.WindowManager
 import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
@@ -17,6 +16,7 @@ import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import co.edu.uniandes.vinilos.R
 import co.edu.uniandes.vinilos.databinding.SheetAddTrackBinding
+import co.edu.uniandes.vinilos.ui.common.bindFormSubmit
 import co.edu.uniandes.vinilos.ui.common.viewModelFactory
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -61,7 +61,11 @@ class AddTrackBottomSheet : BottomSheetDialogFragment() {
         binding.trackDurationInput.doAfterTextChanged { viewModel.onDurationChanged(it?.toString().orEmpty()) }
         binding.closeButton.setOnClickListener { dismiss() }
         binding.cancelButton.setOnClickListener { dismiss() }
-        binding.saveTrackButton.setOnClickListener { viewModel.submit() }
+        binding.saveTrackButton.bindFormSubmit(
+            viewModel::submit,
+            binding.trackNameInput to binding.trackNameError,
+            binding.trackDurationInput to binding.trackDurationError,
+        )
 
         viewModel.formState.observe(viewLifecycleOwner, ::renderForm)
         viewModel.saveState.observe(viewLifecycleOwner, ::renderSaveState)
@@ -70,13 +74,8 @@ class AddTrackBottomSheet : BottomSheetDialogFragment() {
     private fun renderForm(state: AddTrackFormState) {
         syncText(binding.trackNameInput, state.name)
         syncText(binding.trackDurationInput, state.duration)
-        bindFieldError(binding.trackNameInput, binding.trackNameError, binding.trackNameRequiredBadge, state.nameError)
-        bindFieldError(
-            binding.trackDurationInput,
-            binding.trackDurationError,
-            binding.trackDurationRequiredBadge,
-            state.durationError,
-        )
+        bindFieldError(binding.trackNameInput, binding.trackNameError, state.nameError)
+        bindFieldError(binding.trackDurationInput, binding.trackDurationError, state.durationError)
         // La ayuda del formato cede su lugar al error de la duración
         binding.trackDurationHelper.isVisible = state.durationError == null
     }
@@ -88,12 +87,9 @@ class AddTrackBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
-    private fun bindFieldError(field: View, errorText: TextView, requiredBadge: TextView, @StringRes errorRes: Int?) {
+    private fun bindFieldError(field: View, errorText: TextView, @StringRes errorRes: Int?) {
         val hasError = errorRes != null
         field.setBackgroundResource(if (hasError) R.drawable.bg_input_error else R.drawable.bg_input)
-        requiredBadge.setTextColor(
-            ContextCompat.getColor(requireContext(), if (hasError) R.color.vn_error else R.color.vn_primary_light),
-        )
         errorText.isVisible = hasError
         if (errorRes != null) errorText.setText(errorRes)
     }

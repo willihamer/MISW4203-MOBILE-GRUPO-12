@@ -3,6 +3,7 @@ package co.edu.uniandes.vinilos
 import android.view.View
 import android.widget.RatingBar
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.*
@@ -60,8 +61,8 @@ class HU09AddCommentTest {
     private fun openAlbum(collector: Boolean = true) {
         if (collector) {
             onView(withText(R.string.welcome_collector_title)).perform(scrollTo(), click())
-            awaitView(withText("Ana"))
-            onView(withText("Ana")).perform(click())
+            awaitView(withText("Ana"), rootMatcher = isDialog())
+            onView(withText("Ana")).inRoot(isDialog()).perform(click())
             onView(withId(R.id.continue_button)).perform(click())
         } else onView(withText(R.string.welcome_visitor_title)).perform(click())
         awaitView(withText("Álbum de prueba"))

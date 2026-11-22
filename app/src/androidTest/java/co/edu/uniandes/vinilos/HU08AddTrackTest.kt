@@ -1,6 +1,7 @@
 package co.edu.uniandes.vinilos
 
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.action.ViewActions.replaceText
@@ -89,8 +90,8 @@ class HU08AddTrackTest {
 
     private fun enterAsCollectorAndOpenAlbum() {
         onView(withText(R.string.welcome_collector_title)).perform(scrollTo(), click())
-        awaitView(withText("Manolo Bellon"))
-        onView(withText("Manolo Bellon")).perform(click())
+        awaitView(withText("Manolo Bellon"), rootMatcher = isDialog())
+        onView(withText("Manolo Bellon")).inRoot(isDialog()).perform(click())
         onView(withId(R.id.continue_button)).perform(click())
         openAlbum()
     }
@@ -141,6 +142,10 @@ class HU08AddTrackTest {
 
         onView(withId(R.id.track_name_error)).check(matches(withText(R.string.error_required_field)))
         onView(withId(R.id.track_duration_error)).check(matches(withText(R.string.error_required_field)))
+        onView(withId(R.id.track_name_input)).check { field, _ ->
+            val node = field.createAccessibilityNodeInfo()
+            assertEquals(field.resources.getString(R.string.error_required_field), node.error.toString())
+        }
         assertEquals(0, postCalls)
     }
 

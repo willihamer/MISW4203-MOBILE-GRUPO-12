@@ -16,6 +16,7 @@ import co.edu.uniandes.vinilos.data.model.RecordLabel
 import co.edu.uniandes.vinilos.databinding.FragmentCreateAlbumBinding
 import co.edu.uniandes.vinilos.ui.common.remoteImage
 import co.edu.uniandes.vinilos.ui.common.render
+import co.edu.uniandes.vinilos.ui.common.bindFormSubmit
 import co.edu.uniandes.vinilos.ui.common.viewModelFactory
 import co.edu.uniandes.vinilos.ui.profile.ProfileViewModel
 import com.bumptech.glide.Glide
@@ -69,7 +70,15 @@ class CreateAlbumFragment : Fragment(R.layout.fragment_create_album) {
 
     private fun setUpActions() {
         binding.cancelButton.setOnClickListener { findNavController().navigateUp() }
-        binding.saveButton.setOnClickListener { viewModel.submit() }
+        binding.saveButton.bindFormSubmit(
+            viewModel::submit,
+            binding.nameInput to binding.nameError,
+            binding.coverInput to binding.coverError,
+            binding.releaseDateInput to binding.releaseDateError,
+            binding.genreInput to binding.genreError,
+            binding.recordLabelInput to binding.recordLabelError,
+            binding.descriptionInput to binding.descriptionError,
+        )
     }
 
     private fun showDatePicker() {
@@ -139,27 +148,12 @@ class CreateAlbumFragment : Fragment(R.layout.fragment_create_album) {
         updateCoverPreview(state)
 
         // Errores por campo
-        bindFieldError(binding.nameInput, binding.nameError, binding.nameRequiredBadge, state.nameError)
-        bindFieldError(binding.coverInput, binding.coverError, binding.coverRequiredBadge, state.coverError)
-        bindFieldError(
-            binding.releaseDateInput,
-            binding.releaseDateError,
-            binding.releaseDateRequiredBadge,
-            state.releaseDateError,
-        )
-        bindFieldError(binding.genreInput, binding.genreError, binding.genreRequiredBadge, state.genreError)
-        bindFieldError(
-            binding.recordLabelInput,
-            binding.recordLabelError,
-            binding.recordLabelRequiredBadge,
-            state.recordLabelError,
-        )
-        bindFieldError(
-            binding.descriptionInput,
-            binding.descriptionError,
-            binding.descriptionRequiredBadge,
-            state.descriptionError,
-        )
+        bindFieldError(binding.nameInput, binding.nameError, state.nameError)
+        bindFieldError(binding.coverInput, binding.coverError, state.coverError)
+        bindFieldError(binding.releaseDateInput, binding.releaseDateError, state.releaseDateError)
+        bindFieldError(binding.genreInput, binding.genreError, state.genreError)
+        bindFieldError(binding.recordLabelInput, binding.recordLabelError, state.recordLabelError)
+        bindFieldError(binding.descriptionInput, binding.descriptionError, state.descriptionError)
     }
 
     private fun updateCoverPreview(state: CreateAlbumFormState) {
@@ -185,13 +179,11 @@ class CreateAlbumFragment : Fragment(R.layout.fragment_create_album) {
     private fun bindFieldError(
         field: View,
         errorText: TextView,
-        requiredBadge: TextView,
         @StringRes errorRes: Int?,
     ) {
         val hasError = errorRes != null
         field.setBackgroundResource(if (hasError) R.drawable.bg_input_error else R.drawable.bg_input)
         errorText.isVisible = hasError
-        requiredBadge.isVisible = hasError
         if (errorRes != null) {
             errorText.setText(errorRes)
         }
