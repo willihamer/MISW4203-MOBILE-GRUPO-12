@@ -1,6 +1,8 @@
 package co.edu.uniandes.vinilos.data.network
 
 import co.edu.uniandes.vinilos.data.network.dto.AlbumDto
+import co.edu.uniandes.vinilos.data.network.dto.CommentDto
+import co.edu.uniandes.vinilos.data.network.dto.CreateCommentRequestDto
 import co.edu.uniandes.vinilos.data.network.dto.BandDto
 import co.edu.uniandes.vinilos.data.network.dto.CollectorAlbumDto
 import co.edu.uniandes.vinilos.data.network.dto.CollectorDto
@@ -15,6 +17,9 @@ import retrofit2.http.Path
 
 /** Endpoints de BackVynils que usa la app. */
 interface VinilosApi {
+    @POST("albums/{id}/comments")
+    suspend fun addComment(@Path("id") albumId: Int, @Body comment: CreateCommentRequestDto): CommentDto
+
     @GET("albums")
     suspend fun getAlbums(): List<AlbumDto>
 

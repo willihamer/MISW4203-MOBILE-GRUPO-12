@@ -2,6 +2,8 @@ package co.edu.uniandes.vinilos.data.repository
 
 import androidx.collection.LruCache
 import co.edu.uniandes.vinilos.data.model.Album
+import co.edu.uniandes.vinilos.data.model.Comment
+import co.edu.uniandes.vinilos.data.model.NewComment
 import co.edu.uniandes.vinilos.data.model.NewAlbum
 import co.edu.uniandes.vinilos.data.model.NewTrack
 import co.edu.uniandes.vinilos.data.model.Track
@@ -61,5 +63,14 @@ class AlbumRepositoryImpl(
     private companion object {
         /** Suficiente para ir y volver entre varios álbumes sin crecer sin límite. */
         const val MAX_CACHED_DETAILS = 30
+    }
+
+    override suspend fun addComment(albumId: Int, comment: NewComment): Comment = withContext(dispatcher) {
+        network.addComment(albumId, comment).also { created ->
+            detailCache[albumId]?.let { album ->
+                detailCache.put(albumId, album.copy(comments = album.comments + created))
+            }
+            albumsCache = null
+        }
     }
 }

@@ -16,6 +16,8 @@ import co.edu.uniandes.vinilos.data.model.Album
 import co.edu.uniandes.vinilos.data.model.Profile
 import co.edu.uniandes.vinilos.databinding.FragmentAlbumDetailBinding
 import co.edu.uniandes.vinilos.ui.album.track.AddTrackBottomSheet
+import co.edu.uniandes.vinilos.ui.album.comment.AddCommentBottomSheet
+import co.edu.uniandes.vinilos.databinding.ItemCommentBinding
 import co.edu.uniandes.vinilos.ui.common.UiState
 import co.edu.uniandes.vinilos.ui.common.remoteImage
 import co.edu.uniandes.vinilos.ui.common.viewModelFactory
@@ -42,6 +44,12 @@ class AlbumDetailFragment : Fragment(R.layout.fragment_album_detail) {
         binding.retryButton.setOnClickListener { viewModel.load(forceRefresh = true) }
         ViewCompat.setAccessibilityHeading(binding.albumName, true)
         binding.addTrackButton.setOnClickListener { openAddTrack() }
+        binding.addCommentButton.setOnClickListener { openAddComment() }
+        ViewCompat.setAccessibilityHeading(binding.commentsTitle, true)
+        childFragmentManager.setFragmentResultListener(AddCommentBottomSheet.RESULT_COMMENT_ADDED, viewLifecycleOwner) { _, _ ->
+            viewModel.refreshFromCache()
+            Snackbar.make(requireActivity().findViewById(R.id.root), R.string.comment_success, Snackbar.LENGTH_LONG).show()
+        }
         childFragmentManager.setFragmentResultListener(AddTrackBottomSheet.RESULT_TRACK_ADDED, viewLifecycleOwner) { _, _ ->
             // El repositorio ya agregó el track al detalle en caché: no hace falta volver a la red
             viewModel.refreshFromCache()
@@ -49,6 +57,7 @@ class AlbumDetailFragment : Fragment(R.layout.fragment_album_detail) {
         }
         profileViewModel.profile.observe(viewLifecycleOwner) { profile ->
             binding.addTrackButton.isVisible = profile is Profile.CollectorProfile
+            binding.addCommentButton.isVisible = profile is Profile.CollectorProfile
         }
         viewModel.state.observe(viewLifecycleOwner) { state ->
             binding.progress.isVisible = state is UiState.Loading
@@ -93,6 +102,22 @@ class AlbumDetailFragment : Fragment(R.layout.fragment_album_detail) {
         album.tracks.forEach { track ->
             addText(binding.tracks, getString(R.string.album_tracks_row, track.name, track.duration))
         }
+        binding.commentsEmpty.isVisible = album.comments.isEmpty()
+        binding.comments.removeAllViews()
+        album.comments.forEach { comment ->
+            val row = ItemCommentBinding.inflate(layoutInflater, binding.comments, false)
+            row.commentDescription.text = comment.description
+            row.commentScore.text = getString(R.string.comment_rating_value, comment.rating)
+            binding.comments.addView(row.root)
+        }
+    }
+
+    private fun openAddComment() {
+        if (profileViewModel.profile.value !is Profile.CollectorProfile) return
+        val album = (viewModel.state.value as? UiState.Success)?.data ?: return
+        if (childFragmentManager.findFragmentByTag(AddCommentBottomSheet.TAG) != null) return
+        AddCommentBottomSheet.newInstance(album.id, album.name)
+            .show(childFragmentManager, AddCommentBottomSheet.TAG)
     }
 
     private fun openAddTrack() {

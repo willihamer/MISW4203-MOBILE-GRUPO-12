@@ -1,6 +1,8 @@
 package co.edu.uniandes.vinilos.data.network
 
 import co.edu.uniandes.vinilos.data.model.Album
+import co.edu.uniandes.vinilos.data.model.Comment
+import co.edu.uniandes.vinilos.data.model.NewComment
 import co.edu.uniandes.vinilos.data.model.Artist
 import co.edu.uniandes.vinilos.data.model.Collector
 import co.edu.uniandes.vinilos.data.model.CollectorAlbum
@@ -20,6 +22,9 @@ import java.io.IOException
  * DTO en modelos de la app y traduce cualquier falla a [AppError].
  */
 class NetworkServiceAdapter(private val api: VinilosApi) {
+
+    suspend fun addComment(albumId: Int, comment: NewComment): Comment =
+        call { api.addComment(albumId, comment.toRequestDto()).toModel() }
 
     suspend fun getAlbums(): List<Album> = call { api.getAlbums().map { it.toModel() } }
 

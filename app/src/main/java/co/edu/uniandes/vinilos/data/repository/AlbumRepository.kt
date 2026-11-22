@@ -1,6 +1,8 @@
 package co.edu.uniandes.vinilos.data.repository
 
 import co.edu.uniandes.vinilos.data.model.Album
+import co.edu.uniandes.vinilos.data.model.Comment
+import co.edu.uniandes.vinilos.data.model.NewComment
 import co.edu.uniandes.vinilos.data.model.NewAlbum
 import co.edu.uniandes.vinilos.data.model.NewTrack
 import co.edu.uniandes.vinilos.data.model.Track
@@ -18,4 +20,6 @@ interface AlbumRepository {
     suspend fun createAlbum(album: NewAlbum): Album
 
     suspend fun addTrack(albumId: Int, track: NewTrack): Track
+
+    suspend fun addComment(albumId: Int, comment: NewComment): Comment
 }
