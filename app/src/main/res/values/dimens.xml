@@ -22,7 +22,6 @@
     <dimen name="vn_touch_target">48dp</dimen>
     <dimen name="vn_button_height">52dp</dimen>
     <dimen name="vn_input_height">52dp</dimen>
-    <dimen name="vn_chip_height">36dp</dimen>
     <dimen name="vn_avatar">48dp</dimen>
     <dimen name="vn_bottom_bar_height">64dp</dimen>
     <!-- Espacio que se deja al final de las listas para que no queden bajo la barra flotante -->

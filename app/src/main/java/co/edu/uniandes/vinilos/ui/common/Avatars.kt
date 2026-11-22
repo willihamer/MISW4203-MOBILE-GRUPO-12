@@ -9,9 +9,9 @@ object Avatars {
 
     private val gradients by lazy {
         listOf(
-        intArrayOf("#7C3AED".toColorInt(), "#22D3EE".toColorInt()),
-        intArrayOf("#EC4899".toColorInt(), "#F59E0B".toColorInt()),
-        intArrayOf("#22D3EE".toColorInt(), "#34D399".toColorInt()),
+            intArrayOf("#6930BC".toColorInt(), "#006377".toColorInt()),
+            intArrayOf("#A32261".toColorInt(), "#855000".toColorInt()),
+            intArrayOf("#006377".toColorInt(), "#006344".toColorInt()),
             intArrayOf("#BF2076".toColorInt(), "#7C3AED".toColorInt()),
         )
     }

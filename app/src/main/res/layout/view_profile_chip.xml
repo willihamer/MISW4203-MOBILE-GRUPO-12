@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/profile_chip"
     android:layout_width="wrap_content"
-    android:layout_height="@dimen/vn_touch_target"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/vn_touch_target"
     android:background="@drawable/bg_button_secondary"
     android:clickable="true"
     android:focusable="true"
@@ -23,8 +24,10 @@
 
     <TextView
         android:id="@+id/profile_avatar"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="36dp"
+        android:minHeight="36dp"
         android:gravity="center"
         android:importantForAccessibility="no"
         android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge"
