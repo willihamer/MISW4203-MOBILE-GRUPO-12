@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:background="@drawable/bg_glass_sheet">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="@dimen/vn_screen_margin">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:gravity="center_vertical" android:orientation="horizontal">
+            <TextView android:id="@+id/sheet_title" android:layout_width="0dp"
+                android:layout_height="wrap_content" android:layout_weight="1"
+                android:text="@string/comment_title" android:textAppearance="@style/TextAppearance.Vinilos.HeadlineLarge" />
+            <ImageButton android:id="@+id/close_button" style="@style/Widget.Vinilos.IconButton"
+                android:src="@drawable/ic_close" android:contentDescription="@string/cd_close" />
+        </LinearLayout>
+        <TextView android:id="@+id/album_subtitle" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginTop="8dp"
+            android:textAppearance="@style/TextAppearance.Vinilos.BodyMedium" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="24dp" android:text="@string/comment_rating_label"
+            android:labelFor="@id/comment_rating" android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge" />
+        <androidx.appcompat.widget.AppCompatRatingBar android:id="@+id/comment_rating"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" android:layout_marginTop="8dp"
+            android:minHeight="48dp" android:numStars="5" android:stepSize="1"
+            android:progressTint="@color/vn_accent_warm" android:progressBackgroundTint="@color/vn_on_surface_subtle" />
+        <TextView android:id="@+id/rating_value" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:textAppearance="@style/TextAppearance.Vinilos.BodyMedium"
+            android:textColor="@color/vn_accent_warm" />
+        <TextView android:id="@+id/rating_error" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:visibility="gone" android:accessibilityLiveRegion="polite"
+            android:textAppearance="@style/TextAppearance.Vinilos.LabelMedium" android:textColor="@color/vn_error" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="24dp" android:text="@string/comment_description_label"
+            android:labelFor="@id/comment_input" android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge" />
+        <EditText android:id="@+id/comment_input" style="@style/Widget.Vinilos.TextField"
+            android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="128dp"
+            android:layout_marginTop="8dp" android:gravity="top|start" android:inputType="textMultiLine|textCapSentences"
+            android:singleLine="false" android:autofillHints="" />
+        <TextView android:id="@+id/comment_author" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginTop="16dp" android:padding="16dp"
+            android:background="@drawable/bg_glass_card" android:textAppearance="@style/TextAppearance.Vinilos.BodyMedium" />
+        <TextView android:id="@+id/submit_error" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginTop="16dp" android:padding="16dp"
+            android:background="@drawable/bg_input_error" android:visibility="gone" android:accessibilityLiveRegion="polite"
+            android:textAppearance="@style/TextAppearance.Vinilos.BodyMedium" android:textColor="@color/vn_error" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="24dp" android:baselineAligned="false" android:orientation="horizontal">
+            <com.google.android.material.button.MaterialButton android:id="@+id/cancel_button"
+                style="@style/Widget.Vinilos.Button.Secondary" android:layout_width="0dp"
+                android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginEnd="8dp"
+                android:text="@string/action_cancel" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/save_comment_button"
+                style="@style/Widget.Vinilos.Button.Primary" android:layout_width="0dp"
+                android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="8dp"
+                android:text="@string/comment_publish" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

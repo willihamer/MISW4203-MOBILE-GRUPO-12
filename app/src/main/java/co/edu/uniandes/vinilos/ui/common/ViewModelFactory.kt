@@ -14,6 +14,7 @@ import co.edu.uniandes.vinilos.ui.album.create.CreateAlbumViewModel
 import co.edu.uniandes.vinilos.ui.album.detail.AlbumDetailViewModel
 import co.edu.uniandes.vinilos.ui.album.list.AlbumListViewModel
 import co.edu.uniandes.vinilos.ui.album.track.AddTrackViewModel
+import co.edu.uniandes.vinilos.ui.album.comment.AddCommentViewModel
 import co.edu.uniandes.vinilos.ui.artist.detail.ArtistDetailViewModel
 import co.edu.uniandes.vinilos.ui.artist.list.ArtistListViewModel
 import co.edu.uniandes.vinilos.ui.collector.detail.CollectorDetailViewModel
@@ -62,6 +63,8 @@ class ViewModelFactory(
             AlbumDetailViewModel(albumRepository, extras.createSavedStateHandle()) as T
         modelClass.isAssignableFrom(AddTrackViewModel::class.java) ->
             AddTrackViewModel(albumRepository, extras.createSavedStateHandle()) as T
+        modelClass.isAssignableFrom(AddCommentViewModel::class.java) ->
+            AddCommentViewModel(albumRepository, profileRepository, extras.createSavedStateHandle()) as T
         modelClass.isAssignableFrom(ArtistDetailViewModel::class.java) ->
             ArtistDetailViewModel(artistRepository, extras.createSavedStateHandle()) as T
         else -> create(modelClass)

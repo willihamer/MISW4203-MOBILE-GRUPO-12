@@ -1,6 +1,8 @@
 package co.edu.uniandes.vinilos.testutil
 
 import co.edu.uniandes.vinilos.data.network.VinilosApi
+import co.edu.uniandes.vinilos.data.network.dto.CommentDto
+import co.edu.uniandes.vinilos.data.network.dto.CreateCommentRequestDto
 import co.edu.uniandes.vinilos.data.network.dto.AlbumDto
 import co.edu.uniandes.vinilos.data.network.dto.BandDto
 import co.edu.uniandes.vinilos.data.network.dto.CollectorAlbumDto
@@ -44,6 +46,23 @@ class FakeVinilosApi(
         if (id in SampleData.collectorDetails) SampleData.collectorAlbums[id].orEmpty() else throw notFound()
     },
 ) : VinilosApi {
+    var addCommentResponse: (Int, CreateCommentRequestDto) -> CommentDto = { _, req ->
+        CommentDto(400, req.description, req.rating)
+    }
+    var addCommentCalls = 0
+        private set
+    var lastCommentAlbumId: Int? = null
+        private set
+    var lastCommentRequest: CreateCommentRequestDto? = null
+        private set
+
+    override suspend fun addComment(albumId: Int, comment: CreateCommentRequestDto): CommentDto {
+        addCommentCalls++
+        lastCommentAlbumId = albumId
+        lastCommentRequest = comment
+        return addCommentResponse(albumId, comment)
+    }
+
     var albumDetailCalls = 0
         private set
     override suspend fun getAlbum(id: Int): AlbumDto {
