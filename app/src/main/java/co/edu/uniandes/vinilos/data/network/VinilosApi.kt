@@ -1,5 +1,6 @@
 package co.edu.uniandes.vinilos.data.network
 
+import co.edu.uniandes.vinilos.data.network.dto.AddCollectorAlbumRequestDto
 import co.edu.uniandes.vinilos.data.network.dto.AlbumDto
 import co.edu.uniandes.vinilos.data.network.dto.CommentDto
 import co.edu.uniandes.vinilos.data.network.dto.CreateCommentRequestDto
@@ -40,6 +41,20 @@ interface VinilosApi {
 
     @GET("collectors/{id}/albums")
     suspend fun getCollectorAlbums(@Path("id") id: Int): List<CollectorAlbumDto>
+
+    /** Lista vacía si el álbum no está en la colección; con un elemento si ya está. */
+    @GET("collectors/{collectorId}/albums/{albumId}")
+    suspend fun getCollectorAlbum(
+        @Path("collectorId") collectorId: Int,
+        @Path("albumId") albumId: Int,
+    ): List<CollectorAlbumDto>
+
+    @POST("collectors/{collectorId}/albums/{albumId}")
+    suspend fun addAlbumToCollector(
+        @Path("collectorId") collectorId: Int,
+        @Path("albumId") albumId: Int,
+        @Body album: AddCollectorAlbumRequestDto,
+    ): CollectorAlbumDto
 
     @GET("musicians")
     suspend fun getMusicians(): List<MusicianDto>

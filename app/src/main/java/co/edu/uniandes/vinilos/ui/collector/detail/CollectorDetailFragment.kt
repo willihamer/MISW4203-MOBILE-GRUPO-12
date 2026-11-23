@@ -47,6 +47,8 @@ class CollectorDetailFragment : Fragment(R.layout.fragment_collector_detail) {
         binding.error.errorTitle.setText(R.string.error_collector_title)
         binding.error.retryButton.setOnClickListener { viewModel.load(forceRefresh = true) }
 
+        // Al volver de otra pantalla, la caché puede traer álbumes nuevos de la colección (HU11)
+        viewModel.refreshFromCache()
         viewModel.state.observe(viewLifecycleOwner) { state -> render(state, favoriteAdapter, albumAdapter) }
         profileViewModel.profile.observe(viewLifecycleOwner) { binding.profileChip.render(it) }
     }

@@ -44,6 +44,23 @@ class CollectorDetailViewModel(
         }
     }
 
+    /**
+     * Vuelve a leer el detalle que ya tiene el repositorio, sin estado de carga ni red. Al volver
+     * a esta pantalla muestra, p. ej., el álbum que el coleccionista acaba de agregar (HU11).
+     * Solo actúa si ya se mostró el detalle; una carga en curso o un error se dejan como están.
+     */
+    fun refreshFromCache() {
+        if (_state.value !is UiState.Success) return
+        loadJob?.cancel()
+        loadJob = viewModelScope.launch {
+            try {
+                _state.value = UiState.Success(repository.getCollector(collectorId))
+            } catch (_: AppError) {
+                // Se conserva lo que ya se muestra
+            }
+        }
+    }
+
     /** El backend responde 404 si el coleccionista no existe; ese caso tiene su propio mensaje. */
     private fun AppError.detailMessageRes(): Int =
         if (this is AppError.Server && code == HTTP_NOT_FOUND) R.string.error_collector_not_found else messageRes()

@@ -1,6 +1,7 @@
 package co.edu.uniandes.vinilos.testutil
 
 import co.edu.uniandes.vinilos.data.network.VinilosApi
+import co.edu.uniandes.vinilos.data.network.dto.AddCollectorAlbumRequestDto
 import co.edu.uniandes.vinilos.data.network.dto.CommentDto
 import co.edu.uniandes.vinilos.data.network.dto.CreateCommentRequestDto
 import co.edu.uniandes.vinilos.data.network.dto.AlbumDto
@@ -45,6 +46,16 @@ class FakeVinilosApi(
     var collectorAlbums: (Int) -> List<CollectorAlbumDto> = { id ->
         if (id in SampleData.collectorDetails) SampleData.collectorAlbums[id].orEmpty() else throw notFound()
     },
+    var collectorAlbum: (Int, Int) -> List<CollectorAlbumDto> = { collectorId, albumId ->
+        if (collectorId !in SampleData.collectorDetails) throw notFound()
+        SampleData.collectorAlbums[collectorId].orEmpty().filter { it.album?.id == albumId }
+    },
+    var addCollectorAlbumResponse: (Int, Int, AddCollectorAlbumRequestDto) -> CollectorAlbumDto =
+        { collectorId, albumId, req ->
+            if (collectorId !in SampleData.collectorDetails) throw notFound()
+            val targetAlbum = SampleData.albums.firstOrNull { it.id == albumId } ?: throw notFound()
+            CollectorAlbumDto(id = 500, price = req.price, status = req.status, album = targetAlbum)
+        },
 ) : VinilosApi {
     var addCommentResponse: (Int, CreateCommentRequestDto) -> CommentDto = { _, req ->
         CommentDto(400, req.description, req.rating)
@@ -124,6 +135,34 @@ class FakeVinilosApi(
     override suspend fun getCollectorAlbums(id: Int): List<CollectorAlbumDto> {
         collectorAlbumsCalls++
         return collectorAlbums(id)
+    }
+
+    var getCollectorAlbumCalls = 0
+        private set
+    var addCollectorAlbumCalls = 0
+        private set
+    var lastCollectorAlbumCollectorId: Int? = null
+        private set
+    var lastCollectorAlbumAlbumId: Int? = null
+        private set
+    var lastCollectorAlbumRequest: AddCollectorAlbumRequestDto? = null
+        private set
+
+    override suspend fun getCollectorAlbum(collectorId: Int, albumId: Int): List<CollectorAlbumDto> {
+        getCollectorAlbumCalls++
+        return collectorAlbum(collectorId, albumId)
+    }
+
+    override suspend fun addAlbumToCollector(
+        collectorId: Int,
+        albumId: Int,
+        album: AddCollectorAlbumRequestDto,
+    ): CollectorAlbumDto {
+        addCollectorAlbumCalls++
+        lastCollectorAlbumCollectorId = collectorId
+        lastCollectorAlbumAlbumId = albumId
+        lastCollectorAlbumRequest = album
+        return addCollectorAlbumResponse(collectorId, albumId, album)
     }
 
     override suspend fun getMusicians(): List<MusicianDto> {

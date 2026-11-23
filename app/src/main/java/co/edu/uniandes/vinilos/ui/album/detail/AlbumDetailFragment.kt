@@ -16,6 +16,7 @@ import co.edu.uniandes.vinilos.R
 import co.edu.uniandes.vinilos.data.model.Album
 import co.edu.uniandes.vinilos.data.model.Profile
 import co.edu.uniandes.vinilos.databinding.FragmentAlbumDetailBinding
+import co.edu.uniandes.vinilos.ui.album.collection.AddCollectorAlbumBottomSheet
 import co.edu.uniandes.vinilos.ui.album.track.AddTrackBottomSheet
 import co.edu.uniandes.vinilos.ui.album.comment.AddCommentBottomSheet
 import co.edu.uniandes.vinilos.databinding.ItemCommentBinding
@@ -46,7 +47,11 @@ class AlbumDetailFragment : Fragment(R.layout.fragment_album_detail) {
         ViewCompat.setAccessibilityHeading(binding.albumName, true)
         binding.addTrackButton.setOnClickListener { openAddTrack() }
         binding.addCommentButton.setOnClickListener { openAddComment() }
+        binding.addToCollectionButton.setOnClickListener { openAddToCollection() }
         ViewCompat.setAccessibilityHeading(binding.commentsTitle, true)
+        childFragmentManager.setFragmentResultListener(AddCollectorAlbumBottomSheet.RESULT_ALBUM_COLLECTED, viewLifecycleOwner) { _, _ ->
+            Snackbar.make(requireActivity().findViewById(R.id.root), R.string.collection_success, Snackbar.LENGTH_LONG).show()
+        }
         childFragmentManager.setFragmentResultListener(AddCommentBottomSheet.RESULT_COMMENT_ADDED, viewLifecycleOwner) { _, _ ->
             viewModel.refreshFromCache()
             Snackbar.make(requireActivity().findViewById(R.id.root), R.string.comment_success, Snackbar.LENGTH_LONG).show()
@@ -57,8 +62,10 @@ class AlbumDetailFragment : Fragment(R.layout.fragment_album_detail) {
             Snackbar.make(requireActivity().findViewById(R.id.root), R.string.track_add_success, Snackbar.LENGTH_LONG).show()
         }
         profileViewModel.profile.observe(viewLifecycleOwner) { profile ->
-            binding.addTrackButton.isVisible = profile is Profile.CollectorProfile
-            binding.addCommentButton.isVisible = profile is Profile.CollectorProfile
+            val isCollector = profile is Profile.CollectorProfile
+            binding.addTrackButton.isVisible = isCollector
+            binding.addCommentButton.isVisible = isCollector
+            binding.addToCollectionButton.isVisible = isCollector
         }
         viewModel.state.observe(viewLifecycleOwner) { state ->
             binding.progress.isVisible = state is UiState.Loading
@@ -120,6 +127,17 @@ class AlbumDetailFragment : Fragment(R.layout.fragment_album_detail) {
         if (childFragmentManager.findFragmentByTag(AddCommentBottomSheet.TAG) != null) return
         AddCommentBottomSheet.newInstance(album.id, album.name)
             .show(childFragmentManager, AddCommentBottomSheet.TAG)
+    }
+
+    private fun openAddToCollection() {
+        if (profileViewModel.profile.value !is Profile.CollectorProfile) return
+        val album = (viewModel.state.value as? UiState.Success)?.data ?: return
+        if (childFragmentManager.findFragmentByTag(AddCollectorAlbumBottomSheet.TAG) != null) return
+        AddCollectorAlbumBottomSheet.newInstance(
+            albumId = album.id,
+            albumName = album.name,
+            artistName = album.performers.joinToString { it.name },
+        ).show(childFragmentManager, AddCollectorAlbumBottomSheet.TAG)
     }
 
     private fun openAddTrack() {

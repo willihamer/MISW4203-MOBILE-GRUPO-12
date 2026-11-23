@@ -14,8 +14,10 @@ import co.edu.uniandes.vinilos.data.model.CollectorAlbum
 import co.edu.uniandes.vinilos.data.model.CollectorDetail
 import co.edu.uniandes.vinilos.data.model.Genre
 import co.edu.uniandes.vinilos.data.model.NewAlbum
+import co.edu.uniandes.vinilos.data.model.NewCollectorAlbum
 import co.edu.uniandes.vinilos.data.model.NewTrack
 import co.edu.uniandes.vinilos.data.model.Performer
+import co.edu.uniandes.vinilos.data.network.dto.AddCollectorAlbumRequestDto
 import co.edu.uniandes.vinilos.data.network.dto.AlbumDto
 import co.edu.uniandes.vinilos.data.network.dto.BandDto
 import co.edu.uniandes.vinilos.data.network.dto.CollectorAlbumDto
@@ -40,6 +42,8 @@ fun NewAlbum.toRequestDto() = CreateAlbumRequestDto(
 fun NewTrack.toRequestDto() = CreateTrackRequestDto(name = name, duration = duration)
 
 fun NewComment.toRequestDto() = CreateCommentRequestDto(description, rating, CommentCollectorDto(collectorId))
+
+fun NewCollectorAlbum.toRequestDto() = AddCollectorAlbumRequestDto(price = price, status = status.apiValue)
 
 fun CommentDto.toModel() = Comment(id ?: 0, description.orEmpty(), rating ?: 0)
 
