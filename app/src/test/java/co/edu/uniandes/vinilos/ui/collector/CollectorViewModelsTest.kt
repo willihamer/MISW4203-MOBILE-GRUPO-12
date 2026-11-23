@@ -4,7 +4,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
 import co.edu.uniandes.vinilos.R
 import co.edu.uniandes.vinilos.data.model.Collector
+import co.edu.uniandes.vinilos.data.model.CollectorAlbumStatus
 import co.edu.uniandes.vinilos.data.model.CollectorDetail
+import co.edu.uniandes.vinilos.data.model.NewCollectorAlbum
 import co.edu.uniandes.vinilos.data.network.NetworkServiceAdapter
 import co.edu.uniandes.vinilos.data.network.dto.CollectorDto
 import co.edu.uniandes.vinilos.data.repository.CollectorRepository
@@ -14,6 +16,7 @@ import co.edu.uniandes.vinilos.testutil.MainDispatcherRule
 import co.edu.uniandes.vinilos.ui.collector.detail.CollectorDetailViewModel
 import co.edu.uniandes.vinilos.ui.collector.list.CollectorListViewModel
 import co.edu.uniandes.vinilos.ui.common.UiState
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -115,5 +118,14 @@ class CollectorViewModelsTest {
     @Test fun `un error del servidor muestra el mensaje generico de servidor`() {
         api.collectorAlbums = { throw HttpException(Response.error<Any>(500, "".toResponseBody(null))) }
         assertEquals(UiState.Error(R.string.error_server), detail(100).state.value)
+    }
+    @Test fun `refreshFromCache muestra el album recien agregado sin otra llamada a la red`() = runTest {
+        val repo = repository
+        val vm = detail(7, repo)
+        assertEquals(emptyList<String>(), vm.data().albums.map { it.album.name })
+        repo.addAlbum(7, 100, NewCollectorAlbum(85000.0, CollectorAlbumStatus.ACTIVE))
+        vm.refreshFromCache()
+        assertEquals(listOf("Buscando América"), vm.data().albums.map { it.album.name })
+        assertEquals(1, api.collectorDetailCalls)
     }
 }

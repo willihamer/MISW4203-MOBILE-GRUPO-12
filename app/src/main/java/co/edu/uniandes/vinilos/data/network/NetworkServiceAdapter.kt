@@ -8,6 +8,7 @@ import co.edu.uniandes.vinilos.data.model.Collector
 import co.edu.uniandes.vinilos.data.model.CollectorAlbum
 import co.edu.uniandes.vinilos.data.model.CollectorDetail
 import co.edu.uniandes.vinilos.data.model.NewAlbum
+import co.edu.uniandes.vinilos.data.model.NewCollectorAlbum
 import co.edu.uniandes.vinilos.data.model.NewTrack
 import co.edu.uniandes.vinilos.data.model.Track
 import co.edu.uniandes.vinilos.data.network.mapper.toDetail
@@ -42,6 +43,14 @@ class NetworkServiceAdapter(private val api: VinilosApi) {
 
     suspend fun getCollectorAlbums(id: Int): List<CollectorAlbum> =
         call { api.getCollectorAlbums(id).mapNotNull { it.toModel() } }
+
+    /** GET /collectors/{id}/albums/{albumId}: el backend responde una lista vacía si no está. */
+    suspend fun isAlbumInCollection(collectorId: Int, albumId: Int): Boolean =
+        call { api.getCollectorAlbum(collectorId, albumId).isNotEmpty() }
+
+    /** Una respuesta sin álbum no se puede mostrar en la colección: termina en [AppError.Unknown]. */
+    suspend fun addAlbumToCollector(collectorId: Int, albumId: Int, album: NewCollectorAlbum): CollectorAlbum =
+        call { checkNotNull(api.addAlbumToCollector(collectorId, albumId, album.toRequestDto()).toModel()) }
 
     suspend fun getMusicians(): List<Artist.Musician> = call { api.getMusicians().map { it.toModel() } }
 

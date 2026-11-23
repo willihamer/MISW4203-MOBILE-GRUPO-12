@@ -1,9 +1,12 @@
 package co.edu.uniandes.vinilos.data.network
 
+import co.edu.uniandes.vinilos.data.model.CollectorAlbumStatus
 import co.edu.uniandes.vinilos.data.model.Genre
 import co.edu.uniandes.vinilos.data.model.NewAlbum
+import co.edu.uniandes.vinilos.data.model.NewCollectorAlbum
 import co.edu.uniandes.vinilos.data.model.NewTrack
 import co.edu.uniandes.vinilos.data.model.RecordLabel
+import co.edu.uniandes.vinilos.data.network.dto.CollectorAlbumDto
 import co.edu.uniandes.vinilos.testutil.FakeVinilosApi
 import co.edu.uniandes.vinilos.testutil.SampleData
 import kotlinx.coroutines.test.runTest
@@ -134,6 +137,35 @@ class NetworkServiceAdapterTest {
 
         api.addTrackResponse = { _, _ -> throw IOException("sin red") }
         assertTrue(captureError { adapter.addTrack(100, NewTrack("Decisiones", "5:05")) } is AppError.NoConnection)
+    }
+
+    @Test
+    fun `isAlbumInCollection y addAlbumToCollector mapean la respuesta y traducen respuestas sin album a Unknown`() = runTest {
+        assertEquals(true, adapter.isAlbumInCollection(100, 100))
+        assertEquals(false, adapter.isAlbumInCollection(7, 100))
+
+        val created = adapter.addAlbumToCollector(
+            collectorId = 7,
+            albumId = 100,
+            album = NewCollectorAlbum(price = 85000.0, status = CollectorAlbumStatus.ACTIVE),
+        )
+        assertEquals(1, api.addCollectorAlbumCalls)
+        assertEquals(7, api.lastCollectorAlbumCollectorId)
+        assertEquals(100, api.lastCollectorAlbumAlbumId)
+        assertEquals(85000.0, api.lastCollectorAlbumRequest?.price ?: 0.0, 0.0)
+        assertEquals("Active", api.lastCollectorAlbumRequest?.status)
+        assertEquals("Buscando América", created.album.name)
+        assertEquals(85000.0, created.price ?: 0.0, 0.0)
+        assertEquals("Active", created.status)
+
+        api.addCollectorAlbumResponse = { _, _, req ->
+            CollectorAlbumDto(id = 500, price = req.price, status = req.status, album = null)
+        }
+        assertTrue(
+            captureError {
+                adapter.addAlbumToCollector(7, 100, NewCollectorAlbum(10.0, CollectorAlbumStatus.ACTIVE))
+            } is AppError.Unknown,
+        )
     }
 
     private suspend fun captureError(block: suspend () -> Unit): AppError {
