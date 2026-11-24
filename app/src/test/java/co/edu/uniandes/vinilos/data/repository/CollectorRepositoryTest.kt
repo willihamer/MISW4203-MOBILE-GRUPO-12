@@ -1,13 +1,18 @@
 package co.edu.uniandes.vinilos.data.repository
 
+import co.edu.uniandes.vinilos.data.model.ArtistType
 import co.edu.uniandes.vinilos.data.model.CollectorAlbumStatus
 import co.edu.uniandes.vinilos.data.model.NewCollectorAlbum
 import co.edu.uniandes.vinilos.data.network.AppError
 import co.edu.uniandes.vinilos.data.network.NetworkServiceAdapter
+import co.edu.uniandes.vinilos.data.network.dto.PerformerDto
+import co.edu.uniandes.vinilos.data.network.mapper.toModel
 import co.edu.uniandes.vinilos.testutil.FakeVinilosApi
 import co.edu.uniandes.vinilos.testutil.MainDispatcherRule
+import co.edu.uniandes.vinilos.testutil.SampleData
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
 import org.junit.Rule
@@ -20,6 +25,9 @@ class CollectorRepositoryTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     private val api = FakeVinilosApi()
+    private val willieColon = SampleData.willieColon.toModel()
+    private val queen = SampleData.queen.toModel()
+    private val faniaAllStars = SampleData.faniaAllStars.toModel()
     private val repository: CollectorRepository = CollectorRepositoryImpl(
         NetworkServiceAdapter(api),
         mainDispatcherRule.dispatcher,
@@ -131,6 +139,87 @@ class CollectorRepositoryTest {
         } catch (_: AppError.AlreadyInCollection) {
             assertEquals(1, api.getCollectorAlbumCalls)
             assertEquals(0, api.addCollectorAlbumCalls)
+        }
+    }
+
+    @Test
+    fun `isFavoriteArtist responde desde el detalle en cache sin volver a la red`() = runTest {
+        repository.getCollector(100)
+
+        assertTrue(repository.isFavoriteArtist(collectorId = 100, artistId = 101))
+        assertFalse(repository.isFavoriteArtist(collectorId = 100, artistId = 102))
+        assertEquals(0, api.favoritePerformersCalls)
+    }
+
+    @Test
+    fun `isFavoriteArtist consulta solo los favoritos cuando el detalle no esta en cache`() = runTest {
+        assertTrue(repository.isFavoriteArtist(collectorId = 100, artistId = 100))
+        assertEquals(1, api.favoritePerformersCalls)
+        assertEquals(0, api.collectorDetailCalls)
+        assertEquals(0, api.collectorAlbumsCalls)
+    }
+
+    @Test
+    fun `addFavoriteArtist agrega un musico y lo anexa a los favoritos en cache`() = runTest {
+        assertEquals(emptyList<String>(), repository.getCollector(7).favoritePerformers.map { it.name })
+
+        repository.addFavoriteArtist(collectorId = 7, artist = willieColon)
+
+        assertEquals("musicians", api.lastFavoriteResource)
+        assertEquals(102, api.lastFavoritePerformerId)
+        val favorites = repository.getCollector(7).favoritePerformers
+        assertEquals(listOf("Willie Colón"), favorites.map { it.name })
+        assertEquals(listOf(ArtistType.MUSICIAN), favorites.map { it.type })
+        assertEquals(1, api.collectorDetailCalls)
+        assertEquals(1, api.addFavoriteCalls)
+    }
+
+    @Test
+    fun `addFavoriteArtist usa el endpoint de bandas para una banda`() = runTest {
+        repository.addFavoriteArtist(collectorId = 7, artist = faniaAllStars)
+
+        assertEquals("bands", api.lastFavoriteResource)
+        assertEquals(103, api.lastFavoritePerformerId)
+    }
+
+    @Test
+    fun `addFavoriteArtist detecta un duplicado en la cache sin llamar a la red`() = runTest {
+        repository.getCollector(100)
+
+        try {
+            repository.addFavoriteArtist(collectorId = 100, artist = queen)
+            fail("Se esperaba AppError.AlreadyFavorite")
+        } catch (_: AppError.AlreadyFavorite) {
+            assertEquals(0, api.favoritePerformersCalls)
+            assertEquals(0, api.addFavoriteCalls)
+        }
+    }
+
+    @Test
+    fun `addFavoriteArtist detecta un duplicado en el servidor y corrige la cache`() = runTest {
+        repository.getCollector(7)
+        // Otro dispositivo marcó a Willie Colón después de que se cargó el detalle
+        api.favoritePerformers = { listOf(SampleData.willieColon.let { PerformerDto(it.id, it.name, it.image, it.birthDate) }) }
+
+        try {
+            repository.addFavoriteArtist(collectorId = 7, artist = willieColon)
+            fail("Se esperaba AppError.AlreadyFavorite")
+        } catch (_: AppError.AlreadyFavorite) {
+            assertEquals(0, api.addFavoriteCalls)
+            assertEquals(listOf("Willie Colón"), repository.getCollector(7).favoritePerformers.map { it.name })
+        }
+    }
+
+    @Test
+    fun `addFavoriteArtist fallido no modifica los favoritos en cache`() = runTest {
+        val before = repository.getCollector(7)
+        api.addFavoriteResponse = { _, _, _ -> throw IOException() }
+
+        try {
+            repository.addFavoriteArtist(collectorId = 7, artist = willieColon)
+            fail("Se esperaba AppError.NoConnection")
+        } catch (_: AppError.NoConnection) {
+            assertEquals(before, repository.getCollector(7))
         }
     }
 
