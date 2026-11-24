@@ -4,12 +4,14 @@ import co.edu.uniandes.vinilos.data.model.Album
 import co.edu.uniandes.vinilos.data.model.Comment
 import co.edu.uniandes.vinilos.data.model.NewComment
 import co.edu.uniandes.vinilos.data.model.Artist
+import co.edu.uniandes.vinilos.data.model.ArtistType
 import co.edu.uniandes.vinilos.data.model.Collector
 import co.edu.uniandes.vinilos.data.model.CollectorAlbum
 import co.edu.uniandes.vinilos.data.model.CollectorDetail
 import co.edu.uniandes.vinilos.data.model.NewAlbum
 import co.edu.uniandes.vinilos.data.model.NewCollectorAlbum
 import co.edu.uniandes.vinilos.data.model.NewTrack
+import co.edu.uniandes.vinilos.data.model.Performer
 import co.edu.uniandes.vinilos.data.model.Track
 import co.edu.uniandes.vinilos.data.network.mapper.toDetail
 import co.edu.uniandes.vinilos.data.network.mapper.toModel
@@ -51,6 +53,20 @@ class NetworkServiceAdapter(private val api: VinilosApi) {
     /** Una respuesta sin álbum no se puede mostrar en la colección: termina en [AppError.Unknown]. */
     suspend fun addAlbumToCollector(collectorId: Int, albumId: Int, album: NewCollectorAlbum): CollectorAlbum =
         call { checkNotNull(api.addAlbumToCollector(collectorId, albumId, album.toRequestDto()).toModel()) }
+
+    /** GET /collectors/{id}/performers: músicos y bandas favoritos del coleccionista (HU10). */
+    suspend fun getFavoritePerformers(collectorId: Int): List<Performer> =
+        call { api.getFavoritePerformers(collectorId).map { it.toModel() } }
+
+    /** Marca como favorito al músico o a la banda, cada uno con su endpoint (HU10). */
+    suspend fun addFavoritePerformer(collectorId: Int, performerId: Int, type: ArtistType) {
+        call {
+            when (type) {
+                ArtistType.MUSICIAN -> api.addFavoriteMusician(collectorId, performerId)
+                ArtistType.BAND -> api.addFavoriteBand(collectorId, performerId)
+            }
+        }
+    }
 
     suspend fun getMusicians(): List<Artist.Musician> = call { api.getMusicians().map { it.toModel() } }
 

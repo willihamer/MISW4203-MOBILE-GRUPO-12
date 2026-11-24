@@ -13,4 +13,7 @@ sealed class AppError : Exception() {
 
     /** HU11: el álbum ya está en la colección del coleccionista; el backend no lo impide. */
     class AlreadyInCollection : AppError()
+
+    /** HU10: el artista ya es favorito del coleccionista; el backend no lo impide. */
+    class AlreadyFavorite : AppError()
 }
