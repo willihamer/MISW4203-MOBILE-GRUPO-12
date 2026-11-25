@@ -10,6 +10,7 @@ import co.edu.uniandes.vinilos.data.network.dto.CollectorDto
 import co.edu.uniandes.vinilos.data.network.dto.CreateAlbumRequestDto
 import co.edu.uniandes.vinilos.data.network.dto.CreateTrackRequestDto
 import co.edu.uniandes.vinilos.data.network.dto.MusicianDto
+import co.edu.uniandes.vinilos.data.network.dto.PerformerDto
 import co.edu.uniandes.vinilos.data.network.dto.TrackDto
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -55,6 +56,23 @@ interface VinilosApi {
         @Path("albumId") albumId: Int,
         @Body album: AddCollectorAlbumRequestDto,
     ): CollectorAlbumDto
+
+    /** Músicos y bandas favoritos del coleccionista (HU10); el backend comparte los ids entre ambos tipos. */
+    @GET("collectors/{collectorId}/performers")
+    suspend fun getFavoritePerformers(@Path("collectorId") collectorId: Int): List<PerformerDto>
+
+    /** Responde el artista asociado; la app solo necesita saber que la operación terminó bien. */
+    @POST("collectors/{collectorId}/musicians/{musicianId}")
+    suspend fun addFavoriteMusician(
+        @Path("collectorId") collectorId: Int,
+        @Path("musicianId") musicianId: Int,
+    ): PerformerDto
+
+    @POST("collectors/{collectorId}/bands/{bandId}")
+    suspend fun addFavoriteBand(
+        @Path("collectorId") collectorId: Int,
+        @Path("bandId") bandId: Int,
+    ): PerformerDto
 
     @GET("musicians")
     suspend fun getMusicians(): List<MusicianDto>

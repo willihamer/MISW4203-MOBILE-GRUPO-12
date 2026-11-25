@@ -69,7 +69,12 @@ class ViewModelFactory(
         modelClass.isAssignableFrom(AddCollectorAlbumViewModel::class.java) ->
             AddCollectorAlbumViewModel(collectorRepository, profileRepository, extras.createSavedStateHandle()) as T
         modelClass.isAssignableFrom(ArtistDetailViewModel::class.java) ->
-            ArtistDetailViewModel(artistRepository, extras.createSavedStateHandle()) as T
+            ArtistDetailViewModel(
+                artistRepository,
+                collectorRepository,
+                profileRepository,
+                extras.createSavedStateHandle(),
+            ) as T
         else -> create(modelClass)
     }
 }

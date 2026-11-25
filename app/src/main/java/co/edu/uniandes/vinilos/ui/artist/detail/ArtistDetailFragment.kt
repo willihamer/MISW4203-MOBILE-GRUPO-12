@@ -1,9 +1,13 @@
 package co.edu.uniandes.vinilos.ui.artist.detail
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -19,10 +23,11 @@ import co.edu.uniandes.vinilos.ui.common.render
 import co.edu.uniandes.vinilos.ui.common.viewModelFactory
 import co.edu.uniandes.vinilos.ui.profile.ProfileViewModel
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-/** HU04 - Consultar detalle de un artista (P05 músico, P05b banda). */
+/** HU04 - Consultar detalle de un artista (P05 músico, P05b banda) y HU10 - marcarlo como favorito. */
 class ArtistDetailFragment : Fragment(R.layout.fragment_artist_detail) {
 
     private val viewModel: ArtistDetailViewModel by viewModels { viewModelFactory }
@@ -47,8 +52,50 @@ class ArtistDetailFragment : Fragment(R.layout.fragment_artist_detail) {
         binding.error.errorTitle.setText(R.string.error_artist_title)
         binding.error.retryButton.setOnClickListener { viewModel.load(forceRefresh = true) }
 
+        binding.favoriteButton.setOnClickListener { viewModel.onFavoriteClicked() }
+
         viewModel.state.observe(viewLifecycleOwner) { state -> render(state, albumAdapter, memberAdapter) }
+        viewModel.favoriteState.observe(viewLifecycleOwner, ::renderFavorite)
+        viewModel.favoriteMessage.observe(viewLifecycleOwner) { message ->
+            if (message != null) {
+                // El Snackbar se anuncia con TalkBack, así que también confirma la acción por voz
+                Snackbar.make(requireActivity().findViewById(R.id.root), message, Snackbar.LENGTH_LONG).show()
+                viewModel.onFavoriteMessageShown()
+            }
+        }
         profileViewModel.profile.observe(viewLifecycleOwner) { binding.profileChip.render(it) }
+    }
+
+    /**
+     * HU10 / P05 y P05b: corazón en contorno si no es favorito y relleno si ya lo es. TalkBack lee
+     * la acción en la descripción y el estado (Favorito / No favorito) aparte.
+     */
+    private fun renderFavorite(state: FavoriteUiState) {
+        val button = binding.favoriteButton
+        button.isVisible = state != FavoriteUiState.Hidden
+        if (state == FavoriteUiState.Hidden) return
+
+        val isFavorite = state == FavoriteUiState.Favorite
+        button.isEnabled = state == FavoriteUiState.NotFavorite || isFavorite
+        button.setImageResource(if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border)
+        ImageViewCompat.setImageTintList(
+            button,
+            ColorStateList.valueOf(
+                ContextCompat.getColor(requireContext(), if (isFavorite) R.color.vn_tertiary else R.color.vn_on_surface),
+            ),
+        )
+        button.contentDescription = getString(
+            when (state) {
+                FavoriteUiState.Checking -> R.string.favorite_checking
+                FavoriteUiState.Saving -> R.string.favorite_saving
+                FavoriteUiState.Favorite -> R.string.favorite_in_favorites
+                else -> R.string.favorite_add
+            },
+        )
+        ViewCompat.setStateDescription(
+            button,
+            getString(if (isFavorite) R.string.favorite_state_on else R.string.favorite_state_off),
+        )
     }
 
     private fun render(state: UiState<Artist>, albumAdapter: ArtistAlbumAdapter, memberAdapter: BandMemberAdapter) {

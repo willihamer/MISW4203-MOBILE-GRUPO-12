@@ -84,15 +84,33 @@
                         tools:text="Nacimiento: 16/07/1948" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/name"
+                <!-- Nombre y, en modo coleccionista, el botón de favorito (HU10) -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:accessibilityHeading="true"
-                    android:textAppearance="@style/TextAppearance.Vinilos.DisplayLarge"
-                    tools:targetApi="28"
-                    tools:text="Rubén Blades" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:accessibilityHeading="true"
+                        android:textAppearance="@style/TextAppearance.Vinilos.DisplayLarge"
+                        tools:targetApi="28"
+                        tools:text="Rubén Blades" />
+
+                    <ImageButton
+                        android:id="@+id/favorite_button"
+                        style="@style/Widget.Vinilos.IconButton"
+                        android:layout_marginStart="12dp"
+                        android:contentDescription="@string/favorite_add"
+                        android:src="@drawable/ic_favorite_border"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/description"

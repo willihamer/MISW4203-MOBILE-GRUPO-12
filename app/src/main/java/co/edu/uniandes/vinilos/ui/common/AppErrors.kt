@@ -10,4 +10,5 @@ fun AppError.messageRes(): Int = when (this) {
     is AppError.Server -> R.string.error_server
     is AppError.Unknown -> R.string.error_unknown
     is AppError.AlreadyInCollection -> R.string.collection_already_added
+    is AppError.AlreadyFavorite -> R.string.favorite_already_added
 }

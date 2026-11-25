@@ -165,6 +165,46 @@ class FakeVinilosApi(
         return addCollectorAlbumResponse(collectorId, albumId, album)
     }
 
+    /** GET /collectors/{id}/performers: por defecto, los favoritos de [SampleData.collectorDetails]. */
+    var favoritePerformers: (Int) -> List<PerformerDto> = { collectorId ->
+        (SampleData.collectorDetails[collectorId] ?: throw notFound()).favoritePerformers.orEmpty()
+    }
+
+    /** POST de favoritos (HU10): recibe el coleccionista, el artista y el tipo ("musicians" o "bands"). */
+    var addFavoriteResponse: (Int, Int, String) -> PerformerDto = { collectorId, performerId, _ ->
+        if (collectorId !in SampleData.collectorDetails) throw notFound()
+        PerformerDto(id = performerId, name = "Artista $performerId", image = "")
+    }
+    var favoritePerformersCalls = 0
+        private set
+    var addFavoriteCalls = 0
+        private set
+    var lastFavoriteCollectorId: Int? = null
+        private set
+    var lastFavoritePerformerId: Int? = null
+        private set
+    var lastFavoriteResource: String? = null
+        private set
+
+    override suspend fun getFavoritePerformers(collectorId: Int): List<PerformerDto> {
+        favoritePerformersCalls++
+        return favoritePerformers(collectorId)
+    }
+
+    override suspend fun addFavoriteMusician(collectorId: Int, musicianId: Int): PerformerDto =
+        recordFavorite(collectorId, musicianId, "musicians")
+
+    override suspend fun addFavoriteBand(collectorId: Int, bandId: Int): PerformerDto =
+        recordFavorite(collectorId, bandId, "bands")
+
+    private fun recordFavorite(collectorId: Int, performerId: Int, resource: String): PerformerDto {
+        addFavoriteCalls++
+        lastFavoriteCollectorId = collectorId
+        lastFavoritePerformerId = performerId
+        lastFavoriteResource = resource
+        return addFavoriteResponse(collectorId, performerId, resource)
+    }
+
     override suspend fun getMusicians(): List<MusicianDto> {
         musicianCalls++
         return musicians()

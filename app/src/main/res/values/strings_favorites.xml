@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- HU10 - Agregar artistas favoritos. -->
+<resources>
+    <string name="favorite_add">Agregar a mis favoritos</string>
+    <string name="favorite_in_favorites">Está en mis favoritos</string>
+    <string name="favorite_saving">Agregando a mis favoritos…</string>
+    <string name="favorite_checking">Consultando mis favoritos…</string>
+    <string name="favorite_state_on">Favorito</string>
+    <string name="favorite_state_off">No favorito</string>
+    <string name="favorite_added">Artista agregado a tus favoritos</string>
+    <string name="favorite_already_added">Este artista ya está en tus favoritos</string>
+    <string name="favorite_error">No pudimos agregar el artista a tus favoritos. Intenta de nuevo.</string>
+</resources>

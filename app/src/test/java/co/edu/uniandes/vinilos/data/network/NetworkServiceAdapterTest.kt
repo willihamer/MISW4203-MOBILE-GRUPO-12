@@ -1,5 +1,6 @@
 package co.edu.uniandes.vinilos.data.network
 
+import co.edu.uniandes.vinilos.data.model.ArtistType
 import co.edu.uniandes.vinilos.data.model.CollectorAlbumStatus
 import co.edu.uniandes.vinilos.data.model.Genre
 import co.edu.uniandes.vinilos.data.model.NewAlbum
@@ -166,6 +167,37 @@ class NetworkServiceAdapterTest {
                 adapter.addAlbumToCollector(7, 100, NewCollectorAlbum(10.0, CollectorAlbumStatus.ACTIVE))
             } is AppError.Unknown,
         )
+    }
+
+    @Test
+    fun `getFavoritePerformers mapea los favoritos con su tipo de artista`() = runTest {
+        val favorites = adapter.getFavoritePerformers(100)
+
+        assertEquals(listOf(100, 101), favorites.map { it.id })
+        assertEquals(listOf(ArtistType.MUSICIAN, ArtistType.BAND), favorites.map { it.type })
+        assertEquals(1, api.favoritePerformersCalls)
+    }
+
+    @Test
+    fun `addFavoritePerformer usa el endpoint de musicos o de bandas segun el tipo`() = runTest {
+        adapter.addFavoritePerformer(collectorId = 7, performerId = 100, type = ArtistType.MUSICIAN)
+        assertEquals("musicians", api.lastFavoriteResource)
+        assertEquals(7, api.lastFavoriteCollectorId)
+        assertEquals(100, api.lastFavoritePerformerId)
+
+        adapter.addFavoritePerformer(collectorId = 7, performerId = 101, type = ArtistType.BAND)
+        assertEquals("bands", api.lastFavoriteResource)
+        assertEquals(101, api.lastFavoritePerformerId)
+        assertEquals(2, api.addFavoriteCalls)
+    }
+
+    @Test
+    fun `addFavoritePerformer traduce las fallas a AppError`() = runTest {
+        api.addFavoriteResponse = { _, _, _ -> throw IOException() }
+        assertTrue(captureError { adapter.addFavoritePerformer(7, 100, ArtistType.MUSICIAN) } is AppError.NoConnection)
+
+        api.addFavoriteResponse = { _, _, _ -> throw HttpException(Response.error<Any>(404, "".toResponseBody())) }
+        assertEquals(404, (captureError { adapter.addFavoritePerformer(7, 999, ArtistType.BAND) } as AppError.Server).code)
     }
 
     private suspend fun captureError(block: suspend () -> Unit): AppError {
