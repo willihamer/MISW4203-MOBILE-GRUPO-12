@@ -200,6 +200,24 @@ class NetworkServiceAdapterTest {
         assertEquals(404, (captureError { adapter.addFavoritePerformer(7, 999, ArtistType.BAND) } as AppError.Server).code)
     }
 
+    @Test
+    fun `addMusicianToBand envia la banda y el musico y mapea el musico agregado`() = runTest {
+        val added = adapter.addMusicianToBand(bandId = 101, musicianId = 102)
+
+        assertEquals(listOf(101 to 102), api.addedBandMembers)
+        assertEquals(102, added.id)
+        assertEquals("Willie Colón", added.name)
+    }
+
+    @Test
+    fun `addMusicianToBand traduce una banda inexistente y la falta de red a AppError`() = runTest {
+        api.addMusicianToBandResponse = { _, _ -> throw HttpException(Response.error<Any>(404, "".toResponseBody())) }
+        assertEquals(404, (captureError { adapter.addMusicianToBand(999, 102) } as AppError.Server).code)
+
+        api.addMusicianToBandResponse = { _, _ -> throw IOException("sin red") }
+        assertTrue(captureError { adapter.addMusicianToBand(101, 102) } is AppError.NoConnection)
+    }
+
     private suspend fun captureError(block: suspend () -> Unit): AppError {
         try {
             block()
