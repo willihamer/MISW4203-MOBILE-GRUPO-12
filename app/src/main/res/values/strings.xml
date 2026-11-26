@@ -161,7 +161,6 @@
     <string name="track_add_duration_hint">Ej. 04:35</string>
     <string name="track_add_duration_helper">Formato mm:ss</string>
     <string name="track_add_save">Agregar</string>
-    <string name="track_add_saving">Agregando…</string>
     <string name="track_add_success">Track agregado al álbum</string>
     <string name="track_add_error_duration_format">Usa el formato mm:ss, p. ej. 04:35</string>
 </resources>

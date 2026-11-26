@@ -100,7 +100,7 @@ class AddTrackBottomSheet : BottomSheetDialogFragment() {
         binding.trackDurationInput.isEnabled = !isSaving
         binding.cancelButton.isEnabled = !isSaving
         binding.saveTrackButton.isEnabled = !isSaving
-        binding.saveTrackButton.setText(if (isSaving) R.string.track_add_saving else R.string.track_add_save)
+        binding.saveTrackButton.setText(if (isSaving) R.string.action_adding else R.string.track_add_save)
         binding.submitError.isVisible = state is SaveTrackUiState.Error
 
         when (state) {
