@@ -12,6 +12,7 @@ import androidx.test.espresso.matcher.ViewMatchers.Visibility
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.hasErrorText
 import androidx.test.espresso.matcher.ViewMatchers.isChecked
+import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isEnabled
 import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
@@ -24,6 +25,7 @@ import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okhttp3.mockwebserver.RecordedRequest
+import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
 import org.json.JSONObject
 import org.junit.Assert.assertEquals
@@ -168,8 +170,10 @@ class HU11AddCollectorAlbumTest {
         // Navega al detalle del coleccionista (HU06) y comprueba que el álbum está en su colección
         onView(withId(R.id.close_button)).perform(click())
         onView(withId(R.id.tab_collectors)).perform(click())
-        awaitView(withText("Ana"))
-        onView(withText("Ana")).perform(click())
+        // "Ana" también es el nombre del chip de perfil: se busca solo en la lista de coleccionistas
+        val anaInList = allOf(withText("Ana"), isDescendantOfA(withId(R.id.collector_list)))
+        awaitView(anaInList)
+        onView(anaInList).perform(click())
         awaitView(withId(R.id.collector_name))
         onView(withId(R.id.collection_album_list))
             .check(matches(hasDescendant(withText("Álbum de prueba"))))
