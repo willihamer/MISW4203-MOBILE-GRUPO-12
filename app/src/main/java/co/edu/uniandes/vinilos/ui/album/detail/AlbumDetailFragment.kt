@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import co.edu.uniandes.vinilos.R
 import co.edu.uniandes.vinilos.data.model.Album
 import co.edu.uniandes.vinilos.data.model.Profile
+import co.edu.uniandes.vinilos.data.model.formatTrackDuration
 import co.edu.uniandes.vinilos.databinding.FragmentAlbumDetailBinding
 import co.edu.uniandes.vinilos.databinding.ItemCommentBinding
 import co.edu.uniandes.vinilos.ui.album.collection.AddCollectorAlbumBottomSheet
@@ -109,7 +110,7 @@ class AlbumDetailFragment : Fragment(R.layout.fragment_album_detail) {
         binding.tracksEmpty.isVisible = album.tracks.isEmpty()
         binding.tracks.removeAllViews()
         album.tracks.forEach { track ->
-            addText(binding.tracks, getString(R.string.album_tracks_row, track.name, track.duration))
+            addText(binding.tracks, getString(R.string.album_tracks_row, track.name, formatTrackDuration(track.duration)))
         }
         binding.commentsEmpty.isVisible = album.comments.isEmpty()
         binding.comments.removeAllViews()

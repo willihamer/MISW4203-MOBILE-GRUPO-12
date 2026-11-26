@@ -9,6 +9,8 @@ import androidx.lifecycle.viewModelScope
 import co.edu.uniandes.vinilos.R
 import co.edu.uniandes.vinilos.data.model.NewTrack
 import co.edu.uniandes.vinilos.data.model.Track
+import co.edu.uniandes.vinilos.data.model.formatTrackDuration
+import co.edu.uniandes.vinilos.data.model.isValidTrackDuration
 import co.edu.uniandes.vinilos.data.network.AppError
 import co.edu.uniandes.vinilos.data.repository.AlbumRepository
 import co.edu.uniandes.vinilos.ui.common.messageRes
@@ -32,8 +34,8 @@ sealed interface SaveTrackUiState {
 
 /**
  * HU08 - Asociar un track a un álbum. Nombre y duración son obligatorios y la duración
- * debe tener el formato mm:ss. Mientras se guarda se ignoran nuevos envíos, para no
- * crear el mismo track dos veces con un doble toque.
+ * debe tener el formato mm:ss; se acepta "5:05" y se envía como "05:05". Mientras se guarda se
+ * ignoran nuevos envíos, para no crear el mismo track dos veces con un doble toque.
  */
 class AddTrackViewModel(
     private val repository: AlbumRepository,
@@ -80,7 +82,7 @@ class AddTrackViewModel(
         _saveState.value = SaveTrackUiState.Saving
         viewModelScope.launch {
             _saveState.value = try {
-                SaveTrackUiState.Success(repository.addTrack(albumId, NewTrack(name, duration)))
+                SaveTrackUiState.Success(repository.addTrack(albumId, NewTrack(name, formatTrackDuration(duration))))
             } catch (e: AppError) {
                 SaveTrackUiState.Error(e.messageRes())
             }
@@ -94,13 +96,4 @@ class AddTrackViewModel(
     }
 
     companion object { const val ARG_ALBUM_ID = "albumId" }
-}
-
-/** Minutos de uno o dos dígitos y segundos entre 00 y 59; una duración de cero no es válida. */
-private val TRACK_DURATION = Regex("""^(\d{1,2}):([0-5]\d)$""")
-
-internal fun isValidTrackDuration(value: String): Boolean {
-    val match = TRACK_DURATION.matchEntire(value.trim()) ?: return false
-    val (minutes, seconds) = match.destructured
-    return minutes.toInt() > 0 || seconds.toInt() > 0
 }

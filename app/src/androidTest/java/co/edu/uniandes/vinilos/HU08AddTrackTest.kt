@@ -177,13 +177,13 @@ class HU08AddTrackTest {
         fillForm(name = "Decisiones", duration = "5:05")
         onView(withId(R.id.save_track_button)).perform(scrollTo(), click())
 
-        awaitView(withText("Decisiones · 5:05"))
-        onView(withText("Decisiones · 5:05")).perform(scrollTo()).check(matches(isDisplayed()))
+        awaitView(withText("Decisiones · 05:05"))
+        onView(withText("Decisiones · 05:05")).perform(scrollTo()).check(matches(isDisplayed()))
         onView(withId(R.id.tracks_empty)).check(matches(withEffectiveVisibility(Visibility.GONE)))
         onView(withId(R.id.track_name_input)).check(doesNotExist())
         assertEquals(1, postCalls)
         assertTrue(lastPostBody.contains("\"name\":\"Decisiones\""))
-        assertTrue(lastPostBody.contains("\"duration\":\"5:05\""))
+        assertTrue(lastPostBody.contains("\"duration\":\"05:05\""))
     }
 
     // PE-HU08-05
@@ -200,7 +200,7 @@ class HU08AddTrackTest {
         postStatus = 200
         onView(withId(R.id.save_track_button)).perform(scrollTo(), click())
 
-        awaitView(withText("Decisiones · 5:05"))
+        awaitView(withText("Decisiones · 05:05"))
         assertEquals(2, postCalls)
     }
 

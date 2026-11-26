@@ -3,6 +3,7 @@ package co.edu.uniandes.vinilos.ui.album.track
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
 import co.edu.uniandes.vinilos.R
+import co.edu.uniandes.vinilos.data.model.isValidTrackDuration
 import co.edu.uniandes.vinilos.data.network.NetworkServiceAdapter
 import co.edu.uniandes.vinilos.data.network.dto.TrackDto
 import co.edu.uniandes.vinilos.data.repository.AlbumRepository
@@ -91,7 +92,7 @@ class AddTrackViewModelTest {
 
         assertEquals(101, api.lastAddTrackAlbumId)
         assertEquals("Decisiones", api.lastAddTrackRequest?.name)
-        assertEquals("5:05", api.lastAddTrackRequest?.duration)
+        assertEquals("05:05", api.lastAddTrackRequest?.duration)
         val success = viewModel.saveState.value as SaveTrackUiState.Success
         assertEquals("Decisiones", success.track.name)
     }
