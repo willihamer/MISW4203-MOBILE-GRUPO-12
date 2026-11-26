@@ -15,7 +15,9 @@ import androidx.navigation.fragment.findNavController
 import co.edu.uniandes.vinilos.R
 import co.edu.uniandes.vinilos.data.model.Album
 import co.edu.uniandes.vinilos.data.model.Artist
+import co.edu.uniandes.vinilos.data.model.Profile
 import co.edu.uniandes.vinilos.databinding.FragmentArtistDetailBinding
+import co.edu.uniandes.vinilos.ui.artist.member.AddBandMemberBottomSheet
 import co.edu.uniandes.vinilos.ui.common.FadeBottomTransformation
 import co.edu.uniandes.vinilos.ui.common.UiState
 import co.edu.uniandes.vinilos.ui.common.remoteImage
@@ -27,7 +29,10 @@ import com.google.android.material.snackbar.Snackbar
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-/** HU04 - Consultar detalle de un artista (P05 músico, P05b banda) y HU10 - marcarlo como favorito. */
+/**
+ * HU04 - Consultar detalle de un artista (P05 músico, P05b banda), HU10 - marcarlo como favorito
+ * y HU12 - agregar músicos a una banda.
+ */
 class ArtistDetailFragment : Fragment(R.layout.fragment_artist_detail) {
 
     private val viewModel: ArtistDetailViewModel by viewModels { viewModelFactory }
@@ -54,6 +59,19 @@ class ArtistDetailFragment : Fragment(R.layout.fragment_artist_detail) {
 
         binding.favoriteButton.setOnClickListener { viewModel.onFavoriteClicked() }
 
+        ViewCompat.setAccessibilityHeading(binding.membersTitle, true)
+        binding.addMemberButton.setOnClickListener { openAddMember() }
+        childFragmentManager.setFragmentResultListener(AddBandMemberBottomSheet.RESULT_MEMBERS_ADDED, viewLifecycleOwner) { _, result ->
+            // El repositorio ya guardó la banda con sus integrantes nuevos
+            viewModel.refreshFromCache()
+            val added = result.getInt(AddBandMemberBottomSheet.KEY_ADDED)
+            Snackbar.make(
+                requireActivity().findViewById(R.id.root),
+                resources.getQuantityString(R.plurals.band_member_added, added, added),
+                Snackbar.LENGTH_LONG,
+            ).show()
+        }
+
         viewModel.state.observe(viewLifecycleOwner) { state -> render(state, albumAdapter, memberAdapter) }
         viewModel.favoriteState.observe(viewLifecycleOwner, ::renderFavorite)
         viewModel.favoriteMessage.observe(viewLifecycleOwner) { message ->
@@ -63,7 +81,11 @@ class ArtistDetailFragment : Fragment(R.layout.fragment_artist_detail) {
                 viewModel.onFavoriteMessageShown()
             }
         }
-        profileViewModel.profile.observe(viewLifecycleOwner) { binding.profileChip.render(it) }
+        profileViewModel.profile.observe(viewLifecycleOwner) { profile ->
+            binding.profileChip.render(profile)
+            // La sección de integrantes solo existe en las bandas, así que el botón solo aparece en ellas
+            binding.addMemberButton.isVisible = profile is Profile.CollectorProfile
+        }
     }
 
     /**
@@ -152,6 +174,12 @@ class ArtistDetailFragment : Fragment(R.layout.fragment_artist_detail) {
     private fun bindDate(@StringRes labelRes: Int, date: LocalDate?) {
         binding.dateChip.isVisible = date != null
         if (date != null) binding.dateChip.text = getString(labelRes, date.format(DATE_FORMAT))
+    }
+
+    private fun openAddMember() {
+        val band = (viewModel.state.value as? UiState.Success)?.data as? Artist.Band ?: return
+        if (childFragmentManager.findFragmentByTag(AddBandMemberBottomSheet.TAG) != null) return
+        AddBandMemberBottomSheet.newInstance(band.id, band.name).show(childFragmentManager, AddBandMemberBottomSheet.TAG)
     }
 
     /** Abre el detalle del integrante como músico; atrás regresa a la banda. */

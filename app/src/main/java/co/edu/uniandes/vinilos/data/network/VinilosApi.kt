@@ -85,4 +85,11 @@ interface VinilosApi {
 
     @GET("bands/{id}")
     suspend fun getBand(@Path("id") id: Int): BandDto
+
+    /** Asocia el músico a la banda (HU12) y responde el músico actualizado. */
+    @POST("bands/{bandId}/musicians/{musicianId}")
+    suspend fun addMusicianToBand(
+        @Path("bandId") bandId: Int,
+        @Path("musicianId") musicianId: Int,
+    ): MusicianDto
 }

@@ -42,6 +42,9 @@ class FakeVinilosApi(
     var bands: () -> List<BandDto> = { emptyList() },
     var musician: (Int) -> MusicianDto = { id -> SampleData.musicianDetails[id] ?: throw notFound() },
     var band: (Int) -> BandDto = { id -> SampleData.bandDetails[id] ?: throw notFound() },
+    var addMusicianToBandResponse: (Int, Int) -> MusicianDto = { _, musicianId ->
+        (SampleData.musicians + SampleData.freddieMercury).firstOrNull { it.id == musicianId } ?: throw notFound()
+    },
     var collector: (Int) -> CollectorDto = { id -> SampleData.collectorDetails[id] ?: throw notFound() },
     var collectorAlbums: (Int) -> List<CollectorAlbumDto> = { id ->
         if (id in SampleData.collectorDetails) SampleData.collectorAlbums[id].orEmpty() else throw notFound()
@@ -223,6 +226,14 @@ class FakeVinilosApi(
     override suspend fun getBand(id: Int): BandDto {
         bandDetailCalls++
         return band(id)
+    }
+
+    /** Pares (banda, músico) en el orden en que la app los envió. */
+    val addedBandMembers = mutableListOf<Pair<Int, Int>>()
+
+    override suspend fun addMusicianToBand(bandId: Int, musicianId: Int): MusicianDto {
+        addedBandMembers += bandId to musicianId
+        return addMusicianToBandResponse(bandId, musicianId)
     }
 }
 

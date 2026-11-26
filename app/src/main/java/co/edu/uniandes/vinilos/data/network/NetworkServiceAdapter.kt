@@ -76,6 +76,10 @@ class NetworkServiceAdapter(private val api: VinilosApi) {
 
     suspend fun getBand(id: Int): Artist.Band = call { api.getBand(id).toModel() }
 
+    /** POST /bands/{bandId}/musicians/{musicianId}: agrega el músico a la banda (HU12). */
+    suspend fun addMusicianToBand(bandId: Int, musicianId: Int): Artist.Musician =
+        call { api.addMusicianToBand(bandId, musicianId).toModel() }
+
     private suspend fun <T> call(block: suspend () -> T): T {
         NetworkIdlingResource.increment()
         return try {

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Músico disponible en el selector de P12 (HU12): foto, nombre e indicador de selección. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:background="@drawable/bg_option_row"
+    android:baselineAligned="false"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:minHeight="76dp"
+    android:orientation="horizontal"
+    android:padding="14dp">
+
+    <FrameLayout
+        android:layout_width="@dimen/vn_avatar"
+        android:layout_height="@dimen/vn_avatar"
+        android:background="@drawable/bg_avatar_ring"
+        android:padding="2dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:importantForAccessibility="no"
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+            tools:src="@drawable/ic_artist_placeholder_musician" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="@dimen/vn_space_sm"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textAppearance="@style/TextAppearance.Vinilos.TitleMedium"
+        tools:text="David Bowie" />
+
+    <View
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@drawable/bg_radio"
+        android:duplicateParentState="true"
+        android:importantForAccessibility="no" />
+</LinearLayout>

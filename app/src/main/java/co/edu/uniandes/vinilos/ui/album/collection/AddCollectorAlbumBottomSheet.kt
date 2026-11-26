@@ -109,7 +109,7 @@ class AddCollectorAlbumBottomSheet : BottomSheetDialogFragment() {
             binding.statusInactive.isEnabled = !lockInputs
             (dialog as? BottomSheetDialog)?.behavior?.isDraggable = !saving
             binding.saveCollectionButton.setText(
-                if (saving) R.string.collection_saving else R.string.collection_save,
+                if (saving) R.string.action_adding else R.string.collection_save,
             )
             binding.submitError.isVisible =
                 state is SaveCollectorAlbumUiState.Error || alreadyInCollection
