@@ -41,9 +41,12 @@ class AddBandMemberBottomSheet : BottomSheetDialogFragment() {
             state = BottomSheetBehavior.STATE_EXPANDED
             skipCollapsed = true
         }
-        // El teclado de la búsqueda empuja la hoja hacia arriba en lugar de tapar los botones
+        // El teclado no se abre solo (en Android 5 la búsqueda tomaba el foco y aplastaba la lista);
+        // cuando el usuario toca la búsqueda, empuja la hoja hacia arriba en lugar de tapar los botones
         @Suppress("DEPRECATION")
-        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        dialog?.window?.setSoftInputMode(
+            WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE or WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN,
+        )
 
         ViewCompat.setAccessibilityHeading(binding.sheetTitle, true)
         binding.bandName.text = requireArguments().getString(ARG_BAND_NAME).orEmpty()
@@ -64,6 +67,15 @@ class AddBandMemberBottomSheet : BottomSheetDialogFragment() {
             renderSubmitButton()
         }
         viewModel.saveState.observe(viewLifecycleOwner, ::renderSaveState)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // La lista ocupa el espacio entre la búsqueda y los botones, así que la hoja necesita una
+        // altura definida: en Android 5 el contenedor la medía según su contenido y la lista quedaba en 0
+        dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)?.let { sheet ->
+            sheet.layoutParams = sheet.layoutParams.apply { height = ViewGroup.LayoutParams.MATCH_PARENT }
+        }
     }
 
     private fun renderList(state: UiState<List<Artist.Musician>>, adapter: MusicianOptionAdapter) {

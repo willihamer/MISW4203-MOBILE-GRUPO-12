@@ -155,6 +155,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/vn_space_sm"
             android:layout_weight="1"
+            android:maxLines="2"
             android:text="@string/action_cancel" />
 
         <com.google.android.material.button.MaterialButton
@@ -165,6 +166,7 @@
             android:layout_marginStart="@dimen/vn_space_sm"
             android:layout_weight="1"
             android:enabled="false"
+            android:maxLines="2"
             android:text="@string/band_member_submit"
             app:icon="@drawable/ic_done_all"
             app:iconGravity="textEnd" />
