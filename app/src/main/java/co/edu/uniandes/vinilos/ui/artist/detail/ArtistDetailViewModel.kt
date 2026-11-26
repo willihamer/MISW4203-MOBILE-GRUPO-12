@@ -86,6 +86,21 @@ class ArtistDetailViewModel(
         checkFavorite()
     }
 
+    /**
+     * Muestra el artista que ya tiene el repositorio, sin pasar por el estado de carga; p. ej.
+     * después de agregar integrantes a la banda (HU12), cuando el repositorio ya guardó la banda actualizada.
+     */
+    fun refreshFromCache() {
+        loadJob?.cancel()
+        loadJob = viewModelScope.launch {
+            try {
+                _state.value = UiState.Success(repository.getArtist(artistId, artistType))
+            } catch (_: AppError) {
+                // Se conserva lo que ya se muestra
+            }
+        }
+    }
+
     /** Agrega el artista a los favoritos del coleccionista activo; si ya lo es, solo lo indica. */
     fun onFavoriteClicked() {
         val collectorId = activeCollectorId() ?: return
