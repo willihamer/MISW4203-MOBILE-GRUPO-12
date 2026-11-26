@@ -153,7 +153,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/vn_screen_margin"
-                        android:text="@string/band_member_add_button"
+                        android:text="@string/band_member_add"
                         android:visibility="gone"
                         app:icon="@drawable/ic_add"
                         tools:visibility="visible" />

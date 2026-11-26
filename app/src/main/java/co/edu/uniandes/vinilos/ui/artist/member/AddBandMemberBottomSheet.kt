@@ -96,7 +96,7 @@ class AddBandMemberBottomSheet : BottomSheetDialogFragment() {
     private fun renderSaveState(state: SaveMembersUiState) {
         val isSaving = state is SaveMembersUiState.Saving
         binding.cancelButton.isEnabled = !isSaving
-        binding.addMembersButton.setText(if (isSaving) R.string.band_member_saving else R.string.band_member_submit)
+        binding.addMembersButton.setText(if (isSaving) R.string.action_adding else R.string.band_member_submit)
         binding.submitError.isVisible = state is SaveMembersUiState.Error
         renderSubmitButton()
 

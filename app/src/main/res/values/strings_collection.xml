@@ -12,6 +12,5 @@
     <string name="collection_collector_required">Selecciona un perfil de coleccionista para agregar el álbum.</string>
     <string name="collection_already_added">Este álbum ya está en tu colección</string>
     <string name="collection_save">Agregar</string>
-    <string name="collection_saving">Agregando…</string>
     <string name="collection_success">Álbum agregado a tu colección</string>
 </resources>

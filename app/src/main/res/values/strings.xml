@@ -143,6 +143,7 @@
     <string name="album_create_record_label_hint">Selecciona un sello</string>
     <string name="album_create_description_label">Descripción del álbum (obligatoria)</string>
     <string name="album_create_description_hint">Reseña histórica, estilo musical o notas de producción…</string>
+    <string name="action_adding">Agregando…</string>
     <string name="action_cancel">Cancelar</string>
     <string name="album_create_save">Guardar álbum</string>
     <string name="album_create_saving">Guardando…</string>
