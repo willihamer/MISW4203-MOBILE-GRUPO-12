@@ -15,12 +15,17 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.navOptions
 import co.edu.uniandes.vinilos.databinding.ActivityMainBinding
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 
 /** Única Activity: aloja el NavHost y la barra de navegación inferior flotante. */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+
+    /** Aviso en pantalla, para moverlo si la barra inferior aparece o desaparece mientras se ve. */
+    private var notice: Snackbar? = null
 
     private val tabs by lazy {
         mapOf(
@@ -62,8 +67,31 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             binding.bottomBar.isVisible = destination.id in tabs
             tabs.forEach { (destinationId, tab) -> tab.isSelected = destinationId == destination.id }
+            notice?.anchorView = visibleBottomBar()
         }
     }
+
+    /**
+     * Muestra un aviso (Snackbar) encima de la barra inferior cuando está visible. Sin el ancla, el
+     * aviso de una acción hecha en un detalle quedaba sobre la barra al volver a la lista y se
+     * tragaba los toques a las pestañas mientras duraba.
+     */
+    fun showNotice(message: CharSequence) {
+        notice = Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).apply {
+            // Recalcula la posición cuando la barra se dibuja: al volver de un detalle, el ancla se
+            // asigna antes de que la barra tenga su lugar en pantalla.
+            isAnchorViewLayoutListenerEnabled = true
+            anchorView = visibleBottomBar()
+            addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                override fun onDismissed(transientBottomBar: Snackbar, event: Int) {
+                    if (notice === transientBottomBar) notice = null
+                }
+            })
+            show()
+        }
+    }
+
+    private fun visibleBottomBar() = binding.bottomBar.takeIf { it.isVisible }
 
     private fun openTab(destinationId: Int) {
         if (navController.currentDestination?.id == destinationId) return

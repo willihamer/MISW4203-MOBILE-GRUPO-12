@@ -14,15 +14,15 @@ import co.edu.uniandes.vinilos.R
 import co.edu.uniandes.vinilos.data.model.Genre
 import co.edu.uniandes.vinilos.data.model.RecordLabel
 import co.edu.uniandes.vinilos.databinding.FragmentCreateAlbumBinding
+import co.edu.uniandes.vinilos.ui.common.bindFormSubmit
 import co.edu.uniandes.vinilos.ui.common.remoteImage
 import co.edu.uniandes.vinilos.ui.common.render
-import co.edu.uniandes.vinilos.ui.common.bindFormSubmit
+import co.edu.uniandes.vinilos.ui.common.showNotice
 import co.edu.uniandes.vinilos.ui.common.viewModelFactory
 import co.edu.uniandes.vinilos.ui.profile.ProfileViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneOffset
@@ -198,8 +198,7 @@ class CreateAlbumFragment : Fragment(R.layout.fragment_create_album) {
         when (state) {
             is SaveAlbumUiState.Error -> binding.submitError.setText(state.message)
             is SaveAlbumUiState.Success -> {
-                val rootView = requireActivity().findViewById<View>(R.id.root)
-                Snackbar.make(rootView, R.string.album_create_success, Snackbar.LENGTH_LONG).show()
+                showNotice(R.string.album_create_success)
                 findNavController().navigateUp()
             }
             SaveAlbumUiState.Idle, SaveAlbumUiState.Saving -> Unit

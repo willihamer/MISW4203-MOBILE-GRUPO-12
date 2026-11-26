@@ -16,17 +16,17 @@ import co.edu.uniandes.vinilos.R
 import co.edu.uniandes.vinilos.data.model.Album
 import co.edu.uniandes.vinilos.data.model.Profile
 import co.edu.uniandes.vinilos.databinding.FragmentAlbumDetailBinding
-import co.edu.uniandes.vinilos.ui.album.collection.AddCollectorAlbumBottomSheet
-import co.edu.uniandes.vinilos.ui.album.track.AddTrackBottomSheet
-import co.edu.uniandes.vinilos.ui.album.comment.AddCommentBottomSheet
 import co.edu.uniandes.vinilos.databinding.ItemCommentBinding
+import co.edu.uniandes.vinilos.ui.album.collection.AddCollectorAlbumBottomSheet
+import co.edu.uniandes.vinilos.ui.album.comment.AddCommentBottomSheet
+import co.edu.uniandes.vinilos.ui.album.track.AddTrackBottomSheet
 import co.edu.uniandes.vinilos.ui.common.UiState
 import co.edu.uniandes.vinilos.ui.common.remoteImage
+import co.edu.uniandes.vinilos.ui.common.showNotice
 import co.edu.uniandes.vinilos.ui.common.viewModelFactory
 import co.edu.uniandes.vinilos.ui.profile.ProfileViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.snackbar.Snackbar
 import java.time.format.DateTimeFormatter
 
 /**
@@ -50,16 +50,16 @@ class AlbumDetailFragment : Fragment(R.layout.fragment_album_detail) {
         binding.addToCollectionButton.setOnClickListener { openAddToCollection() }
         ViewCompat.setAccessibilityHeading(binding.commentsTitle, true)
         childFragmentManager.setFragmentResultListener(AddCollectorAlbumBottomSheet.RESULT_ALBUM_COLLECTED, viewLifecycleOwner) { _, _ ->
-            Snackbar.make(requireActivity().findViewById(R.id.root), R.string.collection_success, Snackbar.LENGTH_LONG).show()
+            showNotice(R.string.collection_success)
         }
         childFragmentManager.setFragmentResultListener(AddCommentBottomSheet.RESULT_COMMENT_ADDED, viewLifecycleOwner) { _, _ ->
             viewModel.refreshFromCache()
-            Snackbar.make(requireActivity().findViewById(R.id.root), R.string.comment_success, Snackbar.LENGTH_LONG).show()
+            showNotice(R.string.comment_success)
         }
         childFragmentManager.setFragmentResultListener(AddTrackBottomSheet.RESULT_TRACK_ADDED, viewLifecycleOwner) { _, _ ->
             // El repositorio ya agregó el track al detalle en caché: no hace falta volver a la red
             viewModel.refreshFromCache()
-            Snackbar.make(requireActivity().findViewById(R.id.root), R.string.track_add_success, Snackbar.LENGTH_LONG).show()
+            showNotice(R.string.track_add_success)
         }
         profileViewModel.profile.observe(viewLifecycleOwner) { profile ->
             val isCollector = profile is Profile.CollectorProfile
