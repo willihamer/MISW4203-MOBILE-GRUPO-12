@@ -22,10 +22,10 @@ import co.edu.uniandes.vinilos.ui.common.FadeBottomTransformation
 import co.edu.uniandes.vinilos.ui.common.UiState
 import co.edu.uniandes.vinilos.ui.common.remoteImage
 import co.edu.uniandes.vinilos.ui.common.render
+import co.edu.uniandes.vinilos.ui.common.showNotice
 import co.edu.uniandes.vinilos.ui.common.viewModelFactory
 import co.edu.uniandes.vinilos.ui.profile.ProfileViewModel
 import com.bumptech.glide.Glide
-import com.google.android.material.snackbar.Snackbar
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -65,11 +65,7 @@ class ArtistDetailFragment : Fragment(R.layout.fragment_artist_detail) {
             // El repositorio ya guardó la banda con sus integrantes nuevos
             viewModel.refreshFromCache()
             val added = result.getInt(AddBandMemberBottomSheet.KEY_ADDED)
-            Snackbar.make(
-                requireActivity().findViewById(R.id.root),
-                resources.getQuantityString(R.plurals.band_member_added, added, added),
-                Snackbar.LENGTH_LONG,
-            ).show()
+            showNotice(resources.getQuantityString(R.plurals.band_member_added, added, added))
         }
 
         viewModel.state.observe(viewLifecycleOwner) { state -> render(state, albumAdapter, memberAdapter) }
@@ -77,7 +73,7 @@ class ArtistDetailFragment : Fragment(R.layout.fragment_artist_detail) {
         viewModel.favoriteMessage.observe(viewLifecycleOwner) { message ->
             if (message != null) {
                 // El Snackbar se anuncia con TalkBack, así que también confirma la acción por voz
-                Snackbar.make(requireActivity().findViewById(R.id.root), message, Snackbar.LENGTH_LONG).show()
+                showNotice(message)
                 viewModel.onFavoriteMessageShown()
             }
         }
