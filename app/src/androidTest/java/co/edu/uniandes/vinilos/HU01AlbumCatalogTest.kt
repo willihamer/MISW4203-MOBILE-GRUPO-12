@@ -68,6 +68,9 @@ class HU01AlbumCatalogTest {
     @Test
     fun filtraPorGenero() {
         onView(withText(R.string.genre_rock)).perform(click())
+        // ListAdapter calcula el filtro en segundo plano, fuera de lo que Espresso espera: primero se
+        // confirma que la lista ya cambió y después se busca el álbum, para no tomar la fila vieja.
+        awaitView(withText("Buscando América"), present = false)
 
         onView(withId(R.id.album_list)).perform(
             androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem<androidx.recyclerview.widget.RecyclerView.ViewHolder>(
@@ -76,7 +79,6 @@ class HU01AlbumCatalogTest {
             ),
         )
         onView(withText("A Night at the Opera")).check(matches(isDisplayed()))
-        awaitView(withText("Buscando América"), present = false)
         onView(withText("Buscando América")).check(doesNotExist())
     }
 
