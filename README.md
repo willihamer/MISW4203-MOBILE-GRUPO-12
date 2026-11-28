@@ -1,17 +1,24 @@
 # Vinilos móvil — MISW4203 Grupo 12
 
-App Android nativa en **Kotlin** para consultar el catálogo de álbumes, artistas y coleccionistas de Vinilos. Consume la API REST [BackVynils](https://github.com/TheSoftwareDesignLab/BackVynils).
+App Android nativa en **Kotlin** para consultar el catálogo de álbumes, artistas y coleccionistas de Vinilos y, en modo coleccionista, administrarlo. Consume la API REST [BackVynils](https://github.com/TheSoftwareDesignLab/BackVynils).
 
 Documentación del proyecto (backlog, diseño, arquitectura, actas): [wiki](https://github.com/willihamer/MISW4203-MOBILE-GRUPO-12/wiki).
 
 ## Alcance de esta versión
 
-HU01 catálogo de álbumes, HU02 detalle de álbum, HU03 listado de artistas, HU04 detalle de músico o banda, HU05 listado y búsqueda de coleccionistas y HU07 creación de un álbum en modo coleccionista.
+Release [v3.0.0](https://github.com/willihamer/MISW4203-MOBILE-GRUPO-12/releases/tag/v3.0.0), entrega final con las doce historias:
+
+| Modo | Historias |
+| :--- | :--- |
+| Visitante y coleccionista | HU01 catálogo de álbumes · HU02 detalle de álbum · HU03 listado de artistas · HU04 detalle de músico o banda · HU05 listado y búsqueda de coleccionistas · HU06 detalle de coleccionista |
+| Coleccionista | HU07 crear un álbum · HU08 agregar tracks a un álbum · HU09 comentar y calificar un álbum · HU10 agregar artistas favoritos · HU11 agregar un álbum a la colección · HU12 agregar músicos a una banda |
+
+El APK de depuración de cada versión está adjunto en [Releases](https://github.com/willihamer/MISW4203-MOBILE-GRUPO-12/releases).
 
 ## Requisitos
 
 - Android Studio y Android SDK Platform 37, con Platform Tools.
-- Dispositivo o emulador compatible con el mínimo configurado en `app/build.gradle.kts` (API 24).
+- Dispositivo o emulador con **Android 5.0 Lollipop (API 21)** o superior, el mínimo configurado en `app/build.gradle.kts`.
 - Un Java de arranque compatible con Gradle (se verificó con JDK 17). El wrapper usa Gradle y el criterio de JVM versionados en `gradle/`; la primera ejecución puede descargar la JVM 25 y las dependencias. No hace falta instalar Gradle globalmente.
 - Acceso a internet para descargar dependencias y consultar la API.
 
@@ -68,8 +75,10 @@ La segunda orden necesita un emulador o dispositivo conectado (`adb devices`). L
 - Unitarias: `app/build/reports/tests/testDebugUnitTest/index.html`.
 - Espresso: `app/build/outputs/androidTest-results/connected/debug/` (resultados y logcat por escenario en AGP 9.5). El inventario y las evidencias se consultan en la wiki.
 - Lint: `app/build/reports/lint-results-debug.html`.
-- [Arquitectura y diagramas](https://github.com/willihamer/MISW4203-MOBILE-GRUPO-12/wiki/Sprint-1#arquitectura).
-- [Inventario, resultados y limitaciones de QA](https://github.com/willihamer/MISW4203-MOBILE-GRUPO-12/wiki/Sprint-1#artefactos-de-prueba).
+- [Arquitectura y diagramas](https://github.com/willihamer/MISW4203-MOBILE-GRUPO-12/wiki/Dise%C3%B1o-de-Arquitectura).
+- [Estrategia de pruebas del Sprint 3](https://github.com/willihamer/MISW4203-MOBILE-GRUPO-12/wiki/Estrategia-de-Pruebas-Sprint-3), con el inventario de escenarios.
+- [Resultados de pruebas del Sprint 3](https://github.com/willihamer/MISW4203-MOBILE-GRUPO-12/wiki/Resultados-de-Pruebas-Sprint-3): Espresso, Robo test y Monkey.
+- [Reportes de defectos](https://github.com/willihamer/MISW4203-MOBILE-GRUPO-12/wiki/Reportes-de-Defectos-Sprint-3) y [perfilamiento en dispositivos físicos](https://github.com/willihamer/MISW4203-MOBILE-GRUPO-12/wiki/Perfilamiento-Sprint-3).
 
 ### APK automático del release
 
@@ -90,19 +99,23 @@ app/src/main/java/co/edu/uniandes/vinilos/
 ├── VinilosApplication.kt, MainActivity.kt
 ├── di/AppContainer.kt          # inyección de dependencias manual
 ├── data/
-│   ├── model/                  # Album, Track, Performer, Artist, Collector, Profile
+│   ├── model/                  # Album, Track, Performer, Artist, Collector, Comment, Profile, TrackDuration
 │   ├── network/                # VinilosApi, NetworkServiceAdapter, AppError, dto/, mapper/
-│   └── repository/             # AlbumRepository, ArtistRepository, CollectorRepository, ProfileRepository
+│   └── repository/             # Interfaz + implementación: Album, Artist, Collector y Profile
 └── ui/
-    ├── common/                 # UiState, ViewModelFactory, avatares, chip de perfil
+    ├── common/                 # UiState, ViewModelFactory, avisos, navegación segura, accesibilidad de formularios
     ├── profile/                # P01 Bienvenida y P01b ¿Quién eres?
     ├── album/list/             # HU01 Catálogo de álbumes
     ├── album/detail/           # HU02 Detalle de álbum
-    ├── album/create/           # HU07 Crear álbum (modo coleccionista)
+    ├── album/create/           # HU07 Crear álbum
+    ├── album/track/            # HU08 Agregar track
+    ├── album/comment/          # HU09 Comentar álbum
+    ├── album/collection/       # HU11 Agregar álbum a la colección
     ├── artist/list/            # HU03 Listado de artistas
-    ├── artist/detail/          # HU04 Detalle de artista
+    ├── artist/detail/          # HU04 Detalle de artista y HU10 marcar favorito
+    ├── artist/member/          # HU12 Agregar músicos a una banda
     ├── collector/list/         # HU05 Listado de coleccionistas
-    └── collector/detail/       # Identificación del coleccionista seleccionado
+    └── collector/detail/       # HU06 Detalle de coleccionista
 ```
 
 | Librería | Uso |
@@ -112,7 +125,8 @@ app/src/main/java/co/edu/uniandes/vinilos/
 | Lifecycle (ViewModel, LiveData), corrutinas | Estado y concurrencia |
 | Retrofit + OkHttp + Gson | Cliente HTTP |
 | Glide | Carga de portadas con caché |
-| `desugar_jdk_libs` | `java.time` en API 24 y 25 |
+| AndroidX Collection (`LruCache`) | Cachés acotadas de los repositorios |
+| `desugar_jdk_libs` | `java.time` en API 21 a 25 |
 | JUnit, Espresso | Pruebas |
 | MockWebServer | Respuestas HTTP controladas en pruebas instrumentadas |
 
