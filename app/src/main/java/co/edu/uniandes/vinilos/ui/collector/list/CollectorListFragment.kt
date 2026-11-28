@@ -14,12 +14,12 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import co.edu.uniandes.vinilos.R
 import co.edu.uniandes.vinilos.data.model.Collector
 import co.edu.uniandes.vinilos.databinding.FragmentCollectorListBinding
 import co.edu.uniandes.vinilos.ui.collector.detail.CollectorDetailViewModel
 import co.edu.uniandes.vinilos.ui.common.UiState
+import co.edu.uniandes.vinilos.ui.common.navigateSafely
 import co.edu.uniandes.vinilos.ui.common.render
 import co.edu.uniandes.vinilos.ui.common.viewModelFactory
 import co.edu.uniandes.vinilos.ui.profile.ProfileViewModel
@@ -55,7 +55,7 @@ class CollectorListFragment : Fragment(R.layout.fragment_collector_list) {
     private fun setUpHeader() {
         binding.profileChip.root.setOnClickListener {
             profileViewModel.changeProfile()
-            findNavController().navigate(R.id.action_global_welcome)
+            navigateSafely(R.id.action_global_welcome)
         }
     }
 
@@ -123,7 +123,7 @@ class CollectorListFragment : Fragment(R.layout.fragment_collector_list) {
 
     /** El ID identifica al coleccionista al volver a crear la pantalla de detalle. */
     private fun openCollector(collector: Collector) {
-        findNavController().navigate(R.id.collectorDetailFragment, bundleOf(CollectorDetailViewModel.ARG_COLLECTOR_ID to collector.id))
+        navigateSafely(R.id.collectorDetailFragment, bundleOf(CollectorDetailViewModel.ARG_COLLECTOR_ID to collector.id))
     }
 
     override fun onDestroyView() {

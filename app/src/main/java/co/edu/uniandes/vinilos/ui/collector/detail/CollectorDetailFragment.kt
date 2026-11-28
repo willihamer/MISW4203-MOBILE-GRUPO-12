@@ -17,6 +17,7 @@ import co.edu.uniandes.vinilos.databinding.FragmentCollectorDetailBinding
 import co.edu.uniandes.vinilos.ui.artist.detail.ArtistDetailViewModel
 import co.edu.uniandes.vinilos.ui.common.Avatars
 import co.edu.uniandes.vinilos.ui.common.UiState
+import co.edu.uniandes.vinilos.ui.common.navigateSafely
 import co.edu.uniandes.vinilos.ui.common.render
 import co.edu.uniandes.vinilos.ui.common.viewModelFactory
 import co.edu.uniandes.vinilos.ui.profile.ProfileViewModel
@@ -42,7 +43,7 @@ class CollectorDetailFragment : Fragment(R.layout.fragment_collector_detail) {
         binding.backButton.setOnClickListener { findNavController().navigateUp() }
         binding.profileChip.root.setOnClickListener {
             profileViewModel.changeProfile()
-            findNavController().navigate(R.id.action_global_welcome)
+            navigateSafely(R.id.action_global_welcome)
         }
         binding.error.errorTitle.setText(R.string.error_collector_title)
         binding.error.retryButton.setOnClickListener { viewModel.load(forceRefresh = true) }
@@ -96,7 +97,7 @@ class CollectorDetailFragment : Fragment(R.layout.fragment_collector_detail) {
     /** El tipo decide si el detalle consulta /musicians o /bands; el adapter solo deja tocar los que lo traen. */
     private fun openArtist(performer: Performer) {
         val type = performer.type ?: return
-        findNavController().navigate(
+        navigateSafely(
             R.id.artistDetailFragment,
             bundleOf(
                 ArtistDetailViewModel.ARG_ARTIST_ID to performer.id,
@@ -106,7 +107,7 @@ class CollectorDetailFragment : Fragment(R.layout.fragment_collector_detail) {
     }
 
     private fun openAlbum(album: Album) {
-        findNavController().navigate(R.id.albumDetailFragment, bundleOf("albumId" to album.id))
+        navigateSafely(R.id.albumDetailFragment, bundleOf("albumId" to album.id))
     }
 
     override fun onDestroyView() {

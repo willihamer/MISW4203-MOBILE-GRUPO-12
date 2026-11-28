@@ -19,6 +19,7 @@ import co.edu.uniandes.vinilos.data.model.Genre
 import co.edu.uniandes.vinilos.data.model.RecordLabel
 import co.edu.uniandes.vinilos.databinding.FragmentCreateAlbumBinding
 import co.edu.uniandes.vinilos.ui.common.bindFormSubmit
+import co.edu.uniandes.vinilos.ui.common.navigateSafely
 import co.edu.uniandes.vinilos.ui.common.remoteImage
 import co.edu.uniandes.vinilos.ui.common.render
 import co.edu.uniandes.vinilos.ui.common.showNotice
@@ -58,7 +59,7 @@ class CreateAlbumFragment : Fragment(R.layout.fragment_create_album) {
         binding.backButton.setOnClickListener { findNavController().navigateUp() }
         binding.profileChip.root.setOnClickListener {
             profileViewModel.changeProfile()
-            findNavController().navigate(R.id.action_global_welcome)
+            navigateSafely(R.id.action_global_welcome)
         }
     }
 
