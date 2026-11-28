@@ -10,7 +10,6 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.Visibility
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
-import androidx.test.espresso.matcher.ViewMatchers.hasErrorText
 import androidx.test.espresso.matcher.ViewMatchers.isChecked
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -132,7 +131,11 @@ class HU11AddCollectorAlbumTest {
 
         onView(withId(R.id.save_collection_button)).perform(scrollTo(), click())
 
-        onView(withId(R.id.price_input)).check(matches(hasErrorText("Este campo es obligatorio")))
+        onView(withId(R.id.price_error)).check(matches(withText(R.string.error_required_field)))
+        onView(withId(R.id.price_input)).check { field, _ ->
+            val node = field.createAccessibilityNodeInfo()
+            assertEquals(field.resources.getString(R.string.error_required_field), node.error.toString())
+        }
         onView(withId(R.id.status_error)).check(matches(withText(R.string.collection_status_required)))
         assertEquals(0, postCalls)
     }
@@ -146,7 +149,7 @@ class HU11AddCollectorAlbumTest {
         fillForm(price = "0", active = true)
         onView(withId(R.id.save_collection_button)).perform(scrollTo(), click())
 
-        onView(withId(R.id.price_input)).check(matches(hasErrorText("Ingresa un precio mayor que cero")))
+        onView(withId(R.id.price_error)).check(matches(withText(R.string.collection_price_invalid)))
         assertEquals(0, postCalls)
     }
 

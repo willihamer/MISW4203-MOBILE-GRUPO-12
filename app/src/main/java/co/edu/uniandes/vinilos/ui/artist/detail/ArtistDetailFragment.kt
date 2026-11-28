@@ -61,6 +61,7 @@ class ArtistDetailFragment : Fragment(R.layout.fragment_artist_detail) {
         binding.favoriteButton.setOnClickListener { viewModel.onFavoriteClicked() }
 
         ViewCompat.setAccessibilityHeading(binding.membersTitle, true)
+        ViewCompat.setAccessibilityHeading(binding.albumsTitle, true)
         binding.addMemberButton.setOnClickListener { openAddMember() }
         childFragmentManager.setFragmentResultListener(AddBandMemberBottomSheet.RESULT_MEMBERS_ADDED, viewLifecycleOwner) { _, result ->
             // El repositorio ya guardó la banda con sus integrantes nuevos
@@ -86,8 +87,9 @@ class ArtistDetailFragment : Fragment(R.layout.fragment_artist_detail) {
     }
 
     /**
-     * HU10 / P05 y P05b: corazón en contorno si no es favorito y relleno si ya lo es. TalkBack lee
-     * la acción en la descripción y el estado (Favorito / No favorito) aparte.
+     * HU10 / P05 y P05b: corazón en contorno si no es favorito y relleno si ya lo es. La descripción
+     * dice la acción o el estado ("Agregar a mis favoritos" / "Está en mis favoritos"), así que
+     * TalkBack no necesita un estado aparte que lo repita.
      */
     private fun renderFavorite(state: FavoriteUiState) {
         val button = binding.favoriteButton
@@ -110,10 +112,6 @@ class ArtistDetailFragment : Fragment(R.layout.fragment_artist_detail) {
                 FavoriteUiState.Favorite -> R.string.favorite_in_favorites
                 else -> R.string.favorite_add
             },
-        )
-        ViewCompat.setStateDescription(
-            button,
-            getString(if (isFavorite) R.string.favorite_state_on else R.string.favorite_state_off),
         )
     }
 

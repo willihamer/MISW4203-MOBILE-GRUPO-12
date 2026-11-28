@@ -53,6 +53,8 @@ class MusicianOptionAdapter(
                     info.className = CheckBox::class.java.name
                     info.isCheckable = true
                     info.isChecked = selected
+                    // isSelected solo pinta la fila; si se expone, TalkBack repite el estado
+                    info.isSelected = false
                 }
             })
             ViewCompat.setStateDescription(
