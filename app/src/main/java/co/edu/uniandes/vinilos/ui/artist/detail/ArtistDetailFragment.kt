@@ -20,6 +20,7 @@ import co.edu.uniandes.vinilos.databinding.FragmentArtistDetailBinding
 import co.edu.uniandes.vinilos.ui.artist.member.AddBandMemberBottomSheet
 import co.edu.uniandes.vinilos.ui.common.FadeBottomTransformation
 import co.edu.uniandes.vinilos.ui.common.UiState
+import co.edu.uniandes.vinilos.ui.common.navigateSafely
 import co.edu.uniandes.vinilos.ui.common.remoteImage
 import co.edu.uniandes.vinilos.ui.common.render
 import co.edu.uniandes.vinilos.ui.common.showNotice
@@ -52,7 +53,7 @@ class ArtistDetailFragment : Fragment(R.layout.fragment_artist_detail) {
         binding.backButton.setOnClickListener { findNavController().navigateUp() }
         binding.profileChip.root.setOnClickListener {
             profileViewModel.changeProfile()
-            findNavController().navigate(R.id.action_global_welcome)
+            navigateSafely(R.id.action_global_welcome)
         }
         binding.error.errorTitle.setText(R.string.error_artist_title)
         binding.error.retryButton.setOnClickListener { viewModel.load(forceRefresh = true) }
@@ -180,11 +181,11 @@ class ArtistDetailFragment : Fragment(R.layout.fragment_artist_detail) {
 
     /** Abre el detalle del integrante como músico; atrás regresa a la banda. */
     private fun openMember(musician: Artist.Musician) {
-        findNavController().navigate(R.id.action_artistDetail_to_artistDetail, ArtistDetailViewModel.args(musician))
+        navigateSafely(R.id.action_artistDetail_to_artistDetail, ArtistDetailViewModel.args(musician))
     }
 
     private fun openAlbum(album: Album) {
-        findNavController().navigate(
+        navigateSafely(
             R.id.albumDetailFragment,
             androidx.core.os.bundleOf("albumId" to album.id),
         )

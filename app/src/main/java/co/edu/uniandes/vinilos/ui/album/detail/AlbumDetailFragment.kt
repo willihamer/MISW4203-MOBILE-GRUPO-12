@@ -22,6 +22,7 @@ import co.edu.uniandes.vinilos.ui.album.collection.AddCollectorAlbumBottomSheet
 import co.edu.uniandes.vinilos.ui.album.comment.AddCommentBottomSheet
 import co.edu.uniandes.vinilos.ui.album.track.AddTrackBottomSheet
 import co.edu.uniandes.vinilos.ui.common.UiState
+import co.edu.uniandes.vinilos.ui.common.navigateSafely
 import co.edu.uniandes.vinilos.ui.common.remoteImage
 import co.edu.uniandes.vinilos.ui.common.showNotice
 import co.edu.uniandes.vinilos.ui.common.viewModelFactory
@@ -101,7 +102,7 @@ class AlbumDetailFragment : Fragment(R.layout.fragment_album_detail) {
                 setTextColor(ContextCompat.getColor(context, R.color.vn_primary_light))
                 isEnabled = performer.type != null
                 setOnClickListener {
-                    findNavController().navigate(R.id.artistDetailFragment,
+                    navigateSafely(R.id.artistDetailFragment,
                         bundleOf("artistId" to performer.id, "artistType" to performer.type!!.name))
                 }
             }

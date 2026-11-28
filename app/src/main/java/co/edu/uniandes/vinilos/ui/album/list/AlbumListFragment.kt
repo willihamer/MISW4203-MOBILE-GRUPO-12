@@ -14,13 +14,13 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import co.edu.uniandes.vinilos.R
 import co.edu.uniandes.vinilos.data.model.Album
 import co.edu.uniandes.vinilos.data.model.Genre
 import co.edu.uniandes.vinilos.data.model.Profile
 import co.edu.uniandes.vinilos.databinding.FragmentAlbumListBinding
 import co.edu.uniandes.vinilos.ui.common.UiState
+import co.edu.uniandes.vinilos.ui.common.navigateSafely
 import co.edu.uniandes.vinilos.ui.common.render
 import co.edu.uniandes.vinilos.ui.common.viewModelFactory
 import co.edu.uniandes.vinilos.ui.profile.ProfileViewModel
@@ -57,7 +57,7 @@ class AlbumListFragment : Fragment(R.layout.fragment_album_list) {
         setUpFilters()
         binding.error.retryButton.setOnClickListener { viewModel.load(forceRefresh = true) }
         binding.createAlbumButton.setOnClickListener {
-            findNavController().navigate(R.id.createAlbumFragment)
+            navigateSafely(R.id.createAlbumFragment)
         }
         applyFabInsets()
 
@@ -77,7 +77,7 @@ class AlbumListFragment : Fragment(R.layout.fragment_album_list) {
         }
         binding.profileChip.root.setOnClickListener {
             profileViewModel.changeProfile()
-            findNavController().navigate(R.id.action_global_welcome)
+            navigateSafely(R.id.action_global_welcome)
         }
     }
 
@@ -168,7 +168,7 @@ class AlbumListFragment : Fragment(R.layout.fragment_album_list) {
     }
 
     private fun openAlbum(album: Album) {
-        findNavController().navigate(
+        navigateSafely(
             R.id.albumDetailFragment,
             androidx.core.os.bundleOf("albumId" to album.id),
         )
