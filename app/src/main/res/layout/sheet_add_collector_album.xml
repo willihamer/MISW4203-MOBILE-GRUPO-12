@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_glass_sheet">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/vn_screen_margin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/sheet_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/collection_title"
+                android:textAppearance="@style/TextAppearance.Vinilos.HeadlineLarge" />
+
+            <ImageButton
+                android:id="@+id/close_button"
+                style="@style/Widget.Vinilos.IconButton"
+                android:contentDescription="@string/cd_close"
+                android:src="@drawable/ic_close" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/album_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textAppearance="@style/TextAppearance.Vinilos.BodyMedium" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:labelFor="@id/price_input"
+            android:text="@string/collection_price_label"
+            android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge" />
+
+        <EditText
+            android:id="@+id/price_input"
+            style="@style/Widget.Vinilos.TextField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:autofillHints=""
+            android:imeOptions="actionDone"
+            android:inputType="numberDecimal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/collection_price_helper"
+            android:textAppearance="@style/TextAppearance.Vinilos.Caption"
+            android:textColor="@color/vn_on_surface_subtle" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/collection_status_label"
+            android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge" />
+
+        <RadioGroup
+            android:id="@+id/status_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_filter_container"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+            <RadioButton
+                android:id="@+id/status_active"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_artist_filter_tab"
+                android:button="@null"
+                android:gravity="center"
+                android:minHeight="@dimen/vn_touch_target"
+                android:text="@string/collection_status_active"
+                android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge"
+                android:textColor="@color/vn_chip_text" />
+
+            <RadioButton
+                android:id="@+id/status_inactive"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_artist_filter_tab"
+                android:button="@null"
+                android:gravity="center"
+                android:minHeight="@dimen/vn_touch_target"
+                android:text="@string/collection_status_inactive"
+                android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge"
+                android:textColor="@color/vn_chip_text" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/status_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:accessibilityLiveRegion="polite"
+            android:textAppearance="@style/TextAppearance.Vinilos.LabelMedium"
+            android:textColor="@color/vn_error"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/submit_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:accessibilityLiveRegion="polite"
+            android:background="@drawable/bg_input_error"
+            android:padding="16dp"
+            android:textAppearance="@style/TextAppearance.Vinilos.BodyMedium"
+            android:textColor="@color/vn_error"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancel_button"
+                style="@style/Widget.Vinilos.Button.Secondary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:text="@string/action_cancel" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/save_collection_button"
+                style="@style/Widget.Vinilos.Button.Primary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="@string/collection_save" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

@@ -15,12 +15,17 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.navOptions
 import co.edu.uniandes.vinilos.databinding.ActivityMainBinding
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 
 /** Única Activity: aloja el NavHost y la barra de navegación inferior flotante. */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+
+    /** Aviso en pantalla, para moverlo si la barra inferior aparece o desaparece mientras se ve. */
+    private var notice: Snackbar? = null
 
     private val tabs by lazy {
         mapOf(
@@ -62,8 +67,31 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             binding.bottomBar.isVisible = destination.id in tabs
             tabs.forEach { (destinationId, tab) -> tab.isSelected = destinationId == destination.id }
+            notice?.anchorView = visibleBottomBar()
         }
     }
+
+    /**
+     * Muestra un aviso (Snackbar) encima de la barra inferior cuando está visible. Sin el ancla, el
+     * aviso de una acción hecha en un detalle quedaba sobre la barra al volver a la lista y se
+     * tragaba los toques a las pestañas mientras duraba.
+     */
+    fun showNotice(message: CharSequence) {
+        notice = Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).apply {
+            // Recalcula la posición cuando la barra se dibuja: al volver de un detalle, el ancla se
+            // asigna antes de que la barra tenga su lugar en pantalla.
+            isAnchorViewLayoutListenerEnabled = true
+            anchorView = visibleBottomBar()
+            addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                override fun onDismissed(transientBottomBar: Snackbar, event: Int) {
+                    if (notice === transientBottomBar) notice = null
+                }
+            })
+            show()
+        }
+    }
+
+    private fun visibleBottomBar() = binding.bottomBar.takeIf { it.isVisible }
 
     private fun openTab(destinationId: Int) {
         if (navController.currentDestination?.id == destinationId) return
@@ -82,12 +110,18 @@ class MainActivity : AppCompatActivity() {
      * barra flotante queda sobre esta última. La barra de navegación con botones (Android 5) es
      * alta: si el contenido pasara por debajo, taparía el final de las pantallas y el espacio
      * reservado para la barra flotante (vn_bottom_bar_clearance) no alcanzaría.
+     *
+     * Con edge-to-edge, adjustResize ya no encoge la ventana al abrir el teclado: el contenido
+     * seguía detrás de él y el campo con foco quedaba tapado, como la descripción al crear un
+     * álbum (#126). Por eso el borde inferior también cuenta el teclado; al encogerse, el
+     * ScrollView del formulario se desplaza solo hasta el campo con foco.
      */
     private fun applyWindowInsets() {
         val baseMargin = resources.getDimensionPixelSize(R.dimen.vn_space_md)
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            binding.navHost.updatePadding(top = bars.top, bottom = bars.bottom)
+            val keyboard = insets.getInsets(WindowInsetsCompat.Type.ime())
+            binding.navHost.updatePadding(top = bars.top, bottom = maxOf(bars.bottom, keyboard.bottom))
             binding.bottomBar.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 bottomMargin = baseMargin + bars.bottom
             }

@@ -1,9 +1,13 @@
 package co.edu.uniandes.vinilos.data.network
 
+import co.edu.uniandes.vinilos.data.model.ArtistType
+import co.edu.uniandes.vinilos.data.model.CollectorAlbumStatus
 import co.edu.uniandes.vinilos.data.model.Genre
 import co.edu.uniandes.vinilos.data.model.NewAlbum
+import co.edu.uniandes.vinilos.data.model.NewCollectorAlbum
 import co.edu.uniandes.vinilos.data.model.NewTrack
 import co.edu.uniandes.vinilos.data.model.RecordLabel
+import co.edu.uniandes.vinilos.data.network.dto.CollectorAlbumDto
 import co.edu.uniandes.vinilos.testutil.FakeVinilosApi
 import co.edu.uniandes.vinilos.testutil.SampleData
 import kotlinx.coroutines.test.runTest
@@ -134,6 +138,84 @@ class NetworkServiceAdapterTest {
 
         api.addTrackResponse = { _, _ -> throw IOException("sin red") }
         assertTrue(captureError { adapter.addTrack(100, NewTrack("Decisiones", "5:05")) } is AppError.NoConnection)
+    }
+
+    @Test
+    fun `isAlbumInCollection y addAlbumToCollector mapean la respuesta y traducen respuestas sin album a Unknown`() = runTest {
+        assertEquals(true, adapter.isAlbumInCollection(100, 100))
+        assertEquals(false, adapter.isAlbumInCollection(7, 100))
+
+        val created = adapter.addAlbumToCollector(
+            collectorId = 7,
+            albumId = 100,
+            album = NewCollectorAlbum(price = 85000.0, status = CollectorAlbumStatus.ACTIVE),
+        )
+        assertEquals(1, api.addCollectorAlbumCalls)
+        assertEquals(7, api.lastCollectorAlbumCollectorId)
+        assertEquals(100, api.lastCollectorAlbumAlbumId)
+        assertEquals(85000.0, api.lastCollectorAlbumRequest?.price ?: 0.0, 0.0)
+        assertEquals("Active", api.lastCollectorAlbumRequest?.status)
+        assertEquals("Buscando América", created.album.name)
+        assertEquals(85000.0, created.price ?: 0.0, 0.0)
+        assertEquals("Active", created.status)
+
+        api.addCollectorAlbumResponse = { _, _, req ->
+            CollectorAlbumDto(id = 500, price = req.price, status = req.status, album = null)
+        }
+        assertTrue(
+            captureError {
+                adapter.addAlbumToCollector(7, 100, NewCollectorAlbum(10.0, CollectorAlbumStatus.ACTIVE))
+            } is AppError.Unknown,
+        )
+    }
+
+    @Test
+    fun `getFavoritePerformers mapea los favoritos con su tipo de artista`() = runTest {
+        val favorites = adapter.getFavoritePerformers(100)
+
+        assertEquals(listOf(100, 101), favorites.map { it.id })
+        assertEquals(listOf(ArtistType.MUSICIAN, ArtistType.BAND), favorites.map { it.type })
+        assertEquals(1, api.favoritePerformersCalls)
+    }
+
+    @Test
+    fun `addFavoritePerformer usa el endpoint de musicos o de bandas segun el tipo`() = runTest {
+        adapter.addFavoritePerformer(collectorId = 7, performerId = 100, type = ArtistType.MUSICIAN)
+        assertEquals("musicians", api.lastFavoriteResource)
+        assertEquals(7, api.lastFavoriteCollectorId)
+        assertEquals(100, api.lastFavoritePerformerId)
+
+        adapter.addFavoritePerformer(collectorId = 7, performerId = 101, type = ArtistType.BAND)
+        assertEquals("bands", api.lastFavoriteResource)
+        assertEquals(101, api.lastFavoritePerformerId)
+        assertEquals(2, api.addFavoriteCalls)
+    }
+
+    @Test
+    fun `addFavoritePerformer traduce las fallas a AppError`() = runTest {
+        api.addFavoriteResponse = { _, _, _ -> throw IOException() }
+        assertTrue(captureError { adapter.addFavoritePerformer(7, 100, ArtistType.MUSICIAN) } is AppError.NoConnection)
+
+        api.addFavoriteResponse = { _, _, _ -> throw HttpException(Response.error<Any>(404, "".toResponseBody())) }
+        assertEquals(404, (captureError { adapter.addFavoritePerformer(7, 999, ArtistType.BAND) } as AppError.Server).code)
+    }
+
+    @Test
+    fun `addMusicianToBand envia la banda y el musico y mapea el musico agregado`() = runTest {
+        val added = adapter.addMusicianToBand(bandId = 101, musicianId = 102)
+
+        assertEquals(listOf(101 to 102), api.addedBandMembers)
+        assertEquals(102, added.id)
+        assertEquals("Willie Colón", added.name)
+    }
+
+    @Test
+    fun `addMusicianToBand traduce una banda inexistente y la falta de red a AppError`() = runTest {
+        api.addMusicianToBandResponse = { _, _ -> throw HttpException(Response.error<Any>(404, "".toResponseBody())) }
+        assertEquals(404, (captureError { adapter.addMusicianToBand(999, 102) } as AppError.Server).code)
+
+        api.addMusicianToBandResponse = { _, _ -> throw IOException("sin red") }
+        assertTrue(captureError { adapter.addMusicianToBand(101, 102) } is AppError.NoConnection)
     }
 
     private suspend fun captureError(block: suspend () -> Unit): AppError {

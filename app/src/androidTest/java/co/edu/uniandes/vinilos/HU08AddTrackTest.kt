@@ -1,6 +1,7 @@
 package co.edu.uniandes.vinilos
 
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.action.ViewActions.replaceText
@@ -89,8 +90,8 @@ class HU08AddTrackTest {
 
     private fun enterAsCollectorAndOpenAlbum() {
         onView(withText(R.string.welcome_collector_title)).perform(scrollTo(), click())
-        awaitView(withText("Manolo Bellon"))
-        onView(withText("Manolo Bellon")).perform(click())
+        awaitView(withText("Manolo Bellon"), rootMatcher = isDialog())
+        onView(withText("Manolo Bellon")).inRoot(isDialog()).perform(click())
         onView(withId(R.id.continue_button)).perform(click())
         openAlbum()
     }
@@ -141,6 +142,10 @@ class HU08AddTrackTest {
 
         onView(withId(R.id.track_name_error)).check(matches(withText(R.string.error_required_field)))
         onView(withId(R.id.track_duration_error)).check(matches(withText(R.string.error_required_field)))
+        onView(withId(R.id.track_name_input)).check { field, _ ->
+            val node = field.createAccessibilityNodeInfo()
+            assertEquals(field.resources.getString(R.string.error_required_field), node.error.toString())
+        }
         assertEquals(0, postCalls)
     }
 
@@ -172,13 +177,13 @@ class HU08AddTrackTest {
         fillForm(name = "Decisiones", duration = "5:05")
         onView(withId(R.id.save_track_button)).perform(scrollTo(), click())
 
-        awaitView(withText("Decisiones · 5:05"))
-        onView(withText("Decisiones · 5:05")).perform(scrollTo()).check(matches(isDisplayed()))
+        awaitView(withText("Decisiones · 05:05"))
+        onView(withText("Decisiones · 05:05")).perform(scrollTo()).check(matches(isDisplayed()))
         onView(withId(R.id.tracks_empty)).check(matches(withEffectiveVisibility(Visibility.GONE)))
         onView(withId(R.id.track_name_input)).check(doesNotExist())
         assertEquals(1, postCalls)
         assertTrue(lastPostBody.contains("\"name\":\"Decisiones\""))
-        assertTrue(lastPostBody.contains("\"duration\":\"5:05\""))
+        assertTrue(lastPostBody.contains("\"duration\":\"05:05\""))
     }
 
     // PE-HU08-05
@@ -195,7 +200,7 @@ class HU08AddTrackTest {
         postStatus = 200
         onView(withId(R.id.save_track_button)).perform(scrollTo(), click())
 
-        awaitView(withText("Decisiones · 5:05"))
+        awaitView(withText("Decisiones · 05:05"))
         assertEquals(2, postCalls)
     }
 

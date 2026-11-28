@@ -1,8 +1,10 @@
 package co.edu.uniandes.vinilos.data.network.mapper
 
 import co.edu.uniandes.vinilos.data.model.ArtistType
+import co.edu.uniandes.vinilos.data.model.CollectorAlbumStatus
 import co.edu.uniandes.vinilos.data.model.Genre
 import co.edu.uniandes.vinilos.data.model.NewAlbum
+import co.edu.uniandes.vinilos.data.model.NewCollectorAlbum
 import co.edu.uniandes.vinilos.data.model.RecordLabel
 import co.edu.uniandes.vinilos.data.network.dto.AlbumDto
 import co.edu.uniandes.vinilos.data.network.dto.BandDto
@@ -162,5 +164,16 @@ class MappersTest {
         assertEquals(35.0, album.price!!, 0.0)
         assertEquals("Active", album.status)
         assertNull(CollectorAlbumDto(id = 1, price = 10.0, status = "Active", album = null).toModel())
+    }
+
+    @Test
+    fun `convierte NewCollectorAlbum a AddCollectorAlbumRequestDto con estado de la API`() {
+        val active = NewCollectorAlbum(price = 85000.0, status = CollectorAlbumStatus.ACTIVE).toRequestDto()
+        val inactive = NewCollectorAlbum(price = 42500.5, status = CollectorAlbumStatus.INACTIVE).toRequestDto()
+
+        assertEquals(85000.0, active.price, 0.0)
+        assertEquals("Active", active.status)
+        assertEquals(42500.5, inactive.price, 0.0)
+        assertEquals("Inactive", inactive.status)
     }
 }

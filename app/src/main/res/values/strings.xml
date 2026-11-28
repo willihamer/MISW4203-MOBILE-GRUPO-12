@@ -23,11 +23,15 @@
     <!-- Perfil -->
     <string name="profile_visitor">Visitante</string>
     <string name="profile_collector">Coleccionista</string>
+    <string name="profile_change_collector">Cambiar perfil: %1$s, coleccionista</string>
     <string name="profile_change">Cambiar perfil</string>
 
     <!-- Navegación -->
+    <string name="nav_open_albums">Ir a álbumes</string>
     <string name="nav_albums">Álbumes</string>
+    <string name="nav_open_artists">Ir a artistas</string>
     <string name="nav_artists">Artistas</string>
+    <string name="nav_open_collectors">Ir a coleccionistas</string>
     <string name="nav_collectors">Coleccionistas</string>
 
     <!-- P02 Catálogo de álbumes (HU01) -->
@@ -127,19 +131,19 @@
     <string name="album_create_preview_title_placeholder">Título del Álbum</string>
     <string name="album_create_preview_genre_placeholder">Género</string>
     <string name="album_create_preview_label_placeholder">· %1$s</string>
-    <string name="required_badge">Requerido</string>
-    <string name="album_create_name_label">Nombre del álbum *</string>
+    <string name="album_create_name_label">Nombre del álbum (obligatorio)</string>
     <string name="album_create_name_hint">Ej. Siembra, Buscando América…</string>
-    <string name="album_create_cover_label">URL de la portada *</string>
+    <string name="album_create_cover_label">URL de la portada (obligatoria)</string>
     <string name="album_create_cover_hint">https://ejemplo.com/portada.jpg</string>
-    <string name="album_create_release_date_label">Fecha de lanzamiento *</string>
+    <string name="album_create_release_date_label">Fecha de lanzamiento (obligatoria)</string>
     <string name="album_create_release_date_hint">dd / mm / aaaa</string>
-    <string name="album_create_genre_label">Género *</string>
+    <string name="album_create_genre_label">Género (obligatorio)</string>
     <string name="album_create_genre_hint">Selecciona un género</string>
-    <string name="album_create_record_label_label">Sello discográfico *</string>
+    <string name="album_create_record_label_label">Sello discográfico (obligatorio)</string>
     <string name="album_create_record_label_hint">Selecciona un sello</string>
-    <string name="album_create_description_label">Descripción del álbum *</string>
+    <string name="album_create_description_label">Descripción del álbum (obligatoria)</string>
     <string name="album_create_description_hint">Reseña histórica, estilo musical o notas de producción…</string>
+    <string name="action_adding">Agregando…</string>
     <string name="action_cancel">Cancelar</string>
     <string name="album_create_save">Guardar álbum</string>
     <string name="album_create_saving">Guardando…</string>
@@ -151,13 +155,12 @@
     <string name="track_add_button">Agregar track</string>
     <string name="track_add_overline">Nueva entrada</string>
     <string name="track_add_subtitle">%1$s • %2$s</string>
-    <string name="track_add_name_label">Nombre del track *</string>
+    <string name="track_add_name_label">Nombre del track (obligatorio)</string>
     <string name="track_add_name_hint">Ej. Desapariciones</string>
-    <string name="track_add_duration_label">Duración *</string>
+    <string name="track_add_duration_label">Duración (obligatoria)</string>
     <string name="track_add_duration_hint">Ej. 04:35</string>
     <string name="track_add_duration_helper">Formato mm:ss</string>
     <string name="track_add_save">Agregar</string>
-    <string name="track_add_saving">Agregando…</string>
     <string name="track_add_success">Track agregado al álbum</string>
     <string name="track_add_error_duration_format">Usa el formato mm:ss, p. ej. 04:35</string>
 </resources>

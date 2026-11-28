@@ -10,4 +10,10 @@ sealed class AppError : Exception() {
 
     /** Cualquier otra falla, p. ej. un JSON que no se pudo leer. */
     class Unknown : AppError()
+
+    /** HU11: el álbum ya está en la colección del coleccionista; el backend no lo impide. */
+    class AlreadyInCollection : AppError()
+
+    /** HU10: el artista ya es favorito del coleccionista; el backend no lo impide. */
+    class AlreadyFavorite : AppError()
 }

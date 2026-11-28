@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Ilustración del estado de error. En pantallas bajas (Nexus 5 y similares) se oculta para que
+         el título y el mensaje queden a la vista y no debajo de la barra inferior.
+         Valores del atributo android:visibility: 0 = visible, 2 = gone. -->
+    <integer name="vn_state_illustration_visibility">2</integer>
+</resources>

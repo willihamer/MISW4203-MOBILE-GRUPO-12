@@ -12,34 +12,27 @@
         android:layout_height="wrap_content"
         android:baselineAligned="false"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:paddingStart="@dimen/vn_screen_margin"
         android:paddingTop="@dimen/vn_space_md"
         android:paddingEnd="@dimen/vn_screen_margin">
 
-        <LinearLayout
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/title"
+            style="@style/Widget.Vinilos.ScreenTitle"
+            android:text="@string/nav_collectors" />
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/nav_collectors"
-                android:textAppearance="@style/TextAppearance.Vinilos.HeadlineLarge"
-                android:textSize="28sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/collectors_subtitle"
-                android:textAppearance="@style/TextAppearance.Vinilos.BodyMedium" />
-        </LinearLayout>
+            android:text="@string/collectors_subtitle"
+            android:textAppearance="@style/TextAppearance.Vinilos.BodyMedium" />
 
         <include
             android:id="@+id/profile_chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
             layout="@layout/view_profile_chip" />
     </LinearLayout>
 

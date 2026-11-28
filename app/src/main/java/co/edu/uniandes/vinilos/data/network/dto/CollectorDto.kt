@@ -20,3 +20,9 @@ data class CollectorAlbumDto(
     val status: String?,
     val album: AlbumDto?,
 )
+
+/** Body de POST /collectors/{id}/albums/{albumId} (HU11); status es "Active" o "Inactive". */
+data class AddCollectorAlbumRequestDto(
+    val price: Double,
+    val status: String,
+)

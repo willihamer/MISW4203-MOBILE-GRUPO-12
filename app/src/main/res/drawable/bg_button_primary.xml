@@ -11,7 +11,7 @@
             <corners android:radius="@dimen/vn_radius_pill" />
             <gradient
                 android:angle="0"
-                android:endColor="#FF1BB8D0"
+                android:endColor="#FF005366"
                 android:startColor="#FF6A2BD6" />
         </shape>
     </item>

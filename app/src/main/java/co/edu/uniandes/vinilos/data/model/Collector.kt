@@ -26,3 +26,12 @@ data class CollectorAlbum(
     val price: Double?,
     val status: String,
 )
+
+/** Estados que acepta el backend para un álbum de la colección. */
+enum class CollectorAlbumStatus(val apiValue: String) {
+    ACTIVE("Active"),
+    INACTIVE("Inactive"),
+}
+
+/** Datos para agregar un álbum a la colección del coleccionista (HU11). */
+data class NewCollectorAlbum(val price: Double, val status: CollectorAlbumStatus)

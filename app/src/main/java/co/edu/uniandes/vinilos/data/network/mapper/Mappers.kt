@@ -1,6 +1,11 @@
 package co.edu.uniandes.vinilos.data.network.mapper
 
 import co.edu.uniandes.vinilos.data.model.Track
+import co.edu.uniandes.vinilos.data.model.Comment
+import co.edu.uniandes.vinilos.data.model.NewComment
+import co.edu.uniandes.vinilos.data.network.dto.CommentDto
+import co.edu.uniandes.vinilos.data.network.dto.CommentCollectorDto
+import co.edu.uniandes.vinilos.data.network.dto.CreateCommentRequestDto
 import co.edu.uniandes.vinilos.data.model.ArtistType
 import co.edu.uniandes.vinilos.data.model.Album
 import co.edu.uniandes.vinilos.data.model.Artist
@@ -9,8 +14,10 @@ import co.edu.uniandes.vinilos.data.model.CollectorAlbum
 import co.edu.uniandes.vinilos.data.model.CollectorDetail
 import co.edu.uniandes.vinilos.data.model.Genre
 import co.edu.uniandes.vinilos.data.model.NewAlbum
+import co.edu.uniandes.vinilos.data.model.NewCollectorAlbum
 import co.edu.uniandes.vinilos.data.model.NewTrack
 import co.edu.uniandes.vinilos.data.model.Performer
+import co.edu.uniandes.vinilos.data.network.dto.AddCollectorAlbumRequestDto
 import co.edu.uniandes.vinilos.data.network.dto.AlbumDto
 import co.edu.uniandes.vinilos.data.network.dto.BandDto
 import co.edu.uniandes.vinilos.data.network.dto.CollectorAlbumDto
@@ -34,6 +41,12 @@ fun NewAlbum.toRequestDto() = CreateAlbumRequestDto(
 
 fun NewTrack.toRequestDto() = CreateTrackRequestDto(name = name, duration = duration)
 
+fun NewComment.toRequestDto() = CreateCommentRequestDto(description, rating, CommentCollectorDto(collectorId))
+
+fun NewCollectorAlbum.toRequestDto() = AddCollectorAlbumRequestDto(price = price, status = status.apiValue)
+
+fun CommentDto.toModel() = Comment(id ?: 0, description.orEmpty(), rating ?: 0)
+
 fun TrackDto.toModel() = Track(id = id ?: 0, name = name.orEmpty(), duration = duration.orEmpty())
 
 fun AlbumDto.toModel() = Album(
@@ -46,6 +59,7 @@ fun AlbumDto.toModel() = Album(
     recordLabel = recordLabel.orEmpty(),
     performers = performers.orEmpty().map { it.toModel() },
     tracks = tracks.orEmpty().map { it.toModel() },
+    comments = comments.orEmpty().map { it.toModel() },
 )
 
 fun PerformerDto.toModel() = Performer(

@@ -12,34 +12,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:paddingStart="@dimen/vn_screen_margin"
         android:paddingTop="@dimen/vn_space_md"
         android:paddingEnd="@dimen/vn_screen_margin"
         android:paddingBottom="@dimen/vn_space_sm">
 
-        <ImageButton
-            android:id="@+id/back_button"
-            style="@style/Widget.Vinilos.IconButton"
-            android:contentDescription="@string/artist_back"
-            android:src="@drawable/ic_arrow_back" />
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/vn_space_md"
-            android:layout_marginEnd="@dimen/vn_space_sm"
-            android:layout_weight="1"
-            android:accessibilityHeading="true"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@string/album_create_title"
-            android:textAppearance="@style/TextAppearance.Vinilos.HeadlineLarge"
-            tools:targetApi="28" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <ImageButton
+                android:id="@+id/back_button"
+                style="@style/Widget.Vinilos.IconButton"
+                android:contentDescription="@string/artist_back"
+                android:src="@drawable/ic_arrow_back" />
+
+            <TextView
+                android:id="@+id/title"
+                style="@style/Widget.Vinilos.ScreenTitle"
+                android:layout_width="0dp"
+                android:layout_marginStart="@dimen/vn_space_md"
+                android:layout_marginEnd="@dimen/vn_space_sm"
+                android:layout_weight="1"
+                android:accessibilityHeading="true"
+                android:text="@string/album_create_title"
+                android:textSize="26sp"
+                app:autoSizeMaxTextSize="26sp"
+                tools:targetApi="28" />
+        </LinearLayout>
 
         <include
             android:id="@+id/profile_chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
             layout="@layout/view_profile_chip" />
     </LinearLayout>
 
@@ -165,33 +173,17 @@
             </LinearLayout>
 
             <!-- Campo 1: Nombre del álbum -->
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/vn_space_lg"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/album_create_name_label"
-                    android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge" />
-
-                <TextView
-                    android:id="@+id/name_required_badge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/required_badge"
-                    android:textAppearance="@style/TextAppearance.Vinilos.LabelMedium"
-                    android:textColor="@color/vn_error"
-                    android:visibility="gone"
-                    tools:visibility="visible" />
-            </LinearLayout>
+                android:labelFor="@id/name_input"
+                android:text="@string/album_create_name_label"
+                android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge" />
 
             <EditText
                 android:id="@+id/name_input"
+                tools:ignore="LabelFor"
                 style="@style/Widget.Vinilos.TextField"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/vn_space_sm"
@@ -202,6 +194,7 @@
 
             <TextView
                 android:id="@+id/name_error"
+                android:importantForAccessibility="no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
@@ -215,32 +208,17 @@
                 tools:visibility="visible" />
 
             <!-- Campo 2: URL de la portada -->
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/vn_space_md"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/album_create_cover_label"
-                    android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge" />
-
-                <TextView
-                    android:id="@+id/cover_required_badge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/required_badge"
-                    android:textAppearance="@style/TextAppearance.Vinilos.LabelMedium"
-                    android:textColor="@color/vn_error"
-                    android:visibility="gone" />
-            </LinearLayout>
+                android:labelFor="@id/cover_input"
+                android:text="@string/album_create_cover_label"
+                android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge" />
 
             <EditText
                 android:id="@+id/cover_input"
+                tools:ignore="LabelFor"
                 style="@style/Widget.Vinilos.TextField"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/vn_space_sm"
@@ -252,6 +230,7 @@
 
             <TextView
                 android:id="@+id/cover_error"
+                android:importantForAccessibility="no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
@@ -263,29 +242,13 @@
                 app:drawableStartCompat="@drawable/ic_error_outline" />
 
             <!-- Campo 3: Fecha de lanzamiento -->
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/vn_space_md"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/album_create_release_date_label"
-                    android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge" />
-
-                <TextView
-                    android:id="@+id/release_date_required_badge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/required_badge"
-                    android:textAppearance="@style/TextAppearance.Vinilos.LabelMedium"
-                    android:textColor="@color/vn_error"
-                    android:visibility="gone" />
-            </LinearLayout>
+                android:labelFor="@id/release_date_input"
+                android:text="@string/album_create_release_date_label"
+                android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge" />
 
             <TextView
                 android:id="@+id/release_date_input"
@@ -301,6 +264,7 @@
 
             <TextView
                 android:id="@+id/release_date_error"
+                android:importantForAccessibility="no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
@@ -312,29 +276,13 @@
                 app:drawableStartCompat="@drawable/ic_error_outline" />
 
             <!-- Campo 4: Género -->
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/vn_space_md"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/album_create_genre_label"
-                    android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge" />
-
-                <TextView
-                    android:id="@+id/genre_required_badge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/required_badge"
-                    android:textAppearance="@style/TextAppearance.Vinilos.LabelMedium"
-                    android:textColor="@color/vn_error"
-                    android:visibility="gone" />
-            </LinearLayout>
+                android:labelFor="@id/genre_input"
+                android:text="@string/album_create_genre_label"
+                android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge" />
 
             <TextView
                 android:id="@+id/genre_input"
@@ -350,6 +298,7 @@
 
             <TextView
                 android:id="@+id/genre_error"
+                android:importantForAccessibility="no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
@@ -361,29 +310,13 @@
                 app:drawableStartCompat="@drawable/ic_error_outline" />
 
             <!-- Campo 5: Sello discográfico -->
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/vn_space_md"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/album_create_record_label_label"
-                    android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge" />
-
-                <TextView
-                    android:id="@+id/record_label_required_badge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/required_badge"
-                    android:textAppearance="@style/TextAppearance.Vinilos.LabelMedium"
-                    android:textColor="@color/vn_error"
-                    android:visibility="gone" />
-            </LinearLayout>
+                android:labelFor="@id/record_label_input"
+                android:text="@string/album_create_record_label_label"
+                android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge" />
 
             <TextView
                 android:id="@+id/record_label_input"
@@ -399,6 +332,7 @@
 
             <TextView
                 android:id="@+id/record_label_error"
+                android:importantForAccessibility="no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
@@ -410,32 +344,17 @@
                 app:drawableStartCompat="@drawable/ic_error_outline" />
 
             <!-- Campo 6: Descripción del álbum -->
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/vn_space_md"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/album_create_description_label"
-                    android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge" />
-
-                <TextView
-                    android:id="@+id/description_required_badge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/required_badge"
-                    android:textAppearance="@style/TextAppearance.Vinilos.LabelMedium"
-                    android:textColor="@color/vn_error"
-                    android:visibility="gone" />
-            </LinearLayout>
+                android:labelFor="@id/description_input"
+                android:text="@string/album_create_description_label"
+                android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge" />
 
             <EditText
                 android:id="@+id/description_input"
+                tools:ignore="LabelFor"
                 style="@style/Widget.Vinilos.TextField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -443,6 +362,7 @@
                 android:autofillHints=""
                 android:gravity="top|start"
                 android:hint="@string/album_create_description_hint"
+                android:imeOptions="actionDone"
                 android:inputType="textMultiLine|textCapSentences"
                 android:maxLines="6"
                 android:minHeight="108dp"
@@ -453,6 +373,7 @@
 
             <TextView
                 android:id="@+id/description_error"
+                android:importantForAccessibility="no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
@@ -466,6 +387,7 @@
             <!-- Error de red / servidor al enviar -->
             <TextView
                 android:id="@+id/submit_error"
+                android:accessibilityLiveRegion="polite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/vn_space_md"

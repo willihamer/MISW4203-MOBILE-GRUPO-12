@@ -32,8 +32,8 @@ class HU02AlbumDetailTest {
         onView(withId(R.id.release_date)).check(matches(withText("Lanzamiento: 01/08/1984")))
         onView(withId(R.id.genre)).check(matches(withText("Género: Salsa")))
         onView(withId(R.id.record_label)).check(matches(withText("Sello: Elektra")))
-        onView(withText("Decisiones · 5:05")).perform(scrollTo()).check(matches(isDisplayed()))
-        onView(withText("Desapariciones · 6:29")).perform(scrollTo()).check(matches(isDisplayed()))
+        onView(withText("Decisiones · 05:05")).perform(scrollTo()).check(matches(isDisplayed()))
+        onView(withText("Desapariciones · 06:29")).perform(scrollTo()).check(matches(isDisplayed()))
     }
     @Test fun albumSinTracksMuestraMensaje() {
         onView(withText("Poeta del pueblo")).perform(click())
