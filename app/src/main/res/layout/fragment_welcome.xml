@@ -159,7 +159,8 @@
                         android:layout_marginStart="@dimen/vn_space_sm"
                         android:paddingTop="3dp"
                         android:paddingBottom="3dp"
-                        android:text="@string/welcome_collector_badge" />
+                        android:text="@string/welcome_collector_badge"
+                        android:textColor="@color/vn_secondary_light" />
                 </LinearLayout>
 
                 <TextView
