@@ -1,6 +1,9 @@
 package co.edu.uniandes.vinilos.testutil
 
 import co.edu.uniandes.vinilos.data.network.VinilosApi
+import co.edu.uniandes.vinilos.data.network.dto.AddCollectorAlbumRequestDto
+import co.edu.uniandes.vinilos.data.network.dto.CommentDto
+import co.edu.uniandes.vinilos.data.network.dto.CreateCommentRequestDto
 import co.edu.uniandes.vinilos.data.network.dto.AlbumDto
 import co.edu.uniandes.vinilos.data.network.dto.BandDto
 import co.edu.uniandes.vinilos.data.network.dto.CollectorAlbumDto
@@ -39,11 +42,41 @@ class FakeVinilosApi(
     var bands: () -> List<BandDto> = { emptyList() },
     var musician: (Int) -> MusicianDto = { id -> SampleData.musicianDetails[id] ?: throw notFound() },
     var band: (Int) -> BandDto = { id -> SampleData.bandDetails[id] ?: throw notFound() },
+    var addMusicianToBandResponse: (Int, Int) -> MusicianDto = { _, musicianId ->
+        (SampleData.musicians + SampleData.freddieMercury).firstOrNull { it.id == musicianId } ?: throw notFound()
+    },
     var collector: (Int) -> CollectorDto = { id -> SampleData.collectorDetails[id] ?: throw notFound() },
     var collectorAlbums: (Int) -> List<CollectorAlbumDto> = { id ->
         if (id in SampleData.collectorDetails) SampleData.collectorAlbums[id].orEmpty() else throw notFound()
     },
+    var collectorAlbum: (Int, Int) -> List<CollectorAlbumDto> = { collectorId, albumId ->
+        if (collectorId !in SampleData.collectorDetails) throw notFound()
+        SampleData.collectorAlbums[collectorId].orEmpty().filter { it.album?.id == albumId }
+    },
+    var addCollectorAlbumResponse: (Int, Int, AddCollectorAlbumRequestDto) -> CollectorAlbumDto =
+        { collectorId, albumId, req ->
+            if (collectorId !in SampleData.collectorDetails) throw notFound()
+            val targetAlbum = SampleData.albums.firstOrNull { it.id == albumId } ?: throw notFound()
+            CollectorAlbumDto(id = 500, price = req.price, status = req.status, album = targetAlbum)
+        },
 ) : VinilosApi {
+    var addCommentResponse: (Int, CreateCommentRequestDto) -> CommentDto = { _, req ->
+        CommentDto(400, req.description, req.rating)
+    }
+    var addCommentCalls = 0
+        private set
+    var lastCommentAlbumId: Int? = null
+        private set
+    var lastCommentRequest: CreateCommentRequestDto? = null
+        private set
+
+    override suspend fun addComment(albumId: Int, comment: CreateCommentRequestDto): CommentDto {
+        addCommentCalls++
+        lastCommentAlbumId = albumId
+        lastCommentRequest = comment
+        return addCommentResponse(albumId, comment)
+    }
+
     var albumDetailCalls = 0
         private set
     override suspend fun getAlbum(id: Int): AlbumDto {
@@ -107,6 +140,74 @@ class FakeVinilosApi(
         return collectorAlbums(id)
     }
 
+    var getCollectorAlbumCalls = 0
+        private set
+    var addCollectorAlbumCalls = 0
+        private set
+    var lastCollectorAlbumCollectorId: Int? = null
+        private set
+    var lastCollectorAlbumAlbumId: Int? = null
+        private set
+    var lastCollectorAlbumRequest: AddCollectorAlbumRequestDto? = null
+        private set
+
+    override suspend fun getCollectorAlbum(collectorId: Int, albumId: Int): List<CollectorAlbumDto> {
+        getCollectorAlbumCalls++
+        return collectorAlbum(collectorId, albumId)
+    }
+
+    override suspend fun addAlbumToCollector(
+        collectorId: Int,
+        albumId: Int,
+        album: AddCollectorAlbumRequestDto,
+    ): CollectorAlbumDto {
+        addCollectorAlbumCalls++
+        lastCollectorAlbumCollectorId = collectorId
+        lastCollectorAlbumAlbumId = albumId
+        lastCollectorAlbumRequest = album
+        return addCollectorAlbumResponse(collectorId, albumId, album)
+    }
+
+    /** GET /collectors/{id}/performers: por defecto, los favoritos de [SampleData.collectorDetails]. */
+    var favoritePerformers: (Int) -> List<PerformerDto> = { collectorId ->
+        (SampleData.collectorDetails[collectorId] ?: throw notFound()).favoritePerformers.orEmpty()
+    }
+
+    /** POST de favoritos (HU10): recibe el coleccionista, el artista y el tipo ("musicians" o "bands"). */
+    var addFavoriteResponse: (Int, Int, String) -> PerformerDto = { collectorId, performerId, _ ->
+        if (collectorId !in SampleData.collectorDetails) throw notFound()
+        PerformerDto(id = performerId, name = "Artista $performerId", image = "")
+    }
+    var favoritePerformersCalls = 0
+        private set
+    var addFavoriteCalls = 0
+        private set
+    var lastFavoriteCollectorId: Int? = null
+        private set
+    var lastFavoritePerformerId: Int? = null
+        private set
+    var lastFavoriteResource: String? = null
+        private set
+
+    override suspend fun getFavoritePerformers(collectorId: Int): List<PerformerDto> {
+        favoritePerformersCalls++
+        return favoritePerformers(collectorId)
+    }
+
+    override suspend fun addFavoriteMusician(collectorId: Int, musicianId: Int): PerformerDto =
+        recordFavorite(collectorId, musicianId, "musicians")
+
+    override suspend fun addFavoriteBand(collectorId: Int, bandId: Int): PerformerDto =
+        recordFavorite(collectorId, bandId, "bands")
+
+    private fun recordFavorite(collectorId: Int, performerId: Int, resource: String): PerformerDto {
+        addFavoriteCalls++
+        lastFavoriteCollectorId = collectorId
+        lastFavoritePerformerId = performerId
+        lastFavoriteResource = resource
+        return addFavoriteResponse(collectorId, performerId, resource)
+    }
+
     override suspend fun getMusicians(): List<MusicianDto> {
         musicianCalls++
         return musicians()
@@ -125,6 +226,14 @@ class FakeVinilosApi(
     override suspend fun getBand(id: Int): BandDto {
         bandDetailCalls++
         return band(id)
+    }
+
+    /** Pares (banda, músico) en el orden en que la app los envió. */
+    val addedBandMembers = mutableListOf<Pair<Int, Int>>()
+
+    override suspend fun addMusicianToBand(bandId: Int, musicianId: Int): MusicianDto {
+        addedBandMembers += bandId to musicianId
+        return addMusicianToBandResponse(bandId, musicianId)
     }
 }
 

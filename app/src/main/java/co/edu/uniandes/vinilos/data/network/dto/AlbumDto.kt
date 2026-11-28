@@ -15,6 +15,7 @@ data class AlbumDto(
     val recordLabel: String?,
     val performers: List<PerformerDto>?,
     val tracks: List<TrackDto>? = null,
+    val comments: List<CommentDto>? = null,
 )
 
 data class PerformerDto(

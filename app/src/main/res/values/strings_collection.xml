@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="collection_button">Mi colección</string>
+    <string name="collection_title">Agregar a mi colección</string>
+    <string name="collection_price_label">Precio (COP) (obligatorio)</string>
+    <string name="collection_price_helper">Registra el valor pagado o estimado de esta copia</string>
+    <string name="collection_price_invalid">Ingresa un precio mayor que cero</string>
+    <string name="collection_status_label">Estado (obligatorio)</string>
+    <string name="collection_status_active">Activo</string>
+    <string name="collection_status_inactive">Inactivo</string>
+    <string name="collection_status_required">Selecciona un estado</string>
+    <string name="collection_collector_required">Selecciona un perfil de coleccionista para agregar el álbum.</string>
+    <string name="collection_already_added">Este álbum ya está en tu colección</string>
+    <string name="collection_save">Agregar</string>
+    <string name="collection_success">Álbum agregado a tu colección</string>
+</resources>

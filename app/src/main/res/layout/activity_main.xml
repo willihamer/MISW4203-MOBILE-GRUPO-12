@@ -32,6 +32,7 @@
 
         <LinearLayout
             android:id="@+id/tab_albums"
+            android:contentDescription="@string/nav_open_albums"
             style="@style/Widget.Vinilos.Tab"
             tools:ignore="UseCompoundDrawables">
 
@@ -47,6 +48,7 @@
 
         <LinearLayout
             android:id="@+id/tab_artists"
+            android:contentDescription="@string/nav_open_artists"
             style="@style/Widget.Vinilos.Tab"
             tools:ignore="UseCompoundDrawables">
 
@@ -62,6 +64,7 @@
 
         <LinearLayout
             android:id="@+id/tab_collectors"
+            android:contentDescription="@string/nav_open_collectors"
             style="@style/Widget.Vinilos.Tab"
             tools:ignore="UseCompoundDrawables">
 

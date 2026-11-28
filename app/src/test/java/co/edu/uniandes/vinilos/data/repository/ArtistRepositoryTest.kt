@@ -108,4 +108,41 @@ class ArtistRepositoryTest {
             assertEquals(404, (e as AppError.Server).code)
         }
     }
+
+    @Test
+    fun `los musicos disponibles excluyen a los integrantes actuales de la banda`() = runTest {
+        api.band = { SampleData.queenDetail.copy(musicians = listOf(SampleData.willieColon)) }
+
+        val available = repository.getAvailableMusicians(101)
+
+        assertEquals(listOf("Rubén Blades Bellido de Luna"), available.map { it.name })
+    }
+
+    @Test
+    fun `agregar musicos envia una peticion por musico y devuelve la banda actualizada`() = runTest {
+        repository.getArtist(101, ArtistType.BAND)
+        api.band = { SampleData.queenDetail.copy(musicians = listOf(SampleData.freddieMercury, SampleData.rubenBlades, SampleData.willieColon)) }
+
+        val band = repository.addMusiciansToBand(101, listOf(100, 102))
+
+        assertEquals(setOf(101 to 100, 101 to 102), api.addedBandMembers.toSet())
+        assertEquals(listOf("Freddie Mercury", "Rubén Blades Bellido de Luna", "Willie Colón"), band.musicians.map { it.name })
+        // El detalle actualizado queda en caché: volver a la banda no consulta de nuevo la red
+        val calls = api.bandDetailCalls
+        repository.getArtist(101, ArtistType.BAND)
+        assertEquals(calls, api.bandDetailCalls)
+    }
+
+    @Test
+    fun `si una peticion falla se descarta la banda en cache y se propaga el error`() = runTest {
+        repository.getArtist(101, ArtistType.BAND)
+        api.addMusicianToBandResponse = { _, _ -> throw IOException("sin red") }
+
+        val error = runCatching { repository.addMusiciansToBand(101, listOf(100)) }.exceptionOrNull()
+
+        assertTrue(error is AppError.NoConnection)
+        val calls = api.bandDetailCalls
+        repository.getArtist(101, ArtistType.BAND)
+        assertEquals(calls + 1, api.bandDetailCalls)
+    }
 }

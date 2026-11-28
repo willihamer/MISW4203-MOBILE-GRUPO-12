@@ -3,6 +3,7 @@ package co.edu.uniandes.vinilos.ui.album.detail
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
@@ -14,15 +15,20 @@ import androidx.navigation.fragment.findNavController
 import co.edu.uniandes.vinilos.R
 import co.edu.uniandes.vinilos.data.model.Album
 import co.edu.uniandes.vinilos.data.model.Profile
+import co.edu.uniandes.vinilos.data.model.formatTrackDuration
 import co.edu.uniandes.vinilos.databinding.FragmentAlbumDetailBinding
+import co.edu.uniandes.vinilos.databinding.ItemCommentBinding
+import co.edu.uniandes.vinilos.ui.album.collection.AddCollectorAlbumBottomSheet
+import co.edu.uniandes.vinilos.ui.album.comment.AddCommentBottomSheet
 import co.edu.uniandes.vinilos.ui.album.track.AddTrackBottomSheet
 import co.edu.uniandes.vinilos.ui.common.UiState
+import co.edu.uniandes.vinilos.ui.common.navigateSafely
 import co.edu.uniandes.vinilos.ui.common.remoteImage
+import co.edu.uniandes.vinilos.ui.common.showNotice
 import co.edu.uniandes.vinilos.ui.common.viewModelFactory
 import co.edu.uniandes.vinilos.ui.profile.ProfileViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.snackbar.Snackbar
 import java.time.format.DateTimeFormatter
 
 /**
@@ -42,13 +48,26 @@ class AlbumDetailFragment : Fragment(R.layout.fragment_album_detail) {
         binding.retryButton.setOnClickListener { viewModel.load(forceRefresh = true) }
         ViewCompat.setAccessibilityHeading(binding.albumName, true)
         binding.addTrackButton.setOnClickListener { openAddTrack() }
+        binding.addCommentButton.setOnClickListener { openAddComment() }
+        binding.addToCollectionButton.setOnClickListener { openAddToCollection() }
+        ViewCompat.setAccessibilityHeading(binding.commentsTitle, true)
+        childFragmentManager.setFragmentResultListener(AddCollectorAlbumBottomSheet.RESULT_ALBUM_COLLECTED, viewLifecycleOwner) { _, _ ->
+            showNotice(R.string.collection_success)
+        }
+        childFragmentManager.setFragmentResultListener(AddCommentBottomSheet.RESULT_COMMENT_ADDED, viewLifecycleOwner) { _, _ ->
+            viewModel.refreshFromCache()
+            showNotice(R.string.comment_success)
+        }
         childFragmentManager.setFragmentResultListener(AddTrackBottomSheet.RESULT_TRACK_ADDED, viewLifecycleOwner) { _, _ ->
             // El repositorio ya agregó el track al detalle en caché: no hace falta volver a la red
             viewModel.refreshFromCache()
-            Snackbar.make(requireActivity().findViewById(R.id.root), R.string.track_add_success, Snackbar.LENGTH_LONG).show()
+            showNotice(R.string.track_add_success)
         }
         profileViewModel.profile.observe(viewLifecycleOwner) { profile ->
-            binding.addTrackButton.isVisible = profile is Profile.CollectorProfile
+            val isCollector = profile is Profile.CollectorProfile
+            binding.addTrackButton.isVisible = isCollector
+            binding.addCommentButton.isVisible = isCollector
+            binding.addToCollectionButton.isVisible = isCollector
         }
         viewModel.state.observe(viewLifecycleOwner) { state ->
             binding.progress.isVisible = state is UiState.Loading
@@ -80,9 +99,10 @@ class AlbumDetailFragment : Fragment(R.layout.fragment_album_detail) {
             val button = MaterialButton(requireContext(), null,
                 com.google.android.material.R.attr.materialButtonOutlinedStyle).apply {
                 text = performer.name
+                setTextColor(ContextCompat.getColor(context, R.color.vn_primary_light))
                 isEnabled = performer.type != null
                 setOnClickListener {
-                    findNavController().navigate(R.id.artistDetailFragment,
+                    navigateSafely(R.id.artistDetailFragment,
                         bundleOf("artistId" to performer.id, "artistType" to performer.type!!.name))
                 }
             }
@@ -91,8 +111,35 @@ class AlbumDetailFragment : Fragment(R.layout.fragment_album_detail) {
         binding.tracksEmpty.isVisible = album.tracks.isEmpty()
         binding.tracks.removeAllViews()
         album.tracks.forEach { track ->
-            addText(binding.tracks, getString(R.string.album_tracks_row, track.name, track.duration))
+            addText(binding.tracks, getString(R.string.album_tracks_row, track.name, formatTrackDuration(track.duration)))
         }
+        binding.commentsEmpty.isVisible = album.comments.isEmpty()
+        binding.comments.removeAllViews()
+        album.comments.forEach { comment ->
+            val row = ItemCommentBinding.inflate(layoutInflater, binding.comments, false)
+            row.commentDescription.text = comment.description
+            row.commentScore.text = getString(R.string.comment_rating_value, comment.rating)
+            binding.comments.addView(row.root)
+        }
+    }
+
+    private fun openAddComment() {
+        if (profileViewModel.profile.value !is Profile.CollectorProfile) return
+        val album = (viewModel.state.value as? UiState.Success)?.data ?: return
+        if (childFragmentManager.findFragmentByTag(AddCommentBottomSheet.TAG) != null) return
+        AddCommentBottomSheet.newInstance(album.id, album.name)
+            .show(childFragmentManager, AddCommentBottomSheet.TAG)
+    }
+
+    private fun openAddToCollection() {
+        if (profileViewModel.profile.value !is Profile.CollectorProfile) return
+        val album = (viewModel.state.value as? UiState.Success)?.data ?: return
+        if (childFragmentManager.findFragmentByTag(AddCollectorAlbumBottomSheet.TAG) != null) return
+        AddCollectorAlbumBottomSheet.newInstance(
+            albumId = album.id,
+            albumName = album.name,
+            artistName = album.performers.joinToString { it.name },
+        ).show(childFragmentManager, AddCollectorAlbumBottomSheet.TAG)
     }
 
     private fun openAddTrack() {

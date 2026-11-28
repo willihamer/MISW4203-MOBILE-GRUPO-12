@@ -1,12 +1,17 @@
 package co.edu.uniandes.vinilos.data.network
 
 import co.edu.uniandes.vinilos.data.model.Album
+import co.edu.uniandes.vinilos.data.model.Comment
+import co.edu.uniandes.vinilos.data.model.NewComment
 import co.edu.uniandes.vinilos.data.model.Artist
+import co.edu.uniandes.vinilos.data.model.ArtistType
 import co.edu.uniandes.vinilos.data.model.Collector
 import co.edu.uniandes.vinilos.data.model.CollectorAlbum
 import co.edu.uniandes.vinilos.data.model.CollectorDetail
 import co.edu.uniandes.vinilos.data.model.NewAlbum
+import co.edu.uniandes.vinilos.data.model.NewCollectorAlbum
 import co.edu.uniandes.vinilos.data.model.NewTrack
+import co.edu.uniandes.vinilos.data.model.Performer
 import co.edu.uniandes.vinilos.data.model.Track
 import co.edu.uniandes.vinilos.data.network.mapper.toDetail
 import co.edu.uniandes.vinilos.data.network.mapper.toModel
@@ -20,6 +25,9 @@ import java.io.IOException
  * DTO en modelos de la app y traduce cualquier falla a [AppError].
  */
 class NetworkServiceAdapter(private val api: VinilosApi) {
+
+    suspend fun addComment(albumId: Int, comment: NewComment): Comment =
+        call { api.addComment(albumId, comment.toRequestDto()).toModel() }
 
     suspend fun getAlbums(): List<Album> = call { api.getAlbums().map { it.toModel() } }
 
@@ -38,6 +46,28 @@ class NetworkServiceAdapter(private val api: VinilosApi) {
     suspend fun getCollectorAlbums(id: Int): List<CollectorAlbum> =
         call { api.getCollectorAlbums(id).mapNotNull { it.toModel() } }
 
+    /** GET /collectors/{id}/albums/{albumId}: el backend responde una lista vacía si no está. */
+    suspend fun isAlbumInCollection(collectorId: Int, albumId: Int): Boolean =
+        call { api.getCollectorAlbum(collectorId, albumId).isNotEmpty() }
+
+    /** Una respuesta sin álbum no se puede mostrar en la colección: termina en [AppError.Unknown]. */
+    suspend fun addAlbumToCollector(collectorId: Int, albumId: Int, album: NewCollectorAlbum): CollectorAlbum =
+        call { checkNotNull(api.addAlbumToCollector(collectorId, albumId, album.toRequestDto()).toModel()) }
+
+    /** GET /collectors/{id}/performers: músicos y bandas favoritos del coleccionista (HU10). */
+    suspend fun getFavoritePerformers(collectorId: Int): List<Performer> =
+        call { api.getFavoritePerformers(collectorId).map { it.toModel() } }
+
+    /** Marca como favorito al músico o a la banda, cada uno con su endpoint (HU10). */
+    suspend fun addFavoritePerformer(collectorId: Int, performerId: Int, type: ArtistType) {
+        call {
+            when (type) {
+                ArtistType.MUSICIAN -> api.addFavoriteMusician(collectorId, performerId)
+                ArtistType.BAND -> api.addFavoriteBand(collectorId, performerId)
+            }
+        }
+    }
+
     suspend fun getMusicians(): List<Artist.Musician> = call { api.getMusicians().map { it.toModel() } }
 
     suspend fun getBands(): List<Artist.Band> = call { api.getBands().map { it.toModel() } }
@@ -45,6 +75,10 @@ class NetworkServiceAdapter(private val api: VinilosApi) {
     suspend fun getMusician(id: Int): Artist.Musician = call { api.getMusician(id).toModel() }
 
     suspend fun getBand(id: Int): Artist.Band = call { api.getBand(id).toModel() }
+
+    /** POST /bands/{bandId}/musicians/{musicianId}: agrega el músico a la banda (HU12). */
+    suspend fun addMusicianToBand(bandId: Int, musicianId: Int): Artist.Musician =
+        call { api.addMusicianToBand(bandId, musicianId).toModel() }
 
     private suspend fun <T> call(block: suspend () -> T): T {
         NetworkIdlingResource.increment()

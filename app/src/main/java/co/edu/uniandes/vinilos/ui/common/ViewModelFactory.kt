@@ -14,8 +14,11 @@ import co.edu.uniandes.vinilos.ui.album.create.CreateAlbumViewModel
 import co.edu.uniandes.vinilos.ui.album.detail.AlbumDetailViewModel
 import co.edu.uniandes.vinilos.ui.album.list.AlbumListViewModel
 import co.edu.uniandes.vinilos.ui.album.track.AddTrackViewModel
+import co.edu.uniandes.vinilos.ui.album.collection.AddCollectorAlbumViewModel
+import co.edu.uniandes.vinilos.ui.album.comment.AddCommentViewModel
 import co.edu.uniandes.vinilos.ui.artist.detail.ArtistDetailViewModel
 import co.edu.uniandes.vinilos.ui.artist.list.ArtistListViewModel
+import co.edu.uniandes.vinilos.ui.artist.member.AddBandMemberViewModel
 import co.edu.uniandes.vinilos.ui.collector.detail.CollectorDetailViewModel
 import co.edu.uniandes.vinilos.ui.collector.list.CollectorListViewModel
 import co.edu.uniandes.vinilos.ui.profile.CollectorPickerViewModel
@@ -62,8 +65,19 @@ class ViewModelFactory(
             AlbumDetailViewModel(albumRepository, extras.createSavedStateHandle()) as T
         modelClass.isAssignableFrom(AddTrackViewModel::class.java) ->
             AddTrackViewModel(albumRepository, extras.createSavedStateHandle()) as T
+        modelClass.isAssignableFrom(AddCommentViewModel::class.java) ->
+            AddCommentViewModel(albumRepository, profileRepository, extras.createSavedStateHandle()) as T
+        modelClass.isAssignableFrom(AddCollectorAlbumViewModel::class.java) ->
+            AddCollectorAlbumViewModel(collectorRepository, profileRepository, extras.createSavedStateHandle()) as T
+        modelClass.isAssignableFrom(AddBandMemberViewModel::class.java) ->
+            AddBandMemberViewModel(artistRepository, extras.createSavedStateHandle()) as T
         modelClass.isAssignableFrom(ArtistDetailViewModel::class.java) ->
-            ArtistDetailViewModel(artistRepository, extras.createSavedStateHandle()) as T
+            ArtistDetailViewModel(
+                artistRepository,
+                collectorRepository,
+                profileRepository,
+                extras.createSavedStateHandle(),
+            ) as T
         else -> create(modelClass)
     }
 }

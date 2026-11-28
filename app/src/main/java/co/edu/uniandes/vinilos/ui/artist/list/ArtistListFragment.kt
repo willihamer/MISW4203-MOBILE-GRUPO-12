@@ -12,13 +12,13 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import co.edu.uniandes.vinilos.R
 import co.edu.uniandes.vinilos.data.model.Artist
 import co.edu.uniandes.vinilos.data.model.ArtistType
 import co.edu.uniandes.vinilos.databinding.FragmentArtistListBinding
 import co.edu.uniandes.vinilos.ui.artist.detail.ArtistDetailViewModel
 import co.edu.uniandes.vinilos.ui.common.UiState
+import co.edu.uniandes.vinilos.ui.common.navigateSafely
 import co.edu.uniandes.vinilos.ui.common.render
 import co.edu.uniandes.vinilos.ui.common.viewModelFactory
 import co.edu.uniandes.vinilos.ui.profile.ProfileViewModel
@@ -61,7 +61,7 @@ class ArtistListFragment : Fragment(R.layout.fragment_artist_list) {
     private fun setUpHeader() {
         binding.profileChip.root.setOnClickListener {
             profileViewModel.changeProfile()
-            findNavController().navigate(R.id.action_global_welcome)
+            navigateSafely(R.id.action_global_welcome)
         }
     }
 
@@ -139,7 +139,7 @@ class ArtistListFragment : Fragment(R.layout.fragment_artist_list) {
 
     /** Abre el detalle del músico o la banda (HU04). */
     private fun openArtist(artist: Artist) {
-        findNavController().navigate(R.id.action_artistList_to_artistDetail, ArtistDetailViewModel.args(artist))
+        navigateSafely(R.id.action_artistList_to_artistDetail, ArtistDetailViewModel.args(artist))
     }
 
     override fun onDestroyView() {

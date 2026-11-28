@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- HU12 - Agregar músicos a una banda. -->
+<resources>
+    <string name="band_member_add">Agregar músico</string>
+    <string name="band_member_search_hint">Buscar músico…</string>
+    <string name="band_member_submit">Agregar a la banda</string>
+    <string name="band_member_loading">Cargando músicos…</string>
+    <string name="band_member_empty">Todos los músicos ya pertenecen a esta banda.</string>
+    <string name="band_member_no_results">Ningún músico coincide con la búsqueda.</string>
+    <string name="band_member_state_selected">Seleccionado</string>
+    <string name="band_member_state_not_selected">No seleccionado</string>
+    <plurals name="band_member_added">
+        <item quantity="one">Se agregó %d músico a la banda</item>
+        <item quantity="other">Se agregaron %d músicos a la banda</item>
+    </plurals>
+</resources>

@@ -76,37 +76,24 @@
             tools:text="Buscando América • Rubén Blades" />
 
         <!-- Campo 1: nombre del track -->
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vn_space_lg"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/track_add_name_label"
-                android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge" />
-
-            <TextView
-                android:id="@+id/track_name_required_badge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/required_badge"
-                android:textAppearance="@style/TextAppearance.Vinilos.LabelMedium"
-                android:textColor="@color/vn_primary_light" />
-        </LinearLayout>
+            android:labelFor="@id/track_name_input"
+            android:text="@string/track_add_name_label"
+            android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge" />
 
         <EditText
             android:id="@+id/track_name_input"
+            tools:ignore="LabelFor"
             style="@style/Widget.Vinilos.TextField"
             android:layout_width="match_parent"
             android:layout_marginTop="@dimen/vn_space_sm"
             android:autofillHints=""
             android:drawablePadding="@dimen/vn_space_sm"
             android:hint="@string/track_add_name_hint"
+            android:textColorHint="@color/vn_on_surface_muted"
             android:imeOptions="actionNext"
             android:inputType="textCapSentences"
             android:maxLines="1"
@@ -115,6 +102,7 @@
 
         <TextView
             android:id="@+id/track_name_error"
+            android:importantForAccessibility="no"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
@@ -128,31 +116,17 @@
             tools:visibility="visible" />
 
         <!-- Campo 2: duración mm:ss -->
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vn_space_md"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/track_add_duration_label"
-                android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge" />
-
-            <TextView
-                android:id="@+id/track_duration_required_badge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/required_badge"
-                android:textAppearance="@style/TextAppearance.Vinilos.LabelMedium"
-                android:textColor="@color/vn_primary_light" />
-        </LinearLayout>
+            android:labelFor="@id/track_duration_input"
+            android:text="@string/track_add_duration_label"
+            android:textAppearance="@style/TextAppearance.Vinilos.LabelLarge" />
 
         <EditText
             android:id="@+id/track_duration_input"
+            tools:ignore="LabelFor"
             style="@style/Widget.Vinilos.TextField"
             android:layout_width="match_parent"
             android:layout_marginTop="@dimen/vn_space_sm"
@@ -160,6 +134,7 @@
             android:digits="0123456789:"
             android:drawablePadding="@dimen/vn_space_sm"
             android:hint="@string/track_add_duration_hint"
+            android:textColorHint="@color/vn_on_surface_muted"
             android:imeOptions="actionDone"
             android:inputType="time"
             android:maxLength="5"
@@ -182,6 +157,7 @@
 
         <TextView
             android:id="@+id/track_duration_error"
+            android:importantForAccessibility="no"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
@@ -196,6 +172,7 @@
         <!-- Error de red o del servidor al guardar -->
         <TextView
             android:id="@+id/submit_error"
+            android:accessibilityLiveRegion="polite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vn_space_md"

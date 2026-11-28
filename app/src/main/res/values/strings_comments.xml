@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="comment_title">Comentar álbum</string>
+    <string name="comment_button">Comentar</string>
+    <string name="comments_title">Comentarios</string>
+    <string name="comments_empty">Este álbum todavía no tiene comentarios.</string>
+    <string name="comment_rating_label">Calificación (obligatoria)</string>
+    <string name="comment_rating_hint">Selecciona de 1 a 5 estrellas</string>
+    <string name="comment_rating_value">%1$d de 5 estrellas</string>
+    <string name="comment_rating_required">Selecciona una calificación de 1 a 5.</string>
+    <string name="comment_description_label">Escribe tu reseña (obligatoria)</string>
+    <string name="comment_publishing_as">Publicando como %1$s (coleccionista)</string>
+    <string name="comment_collector_required">Selecciona un perfil de coleccionista para comentar.</string>
+    <string name="comment_publish">Publicar</string>
+    <string name="comment_saving">Publicando…</string>
+    <string name="comment_success">Comentario publicado</string>
+</resources>

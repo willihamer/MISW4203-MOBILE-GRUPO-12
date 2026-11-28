@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import co.edu.uniandes.vinilos.R
 import co.edu.uniandes.vinilos.databinding.SheetCollectorPickerBinding
 import co.edu.uniandes.vinilos.ui.common.UiState
+import co.edu.uniandes.vinilos.ui.common.navigateSafely
 import co.edu.uniandes.vinilos.ui.common.viewModelFactory
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -43,7 +43,7 @@ class CollectorPickerBottomSheet : BottomSheetDialogFragment() {
         binding.continueButton.setOnClickListener {
             val collector = viewModel.selected.value ?: return@setOnClickListener
             profileViewModel.enterAsCollector(collector)
-            findNavController().navigate(R.id.action_collectorPicker_to_albums)
+            navigateSafely(R.id.action_collectorPicker_to_albums)
         }
 
         viewModel.state.observe(viewLifecycleOwner) { state ->

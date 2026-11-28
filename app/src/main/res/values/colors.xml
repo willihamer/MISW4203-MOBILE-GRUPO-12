@@ -16,12 +16,12 @@
     <color name="vn_tertiary">#FFEC4899</color>
     <color name="vn_accent_warm">#FFF59E0B</color>
     <color name="vn_success">#FF34D399</color>
-    <color name="vn_error">#FFF87171</color>
+    <color name="vn_error">#FFFFA5A5</color>
 
     <!-- Texto -->
     <color name="vn_on_surface">#FFF5F5FA</color>
     <color name="vn_on_surface_muted">#FFC4C4D4</color>
-    <color name="vn_on_surface_subtle">#FF8E8EA3</color>
+    <color name="vn_on_surface_subtle">#FFB6B6C9</color>
 
     <!-- Vidrio: blanco translúcido sobre el lienzo -->
     <color name="vn_glass">#1AFFFFFF</color>
