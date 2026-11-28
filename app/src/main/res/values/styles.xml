@@ -81,15 +81,47 @@
         <item name="tint">@color/vn_tab_content</item>
     </style>
 
+    <!--
+        Con letra grande, "Coleccionistas" no cabe en el ancho de la pestaña (#124): el texto se
+        reduce hasta 9 sp para que se lea completo y, si aún no cabe, termina en puntos suspensivos
+        en vez de cortarse.
+    -->
     <style name="Widget.Vinilos.Tab.Label" parent="">
         <item name="android:importantForAccessibility">no</item>
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">2dp</item>
         <item name="android:duplicateParentState">true</item>
+        <item name="android:gravity">center_horizontal</item>
         <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
         <item name="android:textAppearance">@style/TextAppearance.Vinilos.LabelMedium</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/vn_tab_content</item>
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMinTextSize">9sp</item>
+        <item name="autoSizeMaxTextSize">12sp</item>
+        <item name="autoSizeStepGranularity">1sp</item>
+    </style>
+
+    <!--
+        Título grande de las pantallas principales y del formulario de álbum. Con la letra del
+        sistema aumentada, el título se partía a mitad de palabra ("Álbu / mes") o se recortaba
+        ("N…") (#123, #124). Ocupa una sola línea a todo el ancho: respeta el tamaño de letra del
+        sistema mientras quepa, se reduce hasta 20 sp si no cabe y, como último recurso, termina en
+        puntos suspensivos.
+    -->
+    <style name="Widget.Vinilos.ScreenTitle" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textAppearance">@style/TextAppearance.Vinilos.HeadlineLarge</item>
+        <item name="android:textSize">28sp</item>
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMinTextSize">20sp</item>
+        <item name="autoSizeMaxTextSize">28sp</item>
+        <item name="autoSizeStepGranularity">1sp</item>
     </style>
 
     <!-- Portada con esquinas de 16 dp (ShapeableImageView). -->

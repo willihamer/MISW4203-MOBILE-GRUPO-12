@@ -3,10 +3,12 @@ package co.edu.uniandes.vinilos
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
+import androidx.test.espresso.action.ViewActions.pressImeActionButton
 import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers.isDialog
+import androidx.test.espresso.matcher.ViewMatchers.hasFocus
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -21,6 +23,7 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okhttp3.mockwebserver.RecordedRequest
 import org.hamcrest.Matchers.containsString
+import org.hamcrest.Matchers.not
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Rule
@@ -223,6 +226,20 @@ class HU07CreateAlbumTest {
         onView(withId(R.id.cancel_button)).perform(click())
 
         onView(withId(R.id.album_list)).check(matches(isDisplayed()))
+        assertEquals(0, postCalls)
+    }
+
+    /** #125: la tecla de acción de la descripción es "Listo" y cierra el teclado sin agregar líneas. */
+    @Test
+    fun listoEnLaDescripcionCierraElTecladoSinAgregarLineas() {
+        enterAsCollector()
+        onView(withId(R.id.create_album_button)).perform(click())
+
+        onView(withId(R.id.description_input))
+            .perform(scrollTo(), click(), replaceText("Estilo"), pressImeActionButton())
+
+        onView(withId(R.id.description_input)).check(matches(withText("Estilo")))
+        onView(withId(R.id.description_input)).check(matches(not(hasFocus())))
         assertEquals(0, postCalls)
     }
 

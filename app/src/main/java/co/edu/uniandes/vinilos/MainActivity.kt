@@ -110,12 +110,18 @@ class MainActivity : AppCompatActivity() {
      * barra flotante queda sobre esta última. La barra de navegación con botones (Android 5) es
      * alta: si el contenido pasara por debajo, taparía el final de las pantallas y el espacio
      * reservado para la barra flotante (vn_bottom_bar_clearance) no alcanzaría.
+     *
+     * Con edge-to-edge, adjustResize ya no encoge la ventana al abrir el teclado: el contenido
+     * seguía detrás de él y el campo con foco quedaba tapado, como la descripción al crear un
+     * álbum (#126). Por eso el borde inferior también cuenta el teclado; al encogerse, el
+     * ScrollView del formulario se desplaza solo hasta el campo con foco.
      */
     private fun applyWindowInsets() {
         val baseMargin = resources.getDimensionPixelSize(R.dimen.vn_space_md)
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            binding.navHost.updatePadding(top = bars.top, bottom = bars.bottom)
+            val keyboard = insets.getInsets(WindowInsetsCompat.Type.ime())
+            binding.navHost.updatePadding(top = bars.top, bottom = maxOf(bars.bottom, keyboard.bottom))
             binding.bottomBar.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 bottomMargin = baseMargin + bars.bottom
             }

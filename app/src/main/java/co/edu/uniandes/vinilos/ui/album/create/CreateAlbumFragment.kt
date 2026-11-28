@@ -1,7 +1,11 @@
 package co.edu.uniandes.vinilos.ui.album.create
 
+import android.content.Context
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.core.view.isVisible
@@ -62,10 +66,35 @@ class CreateAlbumFragment : Fragment(R.layout.fragment_create_album) {
         binding.nameInput.doAfterTextChanged { viewModel.onNameChanged(it?.toString().orEmpty()) }
         binding.coverInput.doAfterTextChanged { viewModel.onCoverUrlChanged(it?.toString().orEmpty()) }
         binding.descriptionInput.doAfterTextChanged { viewModel.onDescriptionChanged(it?.toString().orEmpty()) }
+        setUpDescriptionDoneAction()
 
         binding.releaseDateInput.setOnClickListener { showDatePicker() }
         binding.genreInput.setOnClickListener { showGenreSelector() }
         binding.recordLabelInput.setOnClickListener { showRecordLabelSelector() }
+    }
+
+    /**
+     * La descripción es el último campo y se muestra en varias líneas, pero Enter agregaba líneas
+     * vacías y no cerraba el teclado (#125). El tipo de entrada que ve el teclado deja de ser
+     * multilínea, así que la tecla Enter pasa a ser "Listo" (imeOptions="actionDone"), y el campo
+     * sigue ajustando el texto en varias líneas porque setRawInputType no cambia cómo se dibuja.
+     */
+    private fun setUpDescriptionDoneAction() {
+        binding.descriptionInput.setRawInputType(
+            InputType.TYPE_CLASS_TEXT or
+                InputType.TYPE_TEXT_FLAG_CAP_SENTENCES or
+                InputType.TYPE_TEXT_FLAG_AUTO_CORRECT,
+        )
+        binding.descriptionInput.setOnEditorActionListener { field, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                val keyboard = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                keyboard.hideSoftInputFromWindow(field.windowToken, 0)
+                field.clearFocus()
+                true
+            } else {
+                false
+            }
+        }
     }
 
     private fun setUpActions() {
