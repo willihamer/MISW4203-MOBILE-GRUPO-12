@@ -52,6 +52,7 @@
                 style="@style/Widget.Vinilos.Button.Secondary" android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:layout_gravity="center_horizontal"
                 android:layout_marginTop="16dp" android:text="@string/collection_button"
+                android:contentDescription="@string/collection_title"
                 android:visibility="gone" app:icon="@drawable/ic_add" />
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:layout_marginTop="24dp" android:background="@drawable/bg_glass_card"

@@ -117,6 +117,7 @@ class CreateAlbumFragment : Fragment(R.layout.fragment_create_album) {
         val initialMillis = initialDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli()
         val picker = MaterialDatePicker.Builder.datePicker()
             .setTitleText(R.string.album_create_release_date_label)
+            .setTheme(R.style.ThemeOverlay_Vinilos_DatePicker)
             .setSelection(initialMillis)
             .build()
         picker.addOnPositiveButtonClickListener { utcMillis ->

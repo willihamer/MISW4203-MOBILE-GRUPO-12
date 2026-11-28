@@ -68,7 +68,7 @@ class AddCollectorAlbumBottomSheet : BottomSheetDialogFragment() {
         binding.closeButton.setOnClickListener { dismiss() }
         binding.saveCollectionButton.bindFormSubmit(
             viewModel::submit,
-            binding.priceInput to null,
+            binding.priceInput to binding.priceError,
             binding.statusGroup to binding.statusError,
         )
 
@@ -91,7 +91,12 @@ class AddCollectorAlbumBottomSheet : BottomSheetDialogFragment() {
                 }
                 updatingStatusFromState = false
             }
-            binding.priceInput.error = state.priceError?.let(::getString)
+            // Error en línea, como en HU07 a HU09: el globo de EditText.error tapaba la ayuda
+            val hasPriceError = state.priceError != null
+            binding.priceInput.setBackgroundResource(if (hasPriceError) R.drawable.bg_input_error else R.drawable.bg_input)
+            binding.priceError.isVisible = hasPriceError
+            state.priceError?.let(binding.priceError::setText)
+            binding.priceHelper.isVisible = !hasPriceError
             binding.statusError.isVisible = state.statusError != null
             state.statusError?.let(binding.statusError::setText)
         }
