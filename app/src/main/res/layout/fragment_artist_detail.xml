@@ -138,25 +138,33 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <TextView
+                                        <TextView
                         android:id="@+id/members_title"
                         style="@style/Widget.Vinilos.SectionTitle"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
                         android:text="@string/artist_members_title"
                         app:drawableStartCompat="@drawable/ic_people" />
 
-                    <!-- HU12: solo en modo coleccionista -->
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/add_member_button"
-                        style="@style/Widget.Vinilos.Button.Secondary"
-                        android:layout_width="wrap_content"
+                    <!-- El contenedor limita el ancho del botón para que su texto pase a dos líneas -->
+                    <FrameLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/vn_screen_margin"
-                        android:text="@string/band_member_add"
-                        android:visibility="gone"
-                        app:icon="@drawable/ic_add"
-                        tools:visibility="visible" />
+                        android:layout_weight="1">
+
+                        <!-- HU12: solo en modo coleccionista -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/add_member_button"
+                            style="@style/Widget.Vinilos.Button.Secondary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end|center_vertical"
+                            android:layout_marginEnd="@dimen/vn_screen_margin"
+                            android:maxLines="2"
+                            android:text="@string/band_member_add"
+                            android:visibility="gone"
+                            app:icon="@drawable/ic_add"
+                            tools:visibility="visible" />
+                    </FrameLayout>
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -181,6 +189,7 @@
 
             <!-- Álbumes del artista -->
             <TextView
+                android:id="@+id/albums_title"
                 style="@style/Widget.Vinilos.SectionTitle"
                 android:layout_marginTop="@dimen/vn_space_xl"
                 android:text="@string/artist_albums_title"

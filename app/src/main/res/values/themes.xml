@@ -49,4 +49,10 @@
         <item name="backgroundTint">@android:color/transparent</item>
         <item name="android:background">@android:color/transparent</item>
     </style>
+
+    <!-- Selector de fecha (HU07): el violeta del tema tenía 2,52:1 en Cancelar y Aceptar -->
+    <style name="ThemeOverlay.Vinilos.DatePicker" parent="ThemeOverlay.Material3.MaterialCalendar">
+        <item name="colorPrimary">@color/vn_primary_light</item>
+        <item name="colorOnPrimary">@color/vn_background</item>
+    </style>
 </resources>
